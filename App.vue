@@ -1,13 +1,18 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <navigation-menu></navigation-menu>
     <router-view/>
   </div>
 </template>
 
 <script>
+import navigationMenu from './components/NavigationMenu.vue'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    navigationMenu
+  }
 }
 </script>
 

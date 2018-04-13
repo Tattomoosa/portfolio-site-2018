@@ -1,9 +1,8 @@
 <template>
   <div>
-    <div v-for="post in this.posts" :key="post.name">
-      <h1>{{ post.name }}</h1>
+    <div v-for="(post, index) in this.posts" :key="index">
+      <h1>{{ post.title }}</h1>
       <p>{{ post.content }}</p>
-      <p>{{ post }}</p>
     </div>
   </div>
 </template>
@@ -11,6 +10,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
+  name: 'Post-List',
   // this is communicating with Firebase behind the scenes
   computed: mapGetters(['posts'])
 }

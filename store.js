@@ -4,8 +4,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 // This is how we interact with Firebase through vuexfire
 import * as VuexFire from 'vuexfire'
-// This is a reference to our firebase firestore
-// import db from './firebase.js'
+// To manipulate the data directly in our database
+import db from '@/firebase.js'
 
 // This tells Vue to use Vuex
 Vue.use(Vuex)
@@ -30,6 +30,10 @@ export default new Vuex.Store({
       bindFirebaseRef
     }, ref) => {
       bindFirebaseRef('posts', ref)
-    })
+    }),
+    addPost ({ commit }, post) {
+      // this uses the Firestore API to add our post
+      db.collection('posts').add(post)
+    }
   }
 })
