@@ -4,9 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store.js'
-import db from './firebase.js'
+import { db, setAuthStateChangeHook } from './firebase.js'
 
 let postsRef = db.collection('posts')
+
+setAuthStateChangeHook(store)
 
 Vue.config.productionTip = false
 

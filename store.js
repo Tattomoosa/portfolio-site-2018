@@ -5,7 +5,7 @@ import Vuex from 'vuex'
 // This is how we interact with Firebase through vuexfire
 import * as VuexFire from 'vuexfire'
 // To manipulate the data directly in our database
-import db from '@/firebase.js'
+import { db } from '@/firebase.js'
 
 // This tells Vue to use Vuex
 Vue.use(Vuex)
@@ -15,9 +15,16 @@ export default new Vuex.Store({
   strict: true,
   state: {
     // This tells VuexFire we want our data to be an array
-    posts: []
+    posts: [],
+    user: null
   },
   mutations: {
+    logIn (state, user) {
+      state.user = user.providerData[0]
+    },
+    logOut (state) {
+      state.user = null
+    },
     // Taking all of VuexFire's firebase mutations for ourself
     ...VuexFire.firebaseMutations
   },

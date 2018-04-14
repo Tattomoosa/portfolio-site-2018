@@ -1,17 +1,20 @@
 <template>
   <div id="app">
+    <sign-in></sign-in>
     <navigation-menu></navigation-menu>
     <router-view/>
-  </div>
+</div>
 </template>
 
 <script>
-import navigationMenu from './components/NavigationMenu.vue'
+import NavigationMenu from './components/NavigationMenu.vue'
+import SignIn from './components/SignIn.vue'
 
 export default {
   name: 'App',
   components: {
-    navigationMenu
+    NavigationMenu,
+    SignIn
   }
 }
 </script>

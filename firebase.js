@@ -1,6 +1,7 @@
 // ./src/firebase.js
 import * as firebase from 'firebase'
 import 'firebase/firestore'
+import firebaseui from 'firebaseui'
 
 const config = ({
   apiKey: 'AIzaSyAOT6hxIKiHavqeowq3syxVTK3aqFrQFfA',
@@ -11,8 +12,41 @@ const config = ({
   messagingSenderId: '977095327349'
 })
 
-// this must run before any other firebase functions
+// This is our firebaseui configuration object
+const uiConfig = ({
+  signInSuccessUrl: '/',
+  signInOptions: [
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID
+  ],
+  tosUrl: '/terms-of-service' // This doesn't exist yet
+})
+
+// This must run before any other firebase functions
 firebase.initializeApp(config)
 let db = firebase.firestore()
 
-export default db
+let ui = new firebaseui.auth.AuthUI(firebase.auth())
+let login = function (elementId) {
+  ui.start(elementId, uiConfig)
+}
+
+let setAuthStateChangeHook = (store) => {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      store.commit('logIn', user)
+    } else {
+      store.commit('logOut')
+    }
+  })
+}
+
+let logOut = () => {
+  firebase.auth().signOut()
+}
+
+export {
+  db,
+  setAuthStateChangeHook,
+  logOut,
+  login
+}
