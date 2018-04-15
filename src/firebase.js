@@ -33,6 +33,18 @@ let login = function (elementId) {
 let setAuthStateChangeHook = (store) => {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
+      // A reference to where the user belongs in our users collection
+      let docRef = db.collection('users').doc(user.uid)
+      docRef.get().then((doc) => {
+        // user is not in our collection
+        if (!doc.exists) {
+          // set the info we can get from out auth provider
+          docRef.set({
+            name: user.displayName,
+            uid: user.uid
+          })
+        }
+      })
       store.commit('logIn', user)
     } else {
       store.commit('logOut')

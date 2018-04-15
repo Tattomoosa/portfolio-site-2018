@@ -16,31 +16,49 @@ export default new Vuex.Store({
   state: {
     // This tells VuexFire we want our data to be an array
     posts: [],
-    user: null
+    users: null,
+    activeUser: null
   },
   mutations: {
     logIn (state, user) {
-      state.user = user.providerData[0]
+      state.activeUser = user.providerData[0]
+      // we overwrite uid since we want the unique user one
+      state.activeUser.uid = user.uid
     },
     logOut (state) {
-      state.user = null
+      state.activeUser = null
     },
     // Taking all of VuexFire's firebase mutations for ourself
     ...VuexFire.firebaseMutations
   },
   getters: {
-    posts: state => state.posts
+    posts: state => state.posts,
+    users: state => state.users,
+    user: (state) => {
+      return (uid) => {
+        return state.users.find((user) => user.uid === uid) || {}
+      }
+    }
   },
   actions: {
     // This will make VuexFire aware of our posts db reference
-    setPostsRef: VuexFire.firebaseAction(({
+    setRef: VuexFire.firebaseAction(({
       bindFirebaseRef
-    }, ref) => {
-      bindFirebaseRef('posts', ref)
+    }, {stateProperty, ref}) => {
+      bindFirebaseRef(stateProperty, ref)
     }),
-    addPost ({ commit }, post) {
+    addPost ({ commit, state }, post) {
+      let author = state.activeUser.uid
+      let postRef = db.collection('posts').doc()
+      let userPostsRef = db.collection('users/' + author + '/posts/')
+
+      post.author = author
+
       // this uses the Firestore API to add our post
-      db.collection('posts').add(post)
+      postRef.set(post)
+      userPostsRef.doc(postRef.id).set({
+        uid: postRef.id
+      })
     }
   }
 })

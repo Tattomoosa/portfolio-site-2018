@@ -20,7 +20,7 @@ export default {
     logOut
   },
   computed: {
-    user () { return this.$store.state.user }
+    user () { return this.$store.state.activeUser }
   },
   components: {
     FirebaseUI
