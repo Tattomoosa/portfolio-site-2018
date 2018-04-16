@@ -23,14 +23,15 @@ const uiConfig = ({
 
 // This must run before any other firebase functions
 firebase.initializeApp(config)
-let db = firebase.firestore()
+const db = firebase.firestore()
+const storage = firebase.storage()
 
-let ui = new firebaseui.auth.AuthUI(firebase.auth())
-let login = function (elementId) {
+const ui = new firebaseui.auth.AuthUI(firebase.auth())
+const login = function (elementId) {
   ui.start(elementId, uiConfig)
 }
 
-let setAuthStateChangeHook = (store) => {
+const setAuthStateChangeHook = (store) => {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       // A reference to where the user belongs in our users collection
@@ -52,12 +53,13 @@ let setAuthStateChangeHook = (store) => {
   })
 }
 
-let logOut = () => {
+const logOut = () => {
   firebase.auth().signOut()
 }
 
 export {
   db,
+  storage,
   setAuthStateChangeHook,
   logOut,
   login

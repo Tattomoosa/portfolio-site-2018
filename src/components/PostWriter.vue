@@ -4,7 +4,7 @@
     <br/>
     <textarea v-model="post.content" placeholder="Post Content" rows="20" cols="80"/>
     <br/>
-    <input type="button" value="SUBMIT" v-on:click="addPost(post)"/>
+    <input type="button" value="SUBMIT" v-on:click="uploadPost(post)"/>
   </div>
 </template>
 <script>
@@ -23,7 +23,7 @@ export default {
   methods: {
     // Dispatches the Vuex action which uploads our post
     // using the normal Firestore API
-    ...mapActions(['addPost'])
+    ...mapActions(['uploadPost'])
   }
 }
 </script>
