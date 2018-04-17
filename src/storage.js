@@ -29,7 +29,10 @@ let download = (location) => {
   })
 }
 
+let deleteFile = (location) => storage.ref(location).delete()
+
 export {
   upload,
-  download
+  download,
+  deleteFile
 }

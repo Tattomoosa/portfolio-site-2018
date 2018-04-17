@@ -7,7 +7,7 @@ import * as VuexFire from 'vuexfire'
 // To manipulate the data directly in our database
 import { db } from '@/firebase.js'
 // To upload and download files
-import { upload } from '@/storage.js'
+import { upload, deleteFile } from '@/storage.js'
 
 // This tells Vue to use Vuex
 Vue.use(Vuex)
@@ -92,6 +92,16 @@ export default new Vuex.Store({
             callback.complete(fileLocation)
           }
         })
+    },
+    deletePost ({ commit }, post) {
+      const postRef = db.doc('posts/' + post.id)
+      const loc = 'users/' + post.author + '/posts/' + post.id
+      const userPostRef = db.doc(loc)
+      const storageLocation = loc + '/post-content.md'
+
+      postRef.delete()
+      userPostRef.delete()
+      deleteFile(storageLocation)
     },
     uploadPost ({ commit, dispatch, state }, post) {
       const author = state.activeUser.uid
