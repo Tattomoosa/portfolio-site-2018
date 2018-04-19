@@ -2,7 +2,7 @@
   <div :id="loginElementId"></div>
 </template>
 <script>
-import { login } from '@/firebase.js'
+import { login } from '@/firebase'
 export default {
   name: 'FirebaseUI',
   data () {

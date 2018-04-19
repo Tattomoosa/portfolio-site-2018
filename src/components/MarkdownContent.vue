@@ -40,5 +40,6 @@ export default {
   font-weight: inherit;
   white-space: inherit;
   background: inherit;
+  margin: inherit;
 }
 </style>

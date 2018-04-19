@@ -1,4 +1,4 @@
-import { storage } from './firebase.js'
+import { storage } from './firebase'
 
 let upload = (location, file) => {
   let ref = storage.ref(location + '/' + file.name)

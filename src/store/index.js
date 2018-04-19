@@ -5,7 +5,7 @@ import Vuex from 'vuex'
 // This is how we interact with Firebase through vuexfire
 import * as VuexFire from 'vuexfire'
 // To manipulate the data directly in our database
-import { db } from '@/firebase.js'
+import { backend, db } from '@/firebase'
 // To upload and download files
 import { upload, deleteFile } from '@/storage.js'
 
@@ -24,9 +24,12 @@ export default new Vuex.Store({
   },
   mutations: {
     logIn (state, user) {
+      console.log(user)
       state.activeUser = user.providerData[0]
       // we overwrite uid since we want the unique user one
+      // state.activeUser = user.uid
       state.activeUser.uid = user.uid
+      // console.log(state.activeUser)
     },
     logOut (state) { state.activeUser = null },
     updateUploads (state, snapshot) {
@@ -94,12 +97,15 @@ export default new Vuex.Store({
     },
     deletePost ({ commit }, post) {
       const postRef = db.doc('posts/' + post.id)
+      // const postRef = database.get(database.collections.POSTS, post.id)
       const loc = 'users/' + post.author + '/posts/' + post.id
       const userPostRef = db.doc(loc)
       const storageLocation = loc + '/post-content.md'
 
       postRef.delete()
       userPostRef.delete()
+      // backend.delete.post (post.id)
+      // backend.delete(database.collections.POSTS_BY_USER, post.id)
       deleteFile(storageLocation)
     },
     uploadPost ({ commit, dispatch, state }, post) {

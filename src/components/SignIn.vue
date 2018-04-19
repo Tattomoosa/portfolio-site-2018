@@ -32,7 +32,7 @@
 
 <script>
 import FirebaseUI from './FirebaseUI.vue'
-import { login, logOut } from '@/firebase.js'
+import { login, logOut } from '@/firebase'
 import { mapGetters } from 'vuex'
 
 export default {
