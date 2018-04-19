@@ -75,6 +75,8 @@ exports.styleLoaders = function (options) {
     const loader = loaders[extension]
     output.push({
       test: new RegExp('\\.' + extension + '$'),
+      // trying to avoid matching 'prism-', not sure if working...
+      // test: new RegExp('(?!\bprism-\b)(.*?)\.' + extension + '$'),
       use: loader
     })
   }

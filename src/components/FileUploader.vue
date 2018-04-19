@@ -1,13 +1,25 @@
 <template>
   <div>
-    <input value="Upload Location" v-model="location" />
-    <input type="file" value="upload" v-on:change="setFile($event)" />
-    <input type="button" value="Submit" v-on:click="upload()" />
+      <b-field label="Upload Location">
+        <b-input v-model="location" />
+      </b-field>
+      <!-- <input type="file" value="upload" v-on:change="setFile($event)" /> -->
+      <b-field label="File Upload">
+        <b-upload v-model="file" drag-drop>
+          <div class="has-text-centered">
+            <div>
+              <b-icon icon="upload" />
+            </div>
+            Drop files here or click to upload
+          </div>
+        </b-upload>
+      </b-field>
+      <button class="button is-primary" v-on:click="upload()">UPLOAD</button>
     <div v-for="(upload, index) in uploads" :key="index">
       name: "{{ upload.file.name }}",
       type: "{{ upload.file.type }}",
       size: "{{ upload.file.size }}"
-      <progress :value="upload.status.progress * 100"></progress>
+      <progress class="progress is-primary" :value="upload.status.progress * 100"></progress>
       <a :href="upload.link">VIEW</a>
     </div>
   </div>
@@ -30,7 +42,7 @@ export default {
     upload () {
       this.uploadFile({
         location: this.location,
-        file: this.file
+        file: this.file[0]
       })
     },
     setFile (e) {

@@ -1,12 +1,17 @@
 <template>
-  <div id="firebaseui-auth"></div>
+  <div :id="loginElementId"></div>
 </template>
 <script>
 import { login } from '@/firebase.js'
 export default {
   name: 'FirebaseUI',
+  data () {
+    return {
+      loginElementId: login.elementId
+    }
+  },
   mounted () {
-    login('#firebaseui-auth')
+    login.start()
   }
 }
 </script>

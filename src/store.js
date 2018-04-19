@@ -28,9 +28,7 @@ export default new Vuex.Store({
       // we overwrite uid since we want the unique user one
       state.activeUser.uid = user.uid
     },
-    logOut (state) {
-      state.activeUser = null
-    },
+    logOut (state) { state.activeUser = null },
     updateUploads (state, snapshot) {
       // this is a unique identifier of the file
       // so we use it to register a unique object
@@ -67,7 +65,8 @@ export default new Vuex.Store({
         return state.users.find((user) => user.uid === uid) || {}
       }
     },
-    uploads: state => state.uploads
+    uploads: state => state.uploads,
+    activeUser: state => state.activeUser
   },
   actions: {
     // This will make VuexFire aware of our posts db reference

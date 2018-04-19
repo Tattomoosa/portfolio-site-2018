@@ -74,7 +74,29 @@ module.exports = {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
-      }
+      },
+      // trying to automatically prefix Prism's CSS, not working
+      /*
+			{
+        test: /\bprism-\b(.*?)\.css/,
+        use: [
+          // 'style-loader',
+          // 'css-loader',
+          // 'postcss-loader',
+          /*
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: (loader) => [
+                require('postcss-prefixer')({
+                  prefix: 'prism--'
+                })
+              ]
+            }
+          },
+        ]
+			},
+  */
     ]
   },
   node: {

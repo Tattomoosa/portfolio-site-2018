@@ -1,8 +1,13 @@
 <template>
-  <input
-    v-on:click="destroyPost"
-    type="button"
-    value="DELETE THIS POST" />
+  <button
+  @click="destroyPost"
+  class="button is-danger is-small">
+  <b-icon
+    icon="delete"
+    size="is-small"
+    ></b-icon>
+  <span>Delete</span>
+  </button>
 </template>
 
 <script>

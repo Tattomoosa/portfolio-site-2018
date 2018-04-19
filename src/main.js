@@ -4,6 +4,11 @@ import App from './App'
 import router from './router'
 import store from './store.js'
 import { db, setAuthStateChangeHook } from './firebase.js'
+import Buefy from 'buefy'
+import 'buefy/lib/buefy.css'
+import '@mdi/font/css/materialdesignicons.min.css'
+
+Vue.use(Buefy)
 
 setAuthStateChangeHook(store)
 

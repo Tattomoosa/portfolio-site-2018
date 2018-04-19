@@ -1,26 +1,57 @@
 <template>
   <div>
-    <input
-      type="button"
-      value="Log Out"
-      v-if="user !== null"
-      v-on:click="logOut"
-      >
-    <firebase-u-i v-else ></firebase-u-i>
+
+    <a
+    href="#"
+    class="navbar-item"
+    v-if="activeUser === null"
+    @click="showLoginModal = true">
+      Log In
+    </a>
+
+      <b-dropdown v-else class="is-bottom-left navbar-item has-dropdown">
+        <a class="navbar-link" slot="trigger">{{ activeUser.displayName }}
+        </a>
+
+        <b-dropdown-item @click="logOut">Log Out</b-dropdown-item>
+      </b-dropdown>
+
+    <b-modal
+    width="400px"
+    :active.sync="showLoginModal">
+      <div class="box">
+        <h4 class="title is-4 has-text-centered">
+          Sign In
+        </h4>
+        <firebase-u-i></firebase-u-i>
+      </div>
+    </b-modal>
+
   </div>
 </template>
 
 <script>
 import FirebaseUI from './FirebaseUI.vue'
-import { logOut } from '@/firebase.js'
+import { login, logOut } from '@/firebase.js'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'SignIn',
   methods: {
     logOut
   },
+  data () {
+    return {
+      showLoginModal: false
+    }
+  },
+  mounted () {
+    // if a login is in progress we need FirebaseUI
+    // to stay on the page
+    if (login.inProgress()) this.showLoginModal = true
+  },
   computed: {
-    user () { return this.$store.state.activeUser }
+    ...mapGetters(['activeUser'])
   },
   components: {
     FirebaseUI

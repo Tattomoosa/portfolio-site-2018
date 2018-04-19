@@ -27,8 +27,10 @@ const db = firebase.firestore()
 const storage = firebase.storage()
 
 const ui = new firebaseui.auth.AuthUI(firebase.auth())
-const login = function (elementId) {
-  ui.start(elementId, uiConfig)
+const login = {
+  elementId: 'firebaseui-auth',
+  start () { ui.start('#' + this.elementId, uiConfig) },
+  inProgress: () => ui.isPendingRedirect()
 }
 
 const setAuthStateChangeHook = (store) => {
