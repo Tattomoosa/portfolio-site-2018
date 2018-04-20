@@ -1,35 +1,37 @@
 <template>
   <div class="application-page">
-    <div class="level is-mobile box">
-      <div class="level-left">
-        <h4>{{ post.title }}</h4>
+    <div class="width-constrain">
+      <div class="level is-mobile">
+        <div class="level-left">
+          <h1 class="title">{{ post.title }}</h1>
+        </div>
+        <div class="level-right">
+          <button
+            class="button is-primary is-small"
+            value="SUBMIT"
+            v-on:click="uploadPost(post)">
+            <b-icon icon="file-document" size="is-small" />
+            <span>Submit Post</span>
+          </button>
+        </div>
       </div>
-      <div class="level-right">
-        <button
-          class="button is-primary is-small"
-          value="SUBMIT"
-          v-on:click="uploadPost(post)">
-          <b-icon icon="file-document" size="is-small" />
-          <span>Submit Post</span>
-        </button>
-      </div>
-    </div>
-    <div class="columns box">
-      <div class="column is-two-fifths full-height is-paddingless">
-        <!-- <input class="input" v-model="post.title" placeholder="Post Title" /> -->
-        <!-- <br/> -->
-        <textarea
-        @keyup="generateTitle"
-        class="post-writer-text-area"
-        v-model="post.content"
-        placeholder="Post Content"/>
-      </div>
-      <div class="column is-three-fifths full-height can-scroll-y is-paddingless">
-        <div class="full-height can-scroll-y md-preview">
-      <markdown-content
-      :loading="false"
-      :postContent="post.content" />
-    </div>
+      <div class="columns box full-height">
+        <div class="column is-two-fifths full-height is-paddingless">
+          <!-- <input class="input" v-model="post.title" placeholder="Post Title" /> -->
+          <!-- <br/> -->
+          <textarea
+          @keyup="generateTitle"
+          class="post-writer-text-area"
+          v-model="post.content"
+          placeholder="Post Content"/>
+        </div>
+        <div class="column box is-three-fifths full-height can-scroll-y is-paddingless">
+          <div class="full-height can-scroll-y md-preview">
+            <markdown-content
+            :loading="false"
+            :postContent="post.content" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -43,7 +45,7 @@ export default {
   data () {
     return {
       post: {
-        title: '',
+        title: 'Untitled',
         content: ''
       }
     }
@@ -58,7 +60,7 @@ export default {
     generateTitle () {
       let firstLine = this.post.content.split('\n')[0]
       if (firstLine.slice(0, 2) === '# ') this.post.title = firstLine.slice(2)
-      else this.post.title = ''
+      else this.post.title = 'Untitled'
     }
   }
 }
@@ -66,8 +68,17 @@ export default {
 
 <style type=css>
 .full-height {
+  /*
   height: 85vh !important;
+  */
+  height: 100%;
   width: 100%;
+  margin: 0;
+}
+.width-constrain {
+  max-width: 1344px;
+  height: 100%;
+  margin: auto;
 }
 .can-scroll-y {
   overflow-y: scroll;
@@ -86,6 +97,9 @@ textarea.post-writer-text-area {
   width: 100%;
   top: 0;
   bottom: 0;
+  padding: 80px;
+  padding-bottom: 100px;
+  box-sizing: border-box;
 }
 .md-preview {
   padding: 20px;

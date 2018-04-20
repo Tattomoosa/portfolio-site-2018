@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { download } from '@/storage.js'
+import { backend } from '@/firebase'
 import MarkdownContent from './MarkdownContent.vue'
 
 export default {
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     getPostContent () {
-      download(this.contentLocation)
+      backend.get.postContent(this.contentLocation)
         .then((postContent) => {
           this.postContent = postContent
           this.isLoading = false

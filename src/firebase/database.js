@@ -3,7 +3,7 @@ import { db } from './init.js'
 import * as firebase from 'firebase'
 
 const validate = {
-  collection: collection => collections[collection] !== null
+  collection: () => true
 }
 
 const get = (collection, uid) => {
@@ -12,6 +12,8 @@ const get = (collection, uid) => {
     return docRef.get()
   } else console.error(collection, 'is not a valid collection')
 }
+
+// const get2 = (collection, )
 
 const destroy = (collection, uid) => {
   if (validate.collection(collection)) {

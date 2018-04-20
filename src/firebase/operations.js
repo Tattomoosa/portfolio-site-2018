@@ -1,40 +1,66 @@
 import database from './database.js'
+import getRef from './getRef.js'
+import storage from './storage.js'
+
+/*
+const waitForAll = async (targets) => {
+  targets.forEach((target) => {
+    return await target.then()
+  })
+}
+*/
 
 const backend = {
   get: {
-    user: ({ uid }) => {
-      return database.get(database.collections.USERS, uid)
-    },
+    user: id => getRef.USER(id).get(),
+    // TODO refactor out 'storage'
+    postContent: location => storage.download(location)
   },
   delete: {
-    post: (uid) => {
-      database
-        .delete(database.collections.POSTS, uid)
-        .then((response) => {
-          console.log(response)
-        })
+    post: post => {
+      return Promise.all([
+        getRef.POST(post.id).delete(),
+        getRef.POST_IN_USER({ userID: post.author, postID: post.id }).delete(),
+        getRef.STORAGE(post.contentLocation).delete()
+      ]).catch((error) => console.error('Error deleting post', error))
     }
   },
   add: {
-    user: (user, ref) => {
-      // set the info we can get from out auth provider
-      // and some times
-      doc.ref.set({
+    user: (user, docRef) => {
+      getRef.USER(user.id).set({
         name: user.displayName,
         email: user.email,
         joined: database.timestamp(),
         lastLogin: database.timestamp(),
-        uid: user.uid
+        id: user.id
       })
+    },
+    post: ({ post, authorID }) => {
+      let postRef = getRef.ALL_POSTS().doc()
+      let postContentRef = getRef.POST_CONTENT({ postID: postRef.id, authorID: authorID })
+      let postContentFile = new File([post.content], 'post-content.md', {type: 'text/plain;charset=utf=8'})
+      let postContentMetadata = ({ authorID: authorID, postID: postRef.id, title: post.title })
+
+      return Promise.all([
+        postContentRef.put(postContentFile, postContentMetadata),
+        getRef.ALL_POSTS_BY_USER(authorID).doc().set({ id: postRef.id }),
+        postRef.set({
+          title: post.title,
+          author: authorID,
+          id: postRef.id,
+          uploaded: database.timestamp(),
+          contentLocation: postContentRef.fullPath // refactor this out
+        })
+      ]).catch((error) => console.error('Error adding post', error))
     }
   },
   on: {
     login: (user) => {
-      backend.get.user(user).then((doc) => {
+      getRef.USER(user.id).get().then((doc) => {
         if (doc.exists) {
           doc.ref.update({ lastLogin: database.timestamp() })
-        // user doesn't exist - create user
         } else {
+          // create user
           backend.add.user(user, doc.ref)
         }
       })

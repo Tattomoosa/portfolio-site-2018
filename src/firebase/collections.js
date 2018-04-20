@@ -1,3 +1,5 @@
+// DEPRECATED
+
 export default {
   USERS: 'users',
   POSTS: 'posts',

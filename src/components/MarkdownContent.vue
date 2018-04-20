@@ -42,4 +42,9 @@ export default {
   background: inherit;
   margin: inherit;
 }
+
+.content>h1 {
+  display: none;
+}
+
 </style>

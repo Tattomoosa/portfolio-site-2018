@@ -17,12 +17,13 @@ const logOut = () => {
   auth().signOut()
 }
 
+// this needs to be called with a reference to a Vuex store once the app starts
 const setAuthStateChangeHook = (store) => {
   auth().onAuthStateChanged((user) => {
     if (user) {
       // A reference to where the user belongs in our users collection
       // let docRef = db.collection('users').doc(user.uid)
-      // docRef.get().then((doc) => {
+      user.id = user.uid
       backend.on.login(user)
       store.commit('logIn', user)
     } else {

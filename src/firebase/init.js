@@ -5,9 +5,9 @@ import 'firebase/firestore'
 firebase.initializeApp(config)
 
 const db = firebase.firestore()
-const storage = firebase.storage()
+const fs = firebase.storage()
 
 export {
   db,
-  storage
+  fs
 }

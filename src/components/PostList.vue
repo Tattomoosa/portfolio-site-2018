@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div v-for="post in this.posts" :key="post.id">
       <post-container :post="post" :author="user(post.author)" ></post-container>
     </div>
