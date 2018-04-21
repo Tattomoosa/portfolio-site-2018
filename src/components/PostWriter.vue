@@ -1,31 +1,55 @@
 <template>
   <div class="application-page">
     <div class="width-constrain">
-      <div class="level is-mobile">
-        <div class="level-left">
-          <h1 class="title">{{ post.title }}</h1>
-        </div>
-        <div class="level-right">
-          <button
-            class="button is-primary is-small"
-            value="SUBMIT"
-            v-on:click="uploadPost(post)">
-            <b-icon icon="file-document" size="is-small" />
-            <span>Submit Post</span>
-          </button>
-        </div>
-      </div>
-      <div class="columns box full-height">
+      <div class="columns box full-height main-window">
         <div class="column is-two-fifths full-height is-paddingless">
           <!-- <input class="input" v-model="post.title" placeholder="Post Title" /> -->
           <!-- <br/> -->
           <textarea
           @keyup="generateTitle"
-          class="post-writer-text-area"
+          class="post-writer-text-area textarea box"
           v-model="post.content"
           placeholder="Post Content"/>
         </div>
-        <div class="column box is-three-fifths full-height can-scroll-y is-paddingless">
+        <div class="column is-three-fifths full-height preview-container is-paddingless">
+              <div id="post-writer-controls">
+                    <div class="field has-addons white-border float-right">
+                      <p class="control">
+                        <b-dropdown position="is-bottom-left">
+                          <button
+                            class="button is is-small"
+                            slot="trigger"
+                            value="ADD IMAGE">
+                            <b-icon icon="image" />
+                            <span>Files</span>
+                          </button>
+                          <b-dropdown-item custom class="file-upload-modal">
+                            <file-uploader></file-uploader>
+                          </b-dropdown-item>
+                        </b-dropdown>
+                      </p>
+
+                      <p class="control">
+                        <button
+                          class="button is-small"
+                          value="SUBMIT"
+                          v-on:click="uploadPost(post)">
+                          <b-icon icon="content-save" />
+                          <span>Save</span>
+                        </button>
+                      </p>
+
+                      <p class="control">
+                        <button
+                          class="button is-small"
+                          value="SUBMIT"
+                          v-on:click="uploadPost(post)">
+                          <b-icon icon="file" />
+                          <span>PUBLISH</span>
+                        </button>
+                      </p>
+                </div>
+              </div>
           <div class="full-height can-scroll-y md-preview">
             <markdown-content
             :loading="false"
@@ -39,6 +63,7 @@
 <script>
 import { mapActions } from 'vuex'
 import MarkdownContent from './MarkdownContent.vue'
+import FileUploader from './FileUploader.vue'
 
 export default {
   name: 'Post-Writer',
@@ -46,12 +71,14 @@ export default {
     return {
       post: {
         title: 'Untitled',
-        content: ''
+        content: '',
+        uploadModal: false
       }
     }
   },
   components: {
-    MarkdownContent
+    MarkdownContent,
+    FileUploader
   },
   methods: {
     // Dispatches the Vuex action which uploads our post
@@ -59,8 +86,11 @@ export default {
     ...mapActions(['uploadPost']),
     generateTitle () {
       let firstLine = this.post.content.split('\n')[0]
-      if (firstLine.slice(0, 2) === '# ') this.post.title = firstLine.slice(2)
+      if (firstLine.slice(0, 2) === '# ' && firstLine.length > 2) this.post.title = firstLine.slice(2)
       else this.post.title = 'Untitled'
+    },
+    toggleImageUploadModal () {
+      this.uploadModal = !this.uploadModal
     }
   }
 }
@@ -68,9 +98,6 @@ export default {
 
 <style type=css>
 .full-height {
-  /*
-  height: 85vh !important;
-  */
   height: 100%;
   width: 100%;
   margin: 0;
@@ -86,23 +113,70 @@ export default {
 textarea.post-writer-text-area {
   width: 100%;
   height: 100%;
+  min-height: 100% !important;
+  max-height: 100% !important;
   font-family: monospace;
   font-size: .75em;
   box-sizing: border-box;
   resize: none;
   background-color: #fafafa !important;
+  padding: 20px;
 }
 .application-page {
   position: absolute;
   width: 100%;
   top: 0;
   bottom: 0;
-  padding: 80px;
-  padding-bottom: 100px;
+  padding: 60px;
+  padding-top: 100px;
   box-sizing: border-box;
 }
 .md-preview {
-  padding: 20px;
-  border: 1px solid lightgrey;
+  padding: 10px 20px;
+  padding: 0;
+  padding-left: 10px;
+  /*
+  padding-top: 80px;
+  */
+}
+.md-preview>h1 {
+  display: inherit;
+}
+#post-writer-controls {
+  position: absolute;
+  /*
+  background: white;
+  */
+  margin-bottom: 0;
+  width: 100%;
+  word-wrap: break-word;
+}
+.preview-container {
+  position: relative;
+  border-bottom-left-radius: 0;
+  /*
+  border-bottom: 20px solid white;
+  */
+}
+.float-right {
+  float: right;
+}
+.float-left {
+  float: left;
+}
+.file-upload-modal {
+  width: 500px;
+}
+.white-border {
+  margin: 5px;
+  padding: 5px;
+  background: white;
+  border: 1px solid grey;
+  border: 0;
+  border-radius: 5px;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+}
+.main-window {
+  padding: 10px;
 }
 </style>

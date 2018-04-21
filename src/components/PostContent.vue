@@ -1,15 +1,8 @@
 <template>
-  <div class="container content-min-height">
+  <div class="content-min-height">
     <b-loading
       :active.sync="isLoading"
       :is-full-page="false" />
-      <!--
-    <vue-markdown
-      class="content"
-      :breaks="false"
-      @rendered="highlight"
-      :source="postContent"></vue-markdown>
-    -->
     <markdown-content
       :postContent="postContent" />
   </div>
@@ -35,6 +28,10 @@ export default {
     getPostContent () {
       backend.get.postContent(this.contentLocation)
         .then((postContent) => {
+          let newLine = postContent.indexOf('\n')
+          // postContent = [postContent.slice(0, newLine), postContent.slice(newLine + 1)]
+          // Lop off title since we are writing it above
+          postContent = postContent.slice(newLine + 1)
           this.postContent = postContent
           this.isLoading = false
         })

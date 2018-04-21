@@ -7,8 +7,10 @@ import { db, setAuthStateChangeHook } from '@/firebase'
 import Buefy from 'buefy'
 import 'buefy/lib/buefy.css'
 import '@mdi/font/css/materialdesignicons.min.css'
+import VueClipboard from 'vue-clipboard2'
 
 Vue.use(Buefy)
+Vue.use(VueClipboard)
 
 setAuthStateChangeHook(store)
 

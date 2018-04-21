@@ -24,8 +24,11 @@ export default new Vuex.Store({
     notifications: []
   },
   mutations: {
-    notify (state, message) {
+    addNotification (state, message) {
       state.notifications.push(message)
+    },
+    dismissNotification (state, message) {
+      if (state.notifications.length > 0) state.notifications.shift()
     },
     logIn (state, user) {
       state.activeUser = user.providerData[0]
@@ -64,9 +67,7 @@ export default new Vuex.Store({
     posts: state => state.posts,
     users: state => state.users,
     user: state => {
-      return (id) => {
-        return state.users.find((user) => user.id === id) || {}
-      }
+      return (id) => state.users.find((user) => user.id === id || {})
     },
     uploads: state => state.uploads,
     activeUser: state => state.activeUser,
@@ -80,7 +81,10 @@ export default new Vuex.Store({
       bindFirebaseRef(stateProperty, ref)
     }),
     notify ({ commit }, message) {
-      commit('notify', message)
+      commit('addNotification', message)
+    },
+    dismissNotification ({ commit }, message) {
+      commit('dismissNotification')
     },
     uploadFile ({ commit }, { location, file, callback }) {
       const snapshot = storage.upload(location, file)
@@ -101,12 +105,12 @@ export default new Vuex.Store({
     },
     deletePost ({ commit, dispatch }, post) {
       backend.delete.post(post).then(() => {
-        dispatch('notify', 'post deleted')
+        dispatch('notify', 'Deleted "' + post.title + '"')
       })
     },
     uploadPost ({ commit, dispatch, state }, post) {
-      backend.add.post({ post: post, authorID: state.activeUser.id }).then((a) => {
-        dispatch('notify', 'post uploaded')
+      backend.add.post({ post: post, authorID: state.activeUser.id }).then(() => {
+        dispatch('notify', 'Uploaded "' + post.title + '"')
       })
     }
   }

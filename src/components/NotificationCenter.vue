@@ -3,21 +3,28 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'NotificationCenter',
   computed: {
     ...mapGetters(['notifications'])
   },
+  methods: {
+    ...mapActions(['dismissNotification'])
+  },
   watch: {
+    // TODO Rapid actions make these go off out of order
+    // for some reason
     notifications () {
-      console.log(this.notifications)
-      this.$toast.open({
-        message: this.notifications[this.notifications.length - 1],
-        type: 'is-white',
-        position: 'is-bottom'
-      })
+      if (this.notifications.length > 0) {
+        this.$toast.open({
+          message: this.notifications[this.notifications.length - 1],
+          type: 'is-success',
+          position: 'is-bottom'
+        })
+      }
+      this.dismissNotification()
     }
   }
 }

@@ -2,6 +2,7 @@
   <vue-markdown
     class="content"
     :breaks="false"
+    :toc="toc || false"
     @rendered="highlight"
     :source="postContent"></vue-markdown>
 </template>
@@ -12,7 +13,7 @@ import highlight from '@/highlighter.js'
 
 export default {
   name: 'MarkDownContent',
-  props: ['postContent'],
+  props: ['postContent', 'toc'],
   computed: {
     isLoading () { return this.postContent === '' }
   },
@@ -43,8 +44,15 @@ export default {
   margin: inherit;
 }
 
-.content>h1 {
-  display: none;
+.content img {
+  display: block;
+  color: black;
+  background: #eee;
+  min-height: 50px;
+}
+
+.content {
+  width: 100%;
 }
 
 </style>
