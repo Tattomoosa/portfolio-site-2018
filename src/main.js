@@ -23,7 +23,7 @@ new Vue({
   // Grabs a reference to our 'posts' collection
   created () {
     // This gets us our collections reference
-    this.$store.dispatch('setRef', {stateProperty: 'posts', ref: db.collection('posts')})
+    this.$store.dispatch('setRef', {stateProperty: 'posts', ref: db.collection('posts').orderBy('uploaded')})
     this.$store.dispatch('setRef', {stateProperty: 'users', ref: db.collection('users')})
   },
   router,

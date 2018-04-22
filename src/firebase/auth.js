@@ -25,9 +25,9 @@ const setAuthStateChangeHook = (store) => {
       // let docRef = db.collection('users').doc(user.uid)
       user.id = user.uid
       backend.on.login(user)
-      store.commit('logIn', user)
+      store.dispatch('logIn', user) // asynchronous
     } else {
-      store.commit('logOut')
+      store.commit('logOut') // synchronous
     }
   })
 }

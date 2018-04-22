@@ -1,6 +1,6 @@
 <template>
 
-  <div class="column is-one-third is-hidden-touch">
+  <div class="column is-one-third">
     <div class="columns is-centered">
 
       <div class="column">
@@ -49,14 +49,14 @@
   padding: .8rem;
 }
 .side-bar {
+  max-width: 300px;
 }
 .full-width {
   width: 100%;
 }
-@media screen and (min-width: 1023px) {
+@media screen and (min-size: 1023px) {
   .side-bar {
-    position: fixed;
-    max-width: 300px;
+    position: absolute;
   }
 }
 </style>

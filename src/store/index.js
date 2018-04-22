@@ -24,16 +24,17 @@ export default new Vuex.Store({
     notifications: []
   },
   mutations: {
-    addNotification (state, message) {
-      state.notifications.push(message)
+    addNotification (state, { message, color }) {
+      state.notifications.push({ message, color })
     },
-    dismissNotification (state, message) {
+    dismissNotification (state) {
       if (state.notifications.length > 0) state.notifications.shift()
     },
     logIn (state, user) {
-      state.activeUser = user.providerData[0]
+      // state.activeUser = user.providerData[0]
       // we overwrite uid since we want the unique user one
-      state.activeUser.id = user.uid
+      // state.activeUser.id = user.uid
+      state.activeUser = user
     },
     logOut (state) { state.activeUser = null },
     updateUploads (state, snapshot) {
@@ -66,8 +67,16 @@ export default new Vuex.Store({
   getters: {
     posts: state => state.posts,
     users: state => state.users,
+    post: state => {
+      return (id) => state.posts.find((post) => post.id === id || null)
+    },
     user: state => {
-      return (id) => state.users.find((user) => user.id === id || {})
+      return (id) => {
+        console.log('searching for user with id:', id)
+        let user = state.users.find((user) => user.id === id || {})
+        console.log(user)
+        return user || {}
+      }
     },
     uploads: state => state.uploads,
     activeUser: state => state.activeUser,
@@ -80,8 +89,16 @@ export default new Vuex.Store({
     }, {stateProperty, ref}) => {
       bindFirebaseRef(stateProperty, ref)
     }),
-    notify ({ commit }, message) {
-      commit('addNotification', message)
+    logIn ({ commit }, authUser) {
+      backend.get.user(authUser.id).then((userDoc) => {
+        console.log(userDoc)
+        commit('logIn', userDoc.data())
+      })
+    },
+    notify ({ commit }, { message, color }) {
+      // yuck get rid of this
+      if (!message) { message = arguments[1]; color = 'is-success' }
+      commit('addNotification', { message, color })
     },
     dismissNotification ({ commit }, message) {
       commit('dismissNotification')
@@ -102,6 +119,7 @@ export default new Vuex.Store({
             callback.complete(fileLocation)
           }
         })
+      return file
     },
     deletePost ({ commit, dispatch }, post) {
       backend.delete.post(post).then(() => {
@@ -109,9 +127,42 @@ export default new Vuex.Store({
       })
     },
     uploadPost ({ commit, dispatch, state }, post) {
+      let postStatus = post.published ? 'Published' : 'Saved'
+      if (!post.title) {
+        dispatch('notify', {
+          message: 'ERROR: Post has no title',
+          color: 'is-danger'
+        })
+      }
+      if (!post.summary) {
+        dispatch('notify', {
+          message: 'ERROR: Post has no content',
+          color: 'is-danger'
+        })
+        return
+      }
+
       backend.add.post({ post: post, authorID: state.activeUser.id }).then(() => {
-        dispatch('notify', 'Uploaded "' + post.title + '"')
+        dispatch('notify', postStatus + '"' + post.title + '"')
       })
+    },
+    createPost ({ state }) {
+      let id = backend.get.newID.post()
+      let author = state.activeUser
+      return {
+        id,
+        author: {
+          id: author.id,
+          name: author.name
+        },
+        authorID: author.id,
+        title: '',
+        content: '',
+        summary: '',
+        published: false,
+        images: [],
+        imageUploadLocation: backend.get.location.postImages({ postID: id, authorID: author.id })
+      }
     }
   }
 })

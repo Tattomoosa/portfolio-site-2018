@@ -3,9 +3,7 @@
     <navigation-menu />
     <div class="menu-pad"></div>
       <!-- <div class="container"> -->
-        <keep-alive include="PostWriter">
-          <router-view/>
-        </keep-alive>
+        <router-view/>
       <!-- </div> -->
     <notification-center />
 </div>
@@ -25,10 +23,9 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Bitter:400,400i,700');
+@import url('https://fonts.googleapis.com/css?family=Bitter');
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
 @import url('https://fonts.googleapis.com/css?family=Anonymous+Pro:400');
-@import url('https://fonts.googleapis.com/css?family=Vollkorn:400,400i,700');
 
 .menu-pad {
   height: 20px;
@@ -39,11 +36,12 @@ export default {
 }
 
 html, body {
+  font-family: Quicksand;
+  font-family: Bitter;
   font-family: Montserrat;
 }
 
-.content p, .content li {
-  font-family: Vollkorn;
+.content p {
   font-family: Bitter;
 }
 
@@ -56,18 +54,4 @@ code[class*="language-"] {
   height: 100%;
 }
 
-.navbar.is-fixed-top {
-  height: 30px;
-}
-.line {
-  width: 100%;
-  background: #888;
-  height: 2px;
-}
-.space {
-  height: 2rem;
-}
-.space.is-large {
-  height: 4rem;
-}
 </style>

@@ -10,8 +10,14 @@
     </a>
 
       <b-dropdown v-else class="is-bottom-left navbar-item has-dropdown">
-        <a class="navbar-link" slot="trigger">{{ activeUser.displayName }}
+        <a class="navbar-link" slot="trigger">{{ activeUser.name }}
         </a>
+
+        <b-dropdown-item has-link>
+          <router-link to="/post-writer/">
+            Add Post
+          </router-link>
+        </b-dropdown-item>
 
         <b-dropdown-item @click="logOut">Log Out</b-dropdown-item>
       </b-dropdown>

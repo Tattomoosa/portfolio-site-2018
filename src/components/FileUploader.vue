@@ -1,9 +1,18 @@
 <template>
   <div>
     <div class="">
-      <b-field label="Upload Location">
-        {{ location }}
+      <b-field label="Location">
       </b-field>
+      <!--
+        <span v-for="(loc, index) in locationSplit" :key="index">
+          <span class="is-text is-size-7"> {{ loc }} /</span>
+        </span>
+        -->
+        <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+          <ul>
+            <li v-for="(loc, index) in locationSplit" :key="index"><a href="#">{{ loc }}</a></li>
+          </ul>
+        </nav>
       <!-- <input type="file" value="upload" v-on:change="setFile($event)" /> -->
       <b-field label="File Upload">
       </b-field>
@@ -13,7 +22,7 @@
             <div>
               <b-icon icon="upload" size="is-large" />
             </div>
-            Drop files here or click to upload
+            {{ file[0].name || 'Drop files here or click to upload' }}
           </div>
         </b-upload>
       </b-field>
@@ -88,27 +97,34 @@
 </template>
 
 <script>
-// import { upload } from '../storage.js'
 import { mapActions, mapGetters } from 'vuex'
-// import clipboard from 'clipboard'
 
 export default {
   name: 'FileUploader',
   data () {
     return {
-      file: null
+      file: [{}],
+      locationSplit: []
     }
   },
   props: [
-    'location'
+    'location',
+    'imageUploadCallback',
+    'local'
   ],
   methods: {
     ...mapActions(['uploadFile', 'notify']),
     upload () {
-      this.uploadFile({
-        location: this.location,
-        file: this.file[0]
-      })
+      if (!this.local) {
+        this.uploadFile({
+          location: this.location,
+          file: this.file[0]
+        }).then((file) => {
+          this.$props.imageUploadCallback(file)
+        })
+      } else {
+        // TODO implement holding files locally
+      }
     },
     setFile (e) {
       this.file = e.target.files[0]
@@ -121,6 +137,9 @@ export default {
     ...mapGetters(['uploads'])
   },
   watch: {
+    location () {
+      this.locationSplit = this.location ? this.location.split('/') : 'no location'
+    }
   }
 }
 </script>

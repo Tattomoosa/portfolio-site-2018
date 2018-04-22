@@ -18,9 +18,10 @@ export default {
     // for some reason
     notifications () {
       if (this.notifications.length > 0) {
+        let toast = this.notifications[this.notifications.length - 1]
         this.$toast.open({
-          message: this.notifications[this.notifications.length - 1],
-          type: 'is-success',
+          message: toast.message,
+          type: toast.color || 'is-success',
           position: 'is-bottom'
         })
       }
