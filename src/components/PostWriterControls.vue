@@ -1,5 +1,38 @@
 <template>
   <div id="post-writer-controls">
+
+    <div class="field has-addons white-border float-right">
+      <p class="control">
+        <button
+        class="button is-small"
+        value="SUBMIT"
+        @click="emit('uploadPost')">
+          <b-icon icon="content-save" custom-size="mdi-18px" />
+          <span>Save</span>
+        </button>
+      </p>
+
+      <p class="control">
+        <button
+        v-if="!postPublished"
+        class="button is-small"
+        value="SUBMIT"
+        @click="emit('publishPost')">
+          <b-icon icon="publish" custom-size="mdi-18px"/>
+          <span>Publish</span>
+        </button>
+
+        <button
+        v-else
+        class="button is-success is-small"
+        value="SUBMIT"
+        @click="emit('unpublishPost')">
+          <b-icon icon="check" />
+          <span>Published</span>
+        </button>
+      </p>
+    </div>
+
     <div class="field has-addons white-border float-right">
       <p class="control">
         <b-dropdown position="is-bottom-left">
@@ -21,35 +54,13 @@
       <p class="control">
         <button
         class="button is-small"
-        value="SUBMIT"
-        @click="emit('uploadPost')">
-          <b-icon icon="content-save" custom-size="mdi-18px" />
-          <span>Save</span>
+        value="SUBMIT">
+          <b-icon icon="close" custom-size="mdi-18px" />
+          <span>Delete</span>
         </button>
-      </p>
-
-      <p class="control">
-
-        <button
-        v-if="!postPublished"
-        class="button is-small"
-        value="SUBMIT"
-        @click="emit('publishPost')">
-          <b-icon icon="publish" custom-size="mdi-18px"/>
-          <span>Publish</span>
-        </button>
-
-        <button
-        v-else
-        class="button is-success is-small"
-        value="SUBMIT"
-        @click="emit('publishPost')">
-          <b-icon icon="check" />
-          <span>Published</span>
-        </button>
-
       </p>
     </div>
+
   </div>
 </template>
 
@@ -75,10 +86,15 @@ export default {
   position: absolute;
   width: 100%;
   word-wrap: break-word;
-  right: 0;
+  right: -5px;
   bottom: 100%;
 }
+#post-writer-controls .field {
+  position: relative;
+  top: 4px;
+}
 .file-upload-modal {
-  max-width: 500px;
+  max-width: 100%;
+  width: 40rem;
 }
 </style>

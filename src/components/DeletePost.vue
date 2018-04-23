@@ -1,9 +1,4 @@
 <template>
-  <!--
-  <button
-  @click="destroyPost"
-  class="button is-danger is-small">
-  -->
   <div @click="destroyPost">
   <b-icon
     icon="delete"
@@ -11,9 +6,6 @@
     ></b-icon>
   <span>Delete Post</span>
   </div>
-  <!--
-  </button>
-  -->
 </template>
 
 <script>

@@ -14,6 +14,7 @@ const backend = {
   get: {
     user: id => getRef.USER(id).get(),
     // TODO refactor out 'storage'
+    post: id => getRef.POST(id).get(),
     postContent: location => storage.download(location),
     newID: {
       post: () => getRef.ALL_POSTS().doc().id

@@ -5,7 +5,7 @@ export default {
     databaseURL: 'https://vue-blog-2e5c5.firebaseio.com',
     projectId: 'vue-blog-2e5c5',
     storageBucket: 'vue-blog-2e5c5.appspot.com',
-    messagingSenderId: '977095327349',
+    messagingSenderId: '977095327349'
   },
   firestore: {
     timestampsInSnapshots: true

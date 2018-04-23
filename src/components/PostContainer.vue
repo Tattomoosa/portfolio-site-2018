@@ -1,6 +1,6 @@
 <template>
-  <div class="">
-        <b-dropdown class="post-controls is-bottom-left">
+  <div class="post-container">
+        <b-dropdown v-if="isActiveUser" class="post-controls is-bottom-left">
 
           <button
           class="button"
@@ -9,14 +9,18 @@
           </button>
 
           <b-dropdown-item>
-            <delete-post :post="post" v-if="isActiveUser"></delete-post>
+            <edit-post :post="post" ></edit-post>
+          </b-dropdown-item>
+
+          <b-dropdown-item>
+            <delete-post :post="post" ></delete-post>
           </b-dropdown-item>
 
         </b-dropdown>
           <div class="post-title-container">
             <h1 class="title is-1">{{ post.title }}</h1>
             <h4 class="subtitle is-6 has-text-grey-dark">
-              By {{ post.author.name }} &nbsp;
+              <!-- By {{ post.author.name }} &nbsp; -->
               <span class="p is-size-7 is-italic has-text-grey-light">
                 posted {{ date.uploaded }}
               </span>
@@ -34,6 +38,7 @@
 <script>
 import PostContent from './PostContent'
 import DeletePost from './DeletePost'
+import EditPost from './EditPost'
 import moment from 'moment'
 import { mapGetters } from 'vuex'
 import MarkdownContent from './MarkdownContent.vue'
@@ -46,6 +51,7 @@ export default {
   components: {
     PostContent,
     DeletePost,
+    EditPost,
     MarkdownContent
   },
   computed: {
@@ -85,5 +91,15 @@ export default {
   .post-controls {
     position: absolute;
     right: 0;
+    top: -2rem;
+  }
+  .post-controls button {
+    border: none;
+  }
+  .post-container {
+    position: relative;
+  }
+  .post-title-container .title {
+    line-height: 1.1;
   }
 </style>

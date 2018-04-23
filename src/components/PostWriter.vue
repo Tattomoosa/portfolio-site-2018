@@ -5,8 +5,9 @@
       :imageUploadLocation="post.imageUploadLocation"
       :imageUploadCallback="addImageToPostData"
       :postPublished="post.published"
-      @publishPost="localUploadPost(true)"
-      @uploadPost="localUploadPost(false)"/>
+      @publishPost="localUploadPost(true, 'Published')"
+      @unpublishPost="localUploadPost(false, 'Unpublished')"
+      @uploadPost="localUploadPost(null, 'Saved')"/>
       <div class="columns box full-height main-window">
         <div class="column is-two-fifths full-height is-paddingless">
           <!-- <input class="input" v-model="post.title" placeholder="Post Title" /> -->
@@ -14,6 +15,7 @@
           <textarea
           @keyup="generatePostData"
           class="post-writer-text-area textarea box"
+          ref="textarea"
           v-model="post.content"
           placeholder="Post Content"/>
         </div>
@@ -39,9 +41,11 @@
 import { mapActions, mapGetters } from 'vuex'
 import MarkdownContent from './MarkdownContent.vue'
 import PostWriterControls from './PostWriterControls.vue'
+import { backend } from '@/firebase'
+import Vue from 'vue'
 
 export default {
-  name: 'Post-Writer',
+  name: 'PostWriter',
   data () {
     return {
       post: {}
@@ -52,7 +56,8 @@ export default {
     PostWriterControls
   },
   mounted () {
-    this.getPostID()
+    // this.getPostID()
+    this.init()
   },
   beforeDestroy () {
     // this.deletePost(this.post)
@@ -62,7 +67,8 @@ export default {
   },
   watch: {
     activeUser () {
-      this.getPostID()
+      // this.getPostID()
+      this.init()
     }
   },
   methods: {
@@ -75,25 +81,43 @@ export default {
       if (firstLine.slice(0, 2) === '# ' && firstLine.length > 2) this.post.title = firstLine.slice(2)
       else this.post.title = ''
       this.post.summary = summary || ''
-      // console.log(summary)
     },
     addImageToPostData (file) {
       this.post.images.push(file.name)
+      this.localUploadPost(null, 'Saved file to ')
     },
-    getPostID () {
+    getNewPostID () {
       if (this.activeUser) {
         this.createPost()
           .then((post) => {
             this.post = post
+            this.localUploadPost(false, 'Created')
           })
       }
     },
-    localUploadPost (published) {
-      published = published || false
-      this.post.published = published
-      this.uploadPost(this.post)
+    init () {
+      let id = this.$route.params.postID
+      if (id) {
+        backend.get.post(id).then(
+          (post) => {
+            this.post = post.data()
+            backend.get.postContent(this.post.contentLocation).then(
+              (postContent) => {
+                // this.$refs.element.value = postContent
+                // this.$refs.textarea.element.value = postContent
+                Vue.set(this.post, 'content', postContent)
+              })
+        })
+      } else {
+        this.getNewPostID()
+      }
+    },
+    localUploadPost (published, message) {
+      let condition = published !== undefined && published !== null
+      if (condition) this.post.published = published
+      this.uploadPost({ post: this.post, message: message })
       if (published) {
-        this.getPostID()
+        // this.getNewPostID()
       }
     }
   }

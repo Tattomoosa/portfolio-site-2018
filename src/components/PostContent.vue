@@ -18,6 +18,7 @@ export default {
     return {
       postContent: '',
       isLoading: true
+      // postIDFromRouter: this.$route.params.postID
     }
   },
   props: ['contentLocation'],
@@ -35,7 +36,19 @@ export default {
           this.postContent = postContent
           this.isLoading = false
         })
+    },
+    /*
+    getPostContentLocation () {
+      if (this.contentLocation) {
+        return Promise.resolve(this.contentLocation)
+      } else if (this.postIDFromRouter) {
+        backend.get.post(this.postIDFromRouter)
+          .then((post) => {
+            return Promise.resolve(post.contentLocation)
+          })
+      }
     }
+    */
   },
   mounted () { this.getPostContent() }
 }

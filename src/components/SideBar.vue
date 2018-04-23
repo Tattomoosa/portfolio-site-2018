@@ -5,6 +5,8 @@
 
       <div class="column">
 
+        <br/><br/>
+
       <div class="spacer"></div>
         <div class="full-width side-bar">
           <div class="level has-text-centered">

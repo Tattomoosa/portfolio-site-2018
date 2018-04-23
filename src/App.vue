@@ -2,11 +2,9 @@
   <div id="app">
     <navigation-menu />
     <div class="menu-pad"></div>
-      <!-- <div class="container"> -->
-        <keep-alive include="PostWriter">
+        <!-- <keep-alive include="PostWriter"> -->
           <router-view/>
-        </keep-alive>
-      <!-- </div> -->
+        <!-- </keep-alive> -->
     <notification-center />
 </div>
 </template>

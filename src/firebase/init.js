@@ -2,8 +2,6 @@ import config from './config'
 import * as firebase from 'firebase'
 import 'firebase/firestore'
 
-console.log(config.firebase)
-
 firebase.initializeApp(config.firebase)
 
 const db = firebase.firestore()

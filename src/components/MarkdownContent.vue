@@ -63,7 +63,6 @@ export default {
 .content p, .content li {
   line-height: 1.7;
   font-size: 1.2rem;
-  font-size: 1.3rem;
   color: #262626;
 }
 
@@ -92,6 +91,10 @@ export default {
   background: #333;
 }
 */
+
+.content pre {
+  word-wrap: normal;
+}
 
 .content img {
   width: 100%;

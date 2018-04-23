@@ -73,7 +73,7 @@ export default new Vuex.Store({
     user: state => {
       return (id) => {
         console.log('searching for user with id:', id)
-        let user = state.users.find((user) => user.id === id || {})
+        let user = state.users.find((user) => user.id === id || null)
         console.log(user)
         return user || {}
       }
@@ -91,7 +91,6 @@ export default new Vuex.Store({
     }),
     logIn ({ commit }, authUser) {
       backend.get.user(authUser.id).then((userDoc) => {
-        console.log(userDoc)
         commit('logIn', userDoc.data())
       })
     },
@@ -126,8 +125,7 @@ export default new Vuex.Store({
         dispatch('notify', 'Deleted "' + post.title + '"')
       })
     },
-    uploadPost ({ commit, dispatch, state }, post) {
-      let postStatus = post.published ? 'Published' : 'Saved'
+    uploadPost ({ commit, dispatch, state }, { post, message }) {
       if (!post.title) {
         dispatch('notify', {
           message: 'ERROR: Post has no title',
@@ -143,7 +141,7 @@ export default new Vuex.Store({
       }
 
       backend.add.post({ post: post, authorID: state.activeUser.id }).then(() => {
-        dispatch('notify', postStatus + '"' + post.title + '"')
+        dispatch('notify', message + ' "' + post.title + '"')
       })
     },
     createPost ({ state }) {

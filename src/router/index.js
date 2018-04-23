@@ -15,9 +15,15 @@ export default new Router({
       component: PostList
     },
     {
-      path: '/post-writer',
-      name: 'PostWriter',
-      component: PostWriter
+      path: '/post-writer/',
+      name: 'NewPost',
+      component: PostWriter,
+    },
+    {
+      path: '/post-writer/:postID',
+      name: 'EditPost',
+      component: PostWriter,
+      props: 'postID'
     },
     {
       path: '/file-uploader',

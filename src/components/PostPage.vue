@@ -4,10 +4,9 @@
       <div class="columns">
       <side-bar></side-bar>
         <div class="column full-width">
-          <div>
+          <br/><br/>
             <post-container v-if="thisPost" :post="thisPost"></post-container>
             <br/>
-          </div>
           <comment-writer />
         </div>
       </div>
