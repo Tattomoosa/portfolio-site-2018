@@ -48,6 +48,12 @@ const backend = {
         getRef.POST_IN_USER({ userID: post.author.id, postID: post.id }).delete(),
         getRef.STORAGE(post.contentLocation).delete()
       ]).catch((error) => console.error('Error deleting post', error))
+    },
+    comment: comment => {
+      return Promise.all([
+        getRef.COMMENT_IN_USER(comment).delete(),
+        getRef.COMMENT_IN_POST(comment).delete(),
+      ]).catch((error) => console.error('Error deleting comment', error))
     }
   },
   add: {
@@ -67,16 +73,18 @@ const backend = {
         getRef.ALL_COMMENTS_IN_POST(comment.post.id).doc(comment.id).set({
           content: comment.content,
           author: comment.author,
+          post: comment.post,
           uploaded: database.timestamp(),
           id: comment.id
         }),
         getRef.ALL_COMMENTS_BY_USER(comment.author.id).doc(comment.id).set({
           content: comment.content,
+          author: comment.author,
           post: comment.post,
           uploaded: database.timestamp(),
           id: comment.id
         })
-      ])
+      ]).catch((error) => console.error('Error adding comment', error))
     },
     post: ({ post, authorID }) => {
       let postRef = getRef.ALL_POSTS().doc(post.id)

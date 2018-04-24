@@ -25,10 +25,12 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css?family=Bitter:400,400i,700');
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
-@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,600,700');
 @import url('https://fonts.googleapis.com/css?family=Anonymous+Pro:400');
 @import url('https://fonts.googleapis.com/css?family=Vollkorn:400,400i,700');
 @import url('https://fonts.googleapis.com/css?family=Poppins:700');
+@import url('https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600');
+
 
 .menu-pad {
   height: 20px;
@@ -49,6 +51,7 @@ html, body {
   font-family: Vollkorn;
   font-family: Bitter;
   font-family: Montserrat;
+  font-family: 'Source Serif Pro';
 }
 
 code[class*="language-"] {

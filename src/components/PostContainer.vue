@@ -1,33 +1,33 @@
 <template>
   <div class="post-container">
-        <b-dropdown v-if="isActiveUser" class="post-controls is-bottom-left">
+    <b-dropdown v-if="isActiveUser" class="post-controls is-bottom-left">
 
-          <button
-          class="button"
-          slot="trigger">
-          <b-icon icon="dots-vertical"/>
-          </button>
+      <button
+      class="button"
+      slot="trigger">
+      <b-icon icon="dots-vertical"/>
+      </button>
 
-          <b-dropdown-item>
-            <edit-post :post="post" ></edit-post>
-          </b-dropdown-item>
+      <b-dropdown-item>
+        <edit-post :post="post" ></edit-post>
+      </b-dropdown-item>
 
-          <b-dropdown-item>
-            <delete-post :post="post" ></delete-post>
-          </b-dropdown-item>
+      <b-dropdown-item>
+        <delete-post :post="post" ></delete-post>
+      </b-dropdown-item>
 
-        </b-dropdown>
-          <div class="post-title-container">
-            <h1 class="title is-1" v-html="post.title"></h1>
-            <h4 class="subtitle is-6 has-text-grey-dark">
-              <!-- By {{ post.author.name }} &nbsp; -->
-              <span class="p is-size-7 is-italic has-text-grey-light">
-                &nbsp; posted {{ date.uploaded }}
-              </span>
-            </h4>
-          </div>
-          <br />
-          <br/>
+    </b-dropdown>
+    <div class="post-title-container">
+      <h1 class="title is-1" v-html="post.title"></h1>
+      <h4 class="subtitle is-6 has-text-grey-dark">
+        <!-- By {{ post.author.name }} &nbsp; -->
+        <span class="p is-size-7 is-italic has-text-grey-light">
+          &nbsp; posted {{ date.uploaded }}
+        </span>
+      </h4>
+    </div>
+    <br />
+    <br/>
     <div v-if="onlySummary" class="content">
       <markdown-content :toc="false">{{ post.summary }}</markdown-content>
     </div>
@@ -59,7 +59,6 @@ export default {
     },
     ...mapGetters(['activeUser']),
     isActiveUser () {
-      console.log('hit')
       return this.activeUser && this.activeUser.id === this.post.author.id
     }
   }

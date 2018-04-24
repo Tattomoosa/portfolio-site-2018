@@ -6,8 +6,8 @@
     toc-id="#sidebar-toc"
     @rendered="highlight"
     @toc-rendered="tableOfContents"
-    :source="postContent">
-    <slot v-if="!postContent"></slot>
+    :source="content">
+    <slot v-if="!content"></slot>
   </vue-markdown>
 </template>
 
@@ -19,11 +19,11 @@ import Vue from 'vue'
 export default {
   name: 'MarkDownContent',
   props: [
-    'postContent',
+    'content',
     'toc'
   ],
   computed: {
-    isLoading () { return this.postContent === '' }
+    isLoading () { return this.content === '' }
   },
   components: {
     VueMarkdown
@@ -70,7 +70,7 @@ export default {
 
 .content p, .content li {
   line-height: 1.7;
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   color: #262626;
 }
 
@@ -99,8 +99,9 @@ export default {
 }
 */
 
-.content pre {
+.content pre, .content pre:not(:last-child) {
   word-wrap: normal;
+  margin: 2rem 0;
 }
 
 .content img {

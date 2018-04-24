@@ -22,7 +22,7 @@
           type="textarea"
           class="comment-textarea"
           placeholder="What do you think?"
-          v-model="comment.content"
+          v-model="content"
           resizable="false" />
         <div class="level-right comment-textarea">
           <!-- :disabled="!(comment.content.length > minimumCommentLength)" -->
@@ -31,16 +31,23 @@
           class="button is-outlined comment-textarea">Submit</button>
         </div>
     </div>
+    <p class="p is-size-7 has-text-grey-light">
+      <span v-if="content.length > 0" >Markdown Preview:</span>
+      <span v-else >Styling with Markdown is supported</span>
+    </p>
+    <markdown-content :content="content" :toc="false" />
   </div>
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import Vue from 'vue'
+import MarkdownContent from './MarkdownContent'
 
 export default {
   name: 'CommentWriter',
   data () {
     return {
+      content: '',
       minimumCommentLength: 10
     }
   },
@@ -49,7 +56,6 @@ export default {
     ...mapGetters(['activeUser']),
     comment () {
       return {
-        content: '',
         id: '',
         author: {
           name: this.activeUser ? this.activeUser.name : null,
@@ -80,13 +86,15 @@ export default {
   },
   methods: {
     localUploadComment () {
+      this.comment.content = this.content
       this.uploadComment(this.comment).then(() => {
-        // Vue.set(this.comment, 'content', '')
-        console.log('made it')
+        this.content = ''
       })
-        this.comment.content = ''
     },
     ...mapActions(['uploadComment'])
+  },
+  components: {
+    MarkdownContent
   }
 }
 </script>

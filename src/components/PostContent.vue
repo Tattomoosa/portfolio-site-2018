@@ -5,7 +5,7 @@
       :is-full-page="false" />
     <markdown-content
       :toc="toc"
-      :postContent="postContent" />
+      :content="postContent" />
   </div>
 </template>
 

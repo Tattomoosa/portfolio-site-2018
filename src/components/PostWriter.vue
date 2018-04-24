@@ -26,7 +26,7 @@
           <div class="full-height can-scroll-y md-preview">
             <markdown-content
             :loading="false"
-            :postContent="post.content" />
+            :content="post.content" />
           </div>
         </div>
       </div>
@@ -46,6 +46,10 @@ import MarkdownContent from './MarkdownContent.vue'
 import PostWriterControls from './PostWriterControls.vue'
 import { backend } from '@/firebase'
 import Vue from 'vue'
+
+function setImageUploadLocation () {
+  return () => backend.get.location.postImages({ postID: this.post.id, authorID: this.post.author.id })()
+}
 
 export default {
   name: 'PostWriter',
@@ -89,7 +93,7 @@ export default {
     addImageToPostData (file) {
       this.generatePostData()
       this.post.images.push(file.name)
-      this.localUploadPost(null, 'Saved file to ')
+      this.localUploadPost(null, 'Saved File')
     },
     getNewPostID () {
       if (this.activeUser) {
@@ -114,6 +118,11 @@ export default {
               (postContent) => {
                 this.isLoading = false
                 Vue.set(this.post, 'content', postContent)
+                Vue.set(
+                  this.post,
+                  'imageUploadLocation',
+                  backend.get.location.postImages({ postID: this.post.id, authorID: this.post.author.id})
+                )
               })
           })
       } else {
@@ -121,6 +130,7 @@ export default {
       }
     },
     localUploadPost (published, message) {
+      console.log(this.post)
       let condition = published !== undefined && published !== null
       if (condition) this.post.published = published
       this.uploadPost({ post: this.post, message: message })

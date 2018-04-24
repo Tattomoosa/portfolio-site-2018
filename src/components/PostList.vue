@@ -38,7 +38,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['posts', 'user'])
+    ...mapGetters(['posts', 'user']),
   },
   watch: {
     posts () {

@@ -3,16 +3,16 @@
     <div class="">
       <b-field label="Location">
       </b-field>
-      <!--
         <span v-for="(loc, index) in locationSplit" :key="index">
-          <span class="is-text is-size-7"> {{ loc }} /</span>
+          <span class="p is-size-7"> {{ loc }} /</span>
         </span>
-        -->
+        <!--
         <nav class="breadcrumb is-small" aria-label="breadcrumbs">
           <ul>
             <li v-for="(loc, index) in locationSplit" :key="index"><a href="#">{{ loc }}</a></li>
           </ul>
         </nav>
+        -->
       <!-- <input type="file" value="upload" v-on:change="setFile($event)" /> -->
       <b-field label="File Upload">
       </b-field>

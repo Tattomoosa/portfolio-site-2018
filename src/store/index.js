@@ -89,7 +89,12 @@ export default new Vuex.Store({
     setRef: VuexFire.firebaseAction(({
       bindFirebaseRef
     }, {stateProperty, ref}) => {
-      bindFirebaseRef(stateProperty, ref)
+      return bindFirebaseRef(stateProperty, ref)
+    }),
+    removeRef: VuexFire.firebaseAction(({
+      unbindFirebaseRef
+    }, stateProperty) => {
+      unbindFirebaseRef(stateProperty)
     }),
     logIn ({ commit }, authUser) {
       backend.get.user(authUser.id).then((userDoc) => {

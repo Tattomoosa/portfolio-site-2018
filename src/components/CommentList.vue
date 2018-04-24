@@ -2,7 +2,9 @@
   <div>
     <h1 class="title is-2">Comments</h1>
     <hr>
-    <div v-for="comment in comments" :key="comment.id">
+    <b-loading :active-sync="isLoading" :is-full-page="false" />
+    <div v-if="!isLoading" v-for="comment in comments" :key="comment.id">
+    <!--
       <div>
         {{ comment.content }}
       </div>
@@ -13,7 +15,9 @@
       <span class="p is-size-7 is-italic has-text-grey-light">
         {{ formatTime(comment.uploaded) }}
       </span>
-      <!-- {{ moment(comment.uploaded).fromNow() }} -->
+      <button v-if="isActiveUser(comment.author)">Delete Comment</button>
+      -->
+      <comment-container :comment="comment" @delete="deleteComment(comment)"/>
     </div>
   </div>
 </template>
@@ -21,18 +25,19 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { backend } from '@/firebase'
-import moment from 'moment'
+import CommentContainer from './CommentContainer'
 
 export default {
   name: 'CommentList',
   props: ['post'],
   data () {
     return {
-      comments: []
+      comments: [],
+      isLoading: true
     }
   },
   computed: {
-    ...mapGetters(['commentsOnPage'])
+    ...mapGetters(['commentsOnPage']),
   },
   watch: {
     commentsOnPage () {
@@ -40,13 +45,24 @@ export default {
     }
   },
   mounted () {
+    // get comments through vuexfire
     this.setRef({ stateProperty: 'commentsOnPage', ref: backend.get.ref.ALL_COMMENTS_IN_POST(this.post.id).orderBy('uploaded') })
+      .then(() => {
+        this.isLoading = false
+      })
+  },
+  destroyed () {
+    // remove comment reference from vuexfire
+    this.removeRef('commentsOnPage')
   },
   methods: {
-    ...mapActions(['setRef']),
-    formatTime (time) {
-      return time ? moment(time).fromNow() : ''
+    ...mapActions(['setRef', 'removeRef']),
+    deleteComment (comment) {
+      backend.delete.comment(comment) // .then(() => this.commentsOnPage[comment] = null)
     }
+  },
+  components: {
+    CommentContainer
   }
 }
 </script>

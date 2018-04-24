@@ -13,6 +13,8 @@ export default {
   POST_IN_USER: ({ userID, postID }) => db.doc('users/' + userID + '/posts/' + postID),
   ALL_USERS: () => db.collection('users'),
   ALL_POSTS: () => db.collection('posts/'),
+  COMMENT_IN_USER: (comment) => db.doc('users/' + comment.author.id + '/comments/' + comment.id),
+  COMMENT_IN_POST: (comment) => db.doc('posts/' + comment.post.id + '/comments/' + comment.id),
   ALL_COMMENTS: () => db.collection('comments'),
   ALL_POSTS_BY_USER: (userID) => db.collection('users/' + userID + '/posts/'),
   ALL_COMMENTS_IN_POST: (postID) => db.collection('posts/' + postID + '/comments/'),
