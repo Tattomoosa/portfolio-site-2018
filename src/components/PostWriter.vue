@@ -1,13 +1,16 @@
 <template>
   <div class="application-page">
+    <b-loading :active.sync="isLoading" />
     <div v-if="activeUser" class="width-constrain">
+
       <post-writer-controls
       :imageUploadLocation="post.imageUploadLocation"
       :imageUploadCallback="addImageToPostData"
       :postPublished="post.published"
-      @publishPost="localUploadPost(true, 'Published')"
-      @unpublishPost="localUploadPost(false, 'Unpublished')"
-      @uploadPost="localUploadPost(null, 'Saved')"/>
+      @publishPost="localUploadPost(true, 'Published ' + post.title)"
+      @unpublishPost="localUploadPost(false, 'Unpublished ' + post.title)"
+      @uploadPost="localUploadPost(null, 'Saved ' + post.title)"/>
+
       <div class="columns box full-height main-window">
         <div class="column is-two-fifths full-height is-paddingless">
           <!-- <input class="input" v-model="post.title" placeholder="Post Title" /> -->
@@ -48,7 +51,8 @@ export default {
   name: 'PostWriter',
   data () {
     return {
-      post: {}
+      post: {},
+      isLoading: false
     }
   },
   components: {
@@ -83,6 +87,7 @@ export default {
       this.post.summary = summary || ''
     },
     addImageToPostData (file) {
+      this.generatePostData()
       this.post.images.push(file.name)
       this.localUploadPost(null, 'Saved file to ')
     },
@@ -91,23 +96,26 @@ export default {
         this.createPost()
           .then((post) => {
             this.post = post
-            this.localUploadPost(false, 'Created')
+            this.localUploadPost(false, 'Created New Post')
           })
       }
     },
     init () {
+      // If component has :postID from route,
+      // it loads that post from the server,
+      // otherwise it creates a new post.
       let id = this.$route.params.postID
       if (id) {
+        this.isLoading = true
         backend.get.post(id).then(
           (post) => {
             this.post = post.data()
             backend.get.postContent(this.post.contentLocation).then(
               (postContent) => {
-                // this.$refs.element.value = postContent
-                // this.$refs.textarea.element.value = postContent
+                this.isLoading = false
                 Vue.set(this.post, 'content', postContent)
               })
-        })
+          })
       } else {
         this.getNewPostID()
       }

@@ -21,7 +21,8 @@ export default new Vuex.Store({
     users: null,
     activeUser: null,
     uploads: {},
-    notifications: []
+    notifications: [],
+    commentsOnPage: []
   },
   mutations: {
     addNotification (state, { message, color }) {
@@ -78,6 +79,7 @@ export default new Vuex.Store({
         return user || {}
       }
     },
+    commentsOnPage: state => state.commentsOnPage,
     uploads: state => state.uploads,
     activeUser: state => state.activeUser,
     notifications: state => state.notifications
@@ -125,23 +127,39 @@ export default new Vuex.Store({
         dispatch('notify', 'Deleted "' + post.title + '"')
       })
     },
+    uploadComment ({ commit, dispatch, state }, comment) {
+      if (!state.activeUser) {
+        // TODO make this an alert
+        dispatch('notify', {
+          message: 'GOTTA LOG IN BRAH',
+          color: 'is-danger'
+        })
+        return Promise.reject(new Error('Not Logged In'))
+      }
+      backend.add.comment(comment).then(() => {
+        dispatch('notify', 'Comment Added')
+        return Promise.resolve()
+      })
+    },
     uploadPost ({ commit, dispatch, state }, { post, message }) {
-      if (!post.title) {
-        dispatch('notify', {
-          message: 'ERROR: Post has no title',
-          color: 'is-danger'
-        })
+      if (post.published) {
+        if (!post.title) {
+          dispatch('notify', {
+            message: 'CANNOT PUBLISH: Post has no title',
+            color: 'is-danger'
+          })
+          post.published = false
+        }
+        if (!post.summary) {
+          dispatch('notify', {
+            message: 'CANNOT PUBLISH: Post has no content',
+            color: 'is-danger'
+          })
+          post.published = false
+        }
       }
-      if (!post.summary) {
-        dispatch('notify', {
-          message: 'ERROR: Post has no content',
-          color: 'is-danger'
-        })
-        return
-      }
-
       backend.add.post({ post: post, authorID: state.activeUser.id }).then(() => {
-        dispatch('notify', message + ' "' + post.title + '"')
+        dispatch('notify', message)
       })
     },
     createPost ({ state }) {

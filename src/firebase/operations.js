@@ -17,11 +17,21 @@ const backend = {
     post: id => getRef.POST(id).get(),
     postContent: location => storage.download(location),
     newID: {
-      post: () => getRef.ALL_POSTS().doc().id
+      post: () => getRef.ALL_POSTS().doc().id,
+      comment: () => getRef.ALL_COMMENTS().doc().id
     },
     location: {
       postImages: ({ postID, authorID }) => getRef.POST_IMAGES_FOLDER({ postID, authorID }).fullPath
-    }
+    },
+    postComments: (postID) => getRef.ALL_COMMENTS_IN_POST(postID).get()
+      .then((querySnapshot) => {
+        let docArray = []
+        querySnapshot.forEach((doc) => {
+          docArray.push(doc.data())
+        })
+        return Promise.resolve(docArray)
+      }),
+    ref: getRef
   },
   delete: {
     post: post => {
@@ -29,13 +39,13 @@ const backend = {
       let imageRefs = []
       if (post.images.length > 0) {
         post.images.forEach((image) => {
-          imageRefs.push(getRef.POST_IMAGES_FOLDER({ postID: post.id, authorID: post.authorID }).child(image))
+          imageRefs.push(getRef.POST_IMAGES_FOLDER({ postID: post.id, authorID: post.author.id }).child(image))
         })
       }
       return Promise.all([
         imageRefs.map(image => image.delete()),
         getRef.POST(post.id).delete(),
-        getRef.POST_IN_USER({ userID: post.authorID, postID: post.id }).delete(),
+        getRef.POST_IN_USER({ userID: post.author.id, postID: post.id }).delete(),
         getRef.STORAGE(post.contentLocation).delete()
       ]).catch((error) => console.error('Error deleting post', error))
     }
@@ -50,16 +60,34 @@ const backend = {
         id: user.id
       })
     },
+    comment: (comment) => {
+      comment.id = backend.get.newID.comment()
+
+      return Promise.all([
+        getRef.ALL_COMMENTS_IN_POST(comment.post.id).doc(comment.id).set({
+          content: comment.content,
+          author: comment.author,
+          uploaded: database.timestamp(),
+          id: comment.id
+        }),
+        getRef.ALL_COMMENTS_BY_USER(comment.author.id).doc(comment.id).set({
+          content: comment.content,
+          post: comment.post,
+          uploaded: database.timestamp(),
+          id: comment.id
+        })
+      ])
+    },
     post: ({ post, authorID }) => {
       let postRef = getRef.ALL_POSTS().doc(post.id)
       let postContentRef = getRef.POST_CONTENT({ postID: postRef.id, authorID: post.author.id })
       let postContentFile = new File([post.content], 'post-content.md', {type: 'text/plain;charset=utf=8'})
       let postContentMetadata = ({ authorID: authorID, postID: postRef.id, title: post.title })
 
-      /*
-      if (!post.title) return Promise.reject(new Error('Post has no title'))
-      if (!post.summary) return Promise.reject(new Error('Post has no summary'))
-      */
+      if (post.published) {
+        if (!post.title) return Promise.reject(new Error('Post has no title'))
+        if (!post.summary) return Promise.reject(new Error('Post has no summary'))
+      }
 
       // upload associated storage data first because otherwise posts will try to load before they can
       return postContentRef.put(postContentFile, postContentMetadata).then(() => {

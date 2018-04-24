@@ -4,10 +4,11 @@
       <div class="columns">
       <side-bar></side-bar>
         <div class="column full-width">
-          <br/><br/>
+          <br/><br/><br/>
             <post-container v-if="thisPost" :post="thisPost"></post-container>
             <br/>
-          <comment-writer />
+          <comment-writer v-if="thisPost" :post="thisPost" />
+          <comment-list v-if="thisPost" :post="thisPost"></comment-list>
         </div>
       </div>
     </div>
@@ -15,38 +16,31 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-// import Post from './PostContent.vue'
 import PostContainer from './PostContainer.vue'
 import DeletePost from './DeletePost.vue'
 import SideBar from './SideBar.vue'
 import CommentWriter from './CommentWriter.vue'
+import CommentList from './CommentList.vue'
 
 export default {
   name: 'PostPage',
   data () {
-    return { thisPost: null, postID: this.$route.params.postID }
+    return {
+      postID: this.$route.params.postID
+    }
   },
   computed: {
-    ...mapGetters(['post'])
-  },
-  methods: {
-    setThisPost () {
-      this.thisPost = this.post(this.postID)
+    ...mapGetters(['post']),
+    thisPost () {
+      return this.post(this.postID)
     }
-  },
-  watch: {
-    post () {
-      this.setThisPost()
-    }
-  },
-  mounted () {
-    this.setThisPost()
   },
   components: {
     PostContainer,
     DeletePost,
     SideBar,
-    CommentWriter
+    CommentWriter,
+    CommentList
   }
 }
 </script>

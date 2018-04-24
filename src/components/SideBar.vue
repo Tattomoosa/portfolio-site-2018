@@ -24,9 +24,16 @@
               </div>
             </div>
           </div>
+          <div class="level">
+            <div class="level-item">
+              Web Developer in Portland, OR
+            </div>
+          </div>
 
           <div class="box full-width">
-            <h4 class="title is-6">This Post</h4>
+
+            <div id="#sidebar-toc"></div>
+
             <h4 class="title is-6">Related</h4>
           </div>
 
@@ -60,5 +67,23 @@
     position: fixed;
     max-width: 300px;
   }
+}
+
+.table-of-contents {
+  padding-top: 2rem;
+  position: relative;
+  padding-bottom: 2rem;
+}
+.table-of-contents>li>a,
+.table-of-contents>li>ul>li>a{
+  font-size: .8em;
+  line-height: .6;
+}
+.table-of-contents:before {
+  content: 'This Post';
+  font-size: 16px;
+  font-weight: 600;
+  position: relative;
+  top: -1rem;
 }
 </style>

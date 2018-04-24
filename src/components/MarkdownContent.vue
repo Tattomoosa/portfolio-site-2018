@@ -2,8 +2,10 @@
   <vue-markdown
     class="content"
     :breaks="false"
-    :toc="toc || false"
+    :toc="toc"
+    toc-id="#sidebar-toc"
     @rendered="highlight"
+    @toc-rendered="tableOfContents"
     :source="postContent">
     <slot v-if="!postContent"></slot>
   </vue-markdown>
@@ -16,7 +18,10 @@ import Vue from 'vue'
 
 export default {
   name: 'MarkDownContent',
-  props: ['postContent', 'toc'],
+  props: [
+    'postContent',
+    'toc'
+  ],
   computed: {
     isLoading () { return this.postContent === '' }
   },
@@ -28,6 +33,9 @@ export default {
     highlight () {
       // if (!this.isLoading) setTimeout(highlight, 1)
       if (!this.isLoading) Vue.nextTick(highlight, 1)
+    },
+    tableOfContents (foo) {
+      console.log('made it', foo)
     }
   }
 }
@@ -62,14 +70,13 @@ export default {
 
 .content p, .content li {
   line-height: 1.7;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #262626;
 }
 
 .content h1 {
   font-weight: bold;
   font-size: 2.6em;
-  text-shadow: 0 1px 0 slategrey;
 }
 
 .content h2 {
@@ -99,5 +106,13 @@ export default {
 .content img {
   width: 100%;
 }
+
+/*
+.content h1,h2,h3,h4,h5,h6,p {
+  width: 80%;
+  margin: auto;
+}
+*/
+
 
 </style>

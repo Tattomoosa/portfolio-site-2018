@@ -22,14 +22,73 @@
           type="textarea"
           class="comment-textarea"
           placeholder="What do you think?"
+          v-model="comment.content"
           resizable="false" />
         <div class="level-right comment-textarea">
-          <button disabled class="button is-outlined comment-textarea">Submit</button>
+          <!-- :disabled="!(comment.content.length > minimumCommentLength)" -->
+          <button
+          @click="localUploadComment"
+          class="button is-outlined comment-textarea">Submit</button>
         </div>
     </div>
   </div>
 </template>
 <script>
+import { mapActions, mapGetters } from 'vuex'
+import Vue from 'vue'
+
+export default {
+  name: 'CommentWriter',
+  data () {
+    return {
+      minimumCommentLength: 10
+    }
+  },
+  props: ['post'],
+  computed: {
+    ...mapGetters(['activeUser']),
+    comment () {
+      return {
+        content: '',
+        id: '',
+        author: {
+          name: this.activeUser ? this.activeUser.name : null,
+          id: this.activeUser ? this.activeUser.id : null
+        },
+        post: {
+          title: this.$props.post.title,
+          id: this.$props.post.id
+        }
+      }
+    }
+  },
+  watch: {
+    activeUser () {
+      if (this.activeUser) {
+        this.comment.author.name = this.activeUser.name
+        this.comment.author.id = this.activeUser.id
+      }
+    }
+  },
+  mounted () {
+    if (this.activeUser) {
+      this.comment.author.name = this.activeUser.name
+      this.comment.author.id = this.activeUser.id
+      this.comment.post.title = this.$props.post.title
+      this.comment.post.id = this.$props.post.id
+    }
+  },
+  methods: {
+    localUploadComment () {
+      this.uploadComment(this.comment).then(() => {
+        // Vue.set(this.comment, 'content', '')
+        console.log('made it')
+      })
+        this.comment.content = ''
+    },
+    ...mapActions(['uploadComment'])
+  }
+}
 </script>
 
 <style type="css">
@@ -42,9 +101,12 @@ textarea.comment-textarea {
   box-sizing: border-box;
   resize: none;
   background-color: #fafafa !important;
-  border: 1px solid #b5b5b5;
+  /* border: 1px solid #b5b5b5; */
   padding: 1rem;
   z-index: 1;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
 }
 button.comment-textarea {
   height: 80px;

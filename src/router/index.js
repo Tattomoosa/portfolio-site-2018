@@ -11,28 +11,28 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'PostList',
+      name: 'Post List',
       component: PostList
     },
     {
       path: '/post-writer/',
-      name: 'NewPost',
-      component: PostWriter,
+      name: 'New Post',
+      component: PostWriter
     },
     {
       path: '/post-writer/:postID',
-      name: 'EditPost',
+      name: 'Edit Post',
       component: PostWriter,
       props: 'postID'
     },
     {
       path: '/file-uploader',
-      name: 'FileUploader',
+      name: 'File Uploader',
       component: FileUploader
     },
     {
       path: '/post/:postID',
-      name: 'PostPage',
+      name: 'Post Page',
       component: PostPage,
       props: 'postID'
     }

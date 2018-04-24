@@ -18,20 +18,20 @@
 
         </b-dropdown>
           <div class="post-title-container">
-            <h1 class="title is-1">{{ post.title }}</h1>
+            <h1 class="title is-1" v-html="post.title"></h1>
             <h4 class="subtitle is-6 has-text-grey-dark">
               <!-- By {{ post.author.name }} &nbsp; -->
               <span class="p is-size-7 is-italic has-text-grey-light">
-                posted {{ date.uploaded }}
+                &nbsp; posted {{ date.uploaded }}
               </span>
             </h4>
           </div>
           <br />
           <br/>
     <div v-if="onlySummary" class="content">
-      <markdown-content>{{ post.summary }}</markdown-content>
+      <markdown-content :toc="false">{{ post.summary }}</markdown-content>
     </div>
-    <post-content v-else :contentLocation="post.contentLocation"></post-content>
+    <post-content v-else :toc="true" :contentLocation="post.contentLocation"></post-content>
   </div>
 </template>
 
@@ -45,9 +45,6 @@ import MarkdownContent from './MarkdownContent.vue'
 
 export default {
   props: ['post', 'onlySummary'],
-  data () {
-    return { isActiveUser: false }
-  },
   components: {
     PostContent,
     DeletePost,
@@ -60,22 +57,10 @@ export default {
         uploaded: moment(this.post.uploaded).fromNow()
       }
     },
-    ...mapGetters(['activeUser'])
-  },
-  methods: {
-    isAuthorActiveUser () {
-      this.isActiveUser = this.activeUser && this.activeUser.id === this.post.author.id
-    }
-  },
-  mounted () {
-    this.isAuthorActiveUser()
-  },
-  watch: {
-    activeUser () {
-      this.isAuthorActiveUser()
-    },
-    author () {
-      this.isAuthorActiveUser()
+    ...mapGetters(['activeUser']),
+    isActiveUser () {
+      console.log('hit')
+      return this.activeUser && this.activeUser.id === this.post.author.id
     }
   }
 }
