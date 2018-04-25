@@ -20,6 +20,7 @@
           <span aria-hidden="true"></span>
         </div>
       </div>
+      <!--
       <div
       class="navbar-menu"
       :class="{'is-active': navIsActive}">
@@ -30,6 +31,23 @@
               {{ route.name }}
             </router-link>
           </div>
+          <div class="navbar-item">
+            <sign-in></sign-in>
+          </div>
+        </div>
+      </div>
+      -->
+      <div
+      class="navbar-menu"
+      :class="{'is-active': navIsActive}">
+        <div class="navbar-start"></div>
+        <div class="navbar-end">
+          <router-link
+          class="navbar-item"
+          to="/most-recent-posts/">
+            Most Recent
+          </router-link>
+        </div>
           <div class="navbar-item">
             <sign-in></sign-in>
           </div>

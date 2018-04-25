@@ -12,7 +12,11 @@
           <div class="level has-text-centered">
             <div class="level-item">
               <!-- <img class="image is-profile" src="http://placekitten.com/128/128" /> -->
-              <img class="is-profile box" src="http://placekitten.com/128/128" />
+              <!--
+              <img class="is-profile box" src="http://placekitten.com/128/128" /> -->
+              <div class="is-profile box"
+                style="background: #0a8464; width: 128px; height: 128px;">
+              </div>
             </div>
           </div>
 
@@ -24,15 +28,24 @@
               </div>
             </div>
           </div>
+          <!--
           <div class="level">
             <div class="level-item">
-              Web Developer in Portland, OR
+              Meat robot
             </div>
           </div>
+          -->
 
-          <div class="box full-width">
+          <div class="box full-width sidebar-links">
 
-            <div id="#sidebar-toc"></div>
+            <!-- <div id="#sidebar-toc"></div> -->
+            <section v-if="postTOC && postTOC.length > 0">
+              <h4 class="title is-6">This Post</h4>
+              <a v-for="tocElement in postTOC"
+                :href="tocElement.link">
+                <p class="p is-size-7">{{ tocElement.text }}</p>
+              </a>
+            </section>
 
             <h4 class="title is-6">Related</h4>
           </div>
@@ -46,7 +59,20 @@
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex'
+export default {
+  name: 'SideBar',
+  /*
+  data () {
+    return {
+      postTOC: []
+    }
+  },
+  */
+  computed: {
+    ...mapGetters(['postTOC'])
+  }
+}
 </script>
 
 <style type="css">
@@ -56,8 +82,6 @@
 .is-profile {
   border-radius: 50%;
   padding: .8rem;
-}
-.side-bar {
 }
 .full-width {
   width: 100%;
@@ -85,5 +109,14 @@
   font-weight: 600;
   position: relative;
   top: -1rem;
+}
+.sidebar-links .title {
+  margin-bottom: .5rem;
+}
+.sidebar-links section {
+  margin-bottom: .8rem;
+}
+.sidebar-links {
+  transition: height 1s;
 }
 </style>

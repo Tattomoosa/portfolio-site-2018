@@ -22,7 +22,8 @@ export default new Vuex.Store({
     activeUser: null,
     uploads: {},
     notifications: [],
-    commentsOnPage: []
+    commentsOnPage: [],
+    postTOC: []
   },
   mutations: {
     addNotification (state, { message, color }) {
@@ -38,6 +39,10 @@ export default new Vuex.Store({
       state.activeUser = user
     },
     logOut (state) { state.activeUser = null },
+    updatePostTOC (state, toc) {
+      // console.log(toc)
+      state.postTOC = toc
+    },
     updateUploads (state, snapshot) {
       // this is a unique identifier of the file
       // so we use it to register a unique object
@@ -82,7 +87,8 @@ export default new Vuex.Store({
     commentsOnPage: state => state.commentsOnPage,
     uploads: state => state.uploads,
     activeUser: state => state.activeUser,
-    notifications: state => state.notifications
+    notifications: state => state.notifications,
+    postTOC: state => state.postTOC
   },
   actions: {
     // This will make VuexFire aware of a database reference
@@ -96,6 +102,9 @@ export default new Vuex.Store({
     }, stateProperty) => {
       unbindFirebaseRef(stateProperty)
     }),
+    updatePostTOC ({ commit }, toc) {
+      commit('updatePostTOC', toc)
+    },
     logIn ({ commit }, authUser) {
       backend.get.user(authUser.id).then((userDoc) => {
         commit('logIn', userDoc.data())

@@ -15,9 +15,14 @@ export default new Router({
       component: PostList
     },
     {
-      path: '/post-writer/',
+      path: '/post-writer',
       name: 'New Post',
       component: PostWriter
+    },
+    {
+      path: '/most-recent-posts',
+      name: 'Most Recent Posts',
+      component: PostList
     },
     {
       path: '/post-writer/:postID',

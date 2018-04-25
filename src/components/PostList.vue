@@ -7,7 +7,7 @@
           <br/><br/>
           <div v-for="post in postsReversed" v-if="post.published" :key="post.id">
             <post-container :onlySummary="true" :post="post"></post-container>
-            <router-link :to="'post/' + post.id">
+            <router-link :to="'/post/' + post.id">
               <br/>
               <a class="title is-4 has-text-info">Read More <b-icon icon="arrow-right" /></a>
             </router-link>

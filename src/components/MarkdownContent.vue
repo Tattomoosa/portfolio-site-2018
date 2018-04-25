@@ -3,7 +3,8 @@
     class="content"
     :breaks="false"
     :toc="toc"
-    toc-id="#sidebar-toc"
+    :toc-first-level="1"
+    :toc-last-level="1"
     @rendered="highlight"
     @toc-rendered="tableOfContents"
     :source="content">
@@ -15,6 +16,17 @@
 import VueMarkdown from 'vue-markdown'
 import highlight from '@/highlighter.js'
 import Vue from 'vue'
+
+function getAllRegexMatches (regex, string, captureGroup) {
+  captureGroup = captureGroup || null
+  let match
+  let matches = []
+  do {
+    match = regex.exec(string)
+    if (match && match[captureGroup]) matches.push(match[captureGroup])
+  } while (match)
+  return matches
+}
 
 export default {
   name: 'MarkDownContent',
@@ -29,13 +41,27 @@ export default {
     VueMarkdown
   },
   activated () { this.highlight() },
+  destroyed () { this.$store.dispatch('updatePostTOC', [])},
   methods: {
     highlight () {
       // if (!this.isLoading) setTimeout(highlight, 1)
       if (!this.isLoading) Vue.nextTick(highlight, 1)
     },
-    tableOfContents (foo) {
-      console.log('made it', foo)
+    tableOfContents (tocHTML) {
+      // strange bug(?) where vue-markdown re-renders on every state
+      // change and loops infinitely, so let's check if our state has toc already
+      if (this.$store.state.postTOC.length === 0) {
+        let linkRegEx = /href="(.*)"/g
+        let textRegEx = /<a href=".*?">(.*?)<\/a>/g
+        let linkArray = getAllRegexMatches(linkRegEx, tocHTML, 1)
+        let textArray = getAllRegexMatches(textRegEx, tocHTML, 1)
+        let tocData = []
+
+        linkArray.forEach((el, i) => tocData.push({ text: textArray[i], link: linkArray[i] }))
+
+        // TODO add these to state to show in sidebar
+        this.$store.dispatch('updatePostTOC', tocData)
+      }
     }
   }
 }
@@ -99,8 +125,13 @@ export default {
 }
 */
 
-.content pre, .content pre:not(:last-child) {
-  word-wrap: normal;
+.content pre,
+.content pre:not(:last-child),
+.content pre code {
+  word-wrap: none;
+  white-space: pre-wrap;
+  overflow-x: scroll;
+  min-width: 0;
   margin: 2rem 0;
 }
 

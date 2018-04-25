@@ -30,6 +30,8 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Vollkorn:400,400i,700');
 @import url('https://fonts.googleapis.com/css?family=Poppins:700');
 @import url('https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600');
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
+
 
 
 .menu-pad {
@@ -55,7 +57,7 @@ html, body {
 }
 
 code[class*="language-"] {
-  font-family: Anonymous Pro;
+  font-family: 'Source Code Pro';
   text-rendering: geometricPrecision;
 }
 

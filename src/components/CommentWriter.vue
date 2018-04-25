@@ -16,7 +16,7 @@
       </div>
     </div>
     -->
-      <div class="level is-mobile">
+      <div class="level is-mobile is-marginless">
         <div class="level-left"></div>
           <textarea
           type="textarea"
@@ -33,7 +33,11 @@
     </div>
     <p class="p is-size-7 has-text-grey-light">
       <span v-if="content.length > 0" >Markdown Preview:</span>
-      <span v-else >Styling with Markdown is supported</span>
+      <span v-else >Styling with
+        <a href="https://daringfireball.net/projects/markdown/basics">
+          Markdown
+        </a>
+        is supported</span>
     </p>
     <markdown-content :content="content" :toc="false" />
   </div>

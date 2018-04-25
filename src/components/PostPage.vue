@@ -35,6 +35,13 @@ export default {
       return this.post(this.postID)
     }
   },
+  watch: {
+    thisPost () {
+      if (!this.thisPost) {
+        this.$router.push('/')
+      }
+    }
+  },
   components: {
     PostContainer,
     DeletePost,
