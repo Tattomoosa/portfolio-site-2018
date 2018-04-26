@@ -8,7 +8,6 @@
         {{ time }}
       </span>
     <div class="box comment">
-      <markdown-content :content="comment.content" :toc="false" />
       <b-dropdown v-if="isActiveUser" class="comment-controls is-bottom-left">
 
         <button
@@ -22,6 +21,7 @@
         </b-dropdown-item>
 
       </b-dropdown>
+      <markdown-content :content="comment.content" :toc="false" />
     </div>
   </div>
 
@@ -29,7 +29,7 @@
 
 <script>
 import MarkdownContent from './MarkdownContent'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 import moment from 'moment'
 
 export default {

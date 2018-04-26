@@ -12,7 +12,7 @@ export default {
   COMMENT: (commentID) => db.doc('comments/' + commentID),
   POST_IN_USER: ({ userID, postID }) => db.doc('users/' + userID + '/posts/' + postID),
   ALL_USERS: () => db.collection('users'),
-  ALL_POSTS: () => db.collection('posts/'),
+  ALL_POSTS: () => db.collection('posts'),
   COMMENT_IN_USER: (comment) => db.doc('users/' + comment.author.id + '/comments/' + comment.id),
   COMMENT_IN_POST: (comment) => db.doc('posts/' + comment.post.id + '/comments/' + comment.id),
   ALL_COMMENTS: () => db.collection('comments'),

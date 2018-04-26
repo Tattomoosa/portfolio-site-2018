@@ -47,16 +47,12 @@ import PostWriterControls from './PostWriterControls.vue'
 import { backend } from '@/firebase'
 import Vue from 'vue'
 
-function setImageUploadLocation () {
-  return () => backend.get.location.postImages({ postID: this.post.id, authorID: this.post.author.id })()
-}
-
 export default {
   name: 'PostWriter',
   data () {
     return {
       post: {},
-      isLoading: false
+      isLoading: true
     }
   },
   components: {
@@ -68,7 +64,7 @@ export default {
     this.init()
   },
   beforeDestroy () {
-    // this.deletePost(this.post)
+    this.localUploadPost(null, 'Saved ' + this.post.title)
   },
   computed: {
     ...mapGetters(['activeUser'])
@@ -76,6 +72,9 @@ export default {
   watch: {
     activeUser () {
       // this.getPostID()
+      this.init()
+    },
+    '$route.params.postID': function () {
       this.init()
     }
   },
@@ -101,6 +100,9 @@ export default {
           .then((post) => {
             this.post = post
             this.localUploadPost(false, 'Created New Post')
+              .then(() => this.$router.push('/post-writer/' + post.id))
+            // TODO after post is uploaded go to proper postwriter URL
+            // this.$router.push('/post-writer/' + post.id)
           })
       }
     },
@@ -121,7 +123,7 @@ export default {
                 Vue.set(
                   this.post,
                   'imageUploadLocation',
-                  backend.get.location.postImages({ postID: this.post.id, authorID: this.post.author.id})
+                  backend.get.location.postImages({ postID: this.post.id, authorID: this.post.author.id })
                 )
               })
           })
@@ -130,13 +132,10 @@ export default {
       }
     },
     localUploadPost (published, message) {
-      console.log(this.post)
+      // console.log(this.post)
       let condition = published !== undefined && published !== null
       if (condition) this.post.published = published
-      this.uploadPost({ post: this.post, message: message })
-      if (published) {
-        // this.getNewPostID()
-      }
+      return this.uploadPost({ post: this.post, message: message })
     }
   }
 }

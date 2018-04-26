@@ -41,7 +41,7 @@
           slot="trigger"
           value="ADD IMAGE">
           <b-icon icon="image" custom-size="mdi-18px" />
-          <span>Files</span>
+          <span>Media</span>
           </button>
           <b-dropdown-item custom class="file-upload-modal">
             <file-uploader
@@ -50,11 +50,57 @@
           </b-dropdown-item>
         </b-dropdown>
       </p>
+      <p class="control">
+        <b-dropdown position="is-bottom-left">
+          <button
+          class="button is is-small"
+          slot="trigger"
+          value="ADD IMAGE">
+          <b-icon icon="asterisk" custom-size="mdi-18px" />
+          <span>Meta</span>
+          </button>
+          <b-dropdown-item custom class="file-upload-modal">
+          </b-dropdown-item>
+        </b-dropdown>
+      </p>
+      <p class="control">
+        <b-dropdown position="is-bottom-left">
+          <button
+          class="button is is-small"
+          slot="trigger"
+          value="">
+          <b-icon icon="folder-open" custom-size="mdi-18px" />
+          <span>Open</span>
+          </button>
+          <b-dropdown-item custom class="file-upload-modal">
+            <post-list
+              type="by-user"
+              order="edited-on"
+              :value="activeUser.id"
+              previewStyle="postwriter"
+            />
+          </b-dropdown-item>
+        </b-dropdown>
+      </p>
 
+    </div>
+
+    <div class="field has-addons white-border float-right">
+      <p class="control">
+        <router-link to="/post-writer/">
+          <button
+          class="button is-small"
+          value="Open">
+            <b-icon icon="plus" custom-size="mdi-18px" />
+            <span>New</span>
+          </button>
+        </router-link>
+      </p>
       <p class="control">
         <button
         class="button is-small"
-        value="SUBMIT">
+        @click="emit('deletePost')"
+        value="Delete">
           <b-icon icon="close" custom-size="mdi-18px" />
           <span>Delete</span>
         </button>
@@ -66,13 +112,19 @@
 
 <script>
 import FileUploader from './FileUploader.vue'
+import PostList from './PostList.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Post-Writer-Controls',
   components: {
-    FileUploader
+    FileUploader,
+    PostList
   },
   props: [ 'imageUploadLocation', 'imageUploadCallback', 'postPublished' ],
+  computed: {
+    ...mapGetters(['activeUser'])
+  },
   methods: {
     emit (event) {
       this.$emit(event)
@@ -93,8 +145,14 @@ export default {
   position: relative;
   top: 4px;
 }
+#post-writer-controls .dropdown-menu {
+  /*
+  max-width: 100%;
+  min-width: auto;
+  */
+}
 .file-upload-modal {
   max-width: 100%;
-  width: 40rem;
+  min-width: 40rem;
 }
 </style>

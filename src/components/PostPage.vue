@@ -21,6 +21,7 @@ import DeletePost from './DeletePost.vue'
 import SideBar from './SideBar.vue'
 import CommentWriter from './CommentWriter.vue'
 import CommentList from './CommentList.vue'
+import { backend } from '@/firebase'
 
 export default {
   name: 'PostPage',
@@ -35,12 +36,24 @@ export default {
       return this.post(this.postID)
     }
   },
+  created () {
+    // if state doesn't know this post
+    if (this.post(this.postID) === undefined) {
+      // this.$store.dispatch('setRef', { stateProperty: 'posts', ref: [backend.get.ref.POST(this.postID)] })
+      this.$store.dispatch('setRef', { stateProperty: 'posts', ref: backend.get.ref.ALL_POSTS().where('id', '==', this.postID) })
+    }
+  },
   watch: {
+    post () {
+      this.thisPost = this.post(this.postID)
+    }
+    /*
     thisPost () {
       if (!this.thisPost) {
         this.$router.push('/')
       }
     }
+    */
   },
   components: {
     PostContainer,

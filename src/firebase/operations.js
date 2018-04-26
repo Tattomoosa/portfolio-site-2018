@@ -37,22 +37,47 @@ const backend = {
     post: post => {
       // Loads up a reference for every image associated with the post
       let imageRefs = []
+      let postCommentCollectionRef = []
+      // let postCommentRefs = []
+      // let authorCommentRefs = []
+      let comments = []
       if (post.images.length > 0) {
         post.images.forEach((image) => {
           imageRefs.push(getRef.POST_IMAGES_FOLDER({ postID: post.id, authorID: post.author.id }).child(image))
         })
       }
-      return Promise.all([
+      /*
+      if (post.comments.length > 0) {
+        post.comments.forEach((post) => {
+          commentRefs.push(getRef.COMMENT_IN_USER(post))
+        })
+      }
+      */
+      // we have to pull the corresponding copy of each comment from each user
+      // and we need to have this info before deleting it
+      postCommentCollectionRef = getRef.ALL_COMMENTS_IN_POST(post.id)
+      return postCommentCollectionRef.get().then((snapshot) => {
+        snapshot.forEach((doc) => {
+          let comment = doc.data()
+          // authorCommentRefs.push(getRef.COMMENT_IN_USER(comment))
+          // postCommentRefs.push(getRef.COMMENT_IN_POST(comment))
+          comments.push(comment)
+        })
+      }).then(() => Promise.all([
+        // postCommentRefs.map(comment => comment.delete()),
+        // authorCommentRefs.map(comment => comment.delete()),
+        comments.map(comment => backend.delete.comment(comment)),
         imageRefs.map(image => image.delete()),
         getRef.POST(post.id).delete(),
         getRef.POST_IN_USER({ userID: post.author.id, postID: post.id }).delete(),
         getRef.STORAGE(post.contentLocation).delete()
-      ]).catch((error) => console.error('Error deleting post', error))
+      ])
+      ).catch((error) => console.error('Error deleting post', error))
     },
     comment: comment => {
       return Promise.all([
         getRef.COMMENT_IN_USER(comment).delete(),
-        getRef.COMMENT_IN_POST(comment).delete(),
+        getRef.COMMENT_IN_POST(comment).delete()
       ]).catch((error) => console.error('Error deleting comment', error))
     }
   },
@@ -97,10 +122,28 @@ const backend = {
         if (!post.summary) return Promise.reject(new Error('Post has no summary'))
       }
 
+      let postData = {
+        id: postRef.id,
+        title: post.title,
+        author: post.author,
+        images: post.images,
+        summary: post.summary,
+        published: post.published,
+        editedOn: database.timestamp(),
+        contentLocation: postContentRef.fullPath
+      }
+
+      // if our post object has no published on date, but is published
+      // then today is it's published on date
+      if (post.publishedOn === undefined && post.published === true) {
+        postData.publishedOn = database.timestamp()
+      }
+
       // upload associated storage data first because otherwise posts will try to load before they can
       return postContentRef.put(postContentFile, postContentMetadata).then(() => {
         return Promise.all([
           getRef.ALL_POSTS_BY_USER(authorID).doc(postRef.id).set({ id: postRef.id }),
+          /*
           postRef.set({
             title: post.title,
             author: post.author,
@@ -111,6 +154,8 @@ const backend = {
             uploaded: database.timestamp(),
             contentLocation: postContentRef.fullPath // refactor this out?
           })
+          */
+          postRef.set(postData, { merge: true })
         ]).catch((error) => console.error('Error adding post', error))
       })
     }

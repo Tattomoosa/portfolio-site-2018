@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import PostList from '@/components/PostList'
+import PostListPage from '@/components/PostListPage'
 import PostWriter from '@/components/PostWriter'
 import FileUploader from '@/components/FileUploader'
 import PostPage from '@/components/PostPage.vue'
@@ -12,7 +12,12 @@ export default new Router({
     {
       path: '/',
       name: 'Post List',
-      component: PostList
+      component: PostListPage,
+      props: {
+        type: 'all',
+        order: 'published-on',
+        value: ''
+      }
     },
     {
       path: '/post-writer',
@@ -22,7 +27,12 @@ export default new Router({
     {
       path: '/most-recent-posts',
       name: 'Most Recent Posts',
-      component: PostList
+      component: PostListPage,
+      props: {
+        type: 'all',
+        order: 'published-on',
+        value: ''
+      }
     },
     {
       path: '/post-writer/:postID',

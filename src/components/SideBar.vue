@@ -14,8 +14,8 @@
               <!-- <img class="image is-profile" src="http://placekitten.com/128/128" /> -->
               <!--
               <img class="is-profile box" src="http://placekitten.com/128/128" /> -->
-              <div class="is-profile box"
-                style="background: #0a8464; width: 128px; height: 128px;">
+              <div class="is-profile box">
+                 <div class="is-profile" style="background: #1a8464; width: 128px; height: 128px;"></div>
               </div>
             </div>
           </div>
@@ -41,7 +41,7 @@
             <!-- <div id="#sidebar-toc"></div> -->
             <section v-if="postTOC && postTOC.length > 0">
               <h4 class="title is-6">This Post</h4>
-              <a v-for="tocElement in postTOC"
+              <a v-for="(tocElement, index) in postTOC" :key="index"
                 :href="tocElement.link">
                 <p class="p is-size-7">{{ tocElement.text }}</p>
               </a>

@@ -141,6 +141,11 @@ export default new Vuex.Store({
         dispatch('notify', 'Deleted "' + post.title + '"')
       })
     },
+    deleteComment ({ dispatch }, comment) {
+      backend.delete.comment(comment).then(() => {
+        dispatch('notify', 'Deleted comment')
+      })
+    },
     uploadComment ({ commit, dispatch, state }, comment) {
       if (!state.activeUser) {
         // TODO make this an alert
@@ -172,8 +177,9 @@ export default new Vuex.Store({
           post.published = false
         }
       }
-      backend.add.post({ post: post, authorID: state.activeUser.id }).then(() => {
+      return backend.add.post({ post: post, authorID: state.activeUser.id }).then(() => {
         dispatch('notify', message)
+        return Promise.resolve()
       })
     },
     createPost ({ state }) {

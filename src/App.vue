@@ -32,8 +32,6 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600');
 @import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
 
-
-
 .menu-pad {
   height: 20px;
 }
@@ -78,5 +76,36 @@ code[class*="language-"] {
 }
 .space.is-large {
   height: 4rem;
+}
+
+/* LINK STUFF TODO MOVE THIS */
+.content a, a, a.title {
+  color: #2aa484;
+  position: relative;
+}
+.content a:hover, a:hover, a.title:hover {
+  color: #0a8464;
+}
+.content a:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 2px;
+  left: 0;
+  background-color: #0a8464;
+  visibility: hidden;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
+}
+.content a:hover:before {
+  visibility: visible;
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+}
+p code {
+  color: black;
 }
 </style>

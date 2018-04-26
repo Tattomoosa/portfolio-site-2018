@@ -5,6 +5,7 @@
     :toc="toc"
     :toc-first-level="1"
     :toc-last-level="1"
+    :toc-anchor-link="false"
     @rendered="highlight"
     @toc-rendered="tableOfContents"
     :source="content">
@@ -41,7 +42,7 @@ export default {
     VueMarkdown
   },
   activated () { this.highlight() },
-  destroyed () { this.$store.dispatch('updatePostTOC', [])},
+  destroyed () { this.$store.dispatch('updatePostTOC', []) },
   methods: {
     highlight () {
       // if (!this.isLoading) setTimeout(highlight, 1)
@@ -88,6 +89,8 @@ export default {
   color: black;
   background: #eee;
   min-height: 50px;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  border-radius: 3px;
 }
 
 .content {
@@ -145,6 +148,5 @@ export default {
   margin: auto;
 }
 */
-
 
 </style>

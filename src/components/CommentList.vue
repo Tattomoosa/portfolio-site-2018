@@ -37,11 +37,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['commentsOnPage']),
+    ...mapGetters(['commentsOnPage'])
   },
   watch: {
     commentsOnPage () {
-      this.comments = this.commentsOnPage.slice(0).reverse()
+      // this.comments = this.commentsOnPage.slice(0).reverse()
+      this.comments = this.commentsOnPage
     }
   },
   mounted () {
@@ -56,10 +57,7 @@ export default {
     this.removeRef('commentsOnPage')
   },
   methods: {
-    ...mapActions(['setRef', 'removeRef']),
-    deleteComment (comment) {
-      backend.delete.comment(comment) // .then(() => this.commentsOnPage[comment] = null)
-    }
+    ...mapActions(['setRef', 'removeRef', 'deleteComment'])
   },
   components: {
     CommentContainer

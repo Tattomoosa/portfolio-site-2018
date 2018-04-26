@@ -3,7 +3,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
-import { db, setAuthStateChangeHook } from '@/firebase'
+import { setAuthStateChangeHook } from '@/firebase'
 import Buefy from 'buefy'
 import 'buefy/lib/buefy.css'
 import '@mdi/font/css/materialdesignicons.min.css'
@@ -23,8 +23,8 @@ new Vue({
   // Grabs a reference to our 'posts' collection
   created () {
     // This gets us our collections reference
-    this.$store.dispatch('setRef', {stateProperty: 'posts', ref: db.collection('posts').orderBy('uploaded')})
-    this.$store.dispatch('setRef', {stateProperty: 'users', ref: db.collection('users')})
+    // this.$store.dispatch('setRef', {stateProperty: 'posts', ref: db.collection('posts').orderBy('uploaded')})
+    // this.$store.dispatch('setRef', {stateProperty: 'users', ref: db.collection('users')})
   },
   router,
   components: { App },

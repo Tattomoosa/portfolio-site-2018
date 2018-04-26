@@ -44,7 +44,6 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import Vue from 'vue'
 import MarkdownContent from './MarkdownContent'
 
 export default {
