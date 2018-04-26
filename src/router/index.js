@@ -14,9 +14,9 @@ export default new Router({
       name: 'Post List',
       component: PostListPage,
       props: {
-        type: 'all',
-        order: 'published-on',
-        value: ''
+        type: 'with-tag',
+        order: '',
+        value: 'tag1'
       }
     },
     {
@@ -35,10 +35,19 @@ export default new Router({
       }
     },
     {
+      path: '/posts-tagged/:value',
+      name: 'Most Recent Posts',
+      component: PostListPage,
+      props: {
+        type: 'with-tag',
+        order: '',
+      }
+    },
+    {
       path: '/post-writer/:postID',
       name: 'Edit Post',
       component: PostWriter,
-      props: 'postID'
+      // props: 'postID'
     },
     {
       path: '/file-uploader',
@@ -49,7 +58,7 @@ export default new Router({
       path: '/post/:postID',
       name: 'Post Page',
       component: PostPage,
-      props: 'postID'
+      // props: 'postID'
     }
   ]
 })

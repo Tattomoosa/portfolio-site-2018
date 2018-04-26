@@ -14,7 +14,7 @@
 
       <p class="control">
         <button
-        v-if="!postPublished"
+        v-if="!post.published"
         class="button is-small"
         value="SUBMIT"
         @click="emit('publishPost')">
@@ -60,6 +60,7 @@
           <span>Meta</span>
           </button>
           <b-dropdown-item custom class="file-upload-modal">
+            <post-meta-modal :post="post"/>
           </b-dropdown-item>
         </b-dropdown>
       </p>
@@ -112,6 +113,7 @@
 
 <script>
 import FileUploader from './FileUploader.vue'
+import PostMetaModal from './PostMetaModal'
 import PostList from './PostList.vue'
 import { mapGetters } from 'vuex'
 
@@ -119,9 +121,10 @@ export default {
   name: 'Post-Writer-Controls',
   components: {
     FileUploader,
+    PostMetaModal,
     PostList
   },
-  props: [ 'imageUploadLocation', 'imageUploadCallback', 'postPublished' ],
+  props: [ 'imageUploadLocation', 'imageUploadCallback', 'post' ],
   computed: {
     ...mapGetters(['activeUser'])
   },

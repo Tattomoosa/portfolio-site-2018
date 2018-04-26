@@ -23,7 +23,8 @@ export default new Vuex.Store({
     uploads: {},
     notifications: [],
     commentsOnPage: [],
-    postTOC: []
+    postTOC: [],
+    allTags: {}
   },
   mutations: {
     addNotification (state, { message, color }) {
@@ -73,6 +74,7 @@ export default new Vuex.Store({
   getters: {
     posts: state => state.posts,
     users: state => state.users,
+    tags: state => state.tags,
     post: state => {
       return (id) => state.posts.find((post) => post.id === id || null)
     },
@@ -180,6 +182,11 @@ export default new Vuex.Store({
       return backend.add.post({ post: post, authorID: state.activeUser.id }).then(() => {
         dispatch('notify', message)
         return Promise.resolve()
+      })
+    },
+    uploadPostMetadata ({ dispatch }, { post, meta }) {
+      return backend.add.postMetadata({ post, meta }).then(() => {
+        dispatch('notify', 'Metadata Updated')
       })
     },
     createPost ({ state }) {

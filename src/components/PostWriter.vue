@@ -4,9 +4,9 @@
     <div v-if="activeUser" class="width-constrain">
 
       <post-writer-controls
+      :post="post"
       :imageUploadLocation="post.imageUploadLocation"
       :imageUploadCallback="addImageToPostData"
-      :postPublished="post.published"
       @publishPost="localUploadPost(true, 'Published ' + post.title)"
       @unpublishPost="localUploadPost(false, 'Unpublished ' + post.title)"
       @uploadPost="localUploadPost(null, 'Saved ' + post.title)"/>

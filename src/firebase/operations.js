@@ -46,13 +46,6 @@ const backend = {
           imageRefs.push(getRef.POST_IMAGES_FOLDER({ postID: post.id, authorID: post.author.id }).child(image))
         })
       }
-      /*
-      if (post.comments.length > 0) {
-        post.comments.forEach((post) => {
-          commentRefs.push(getRef.COMMENT_IN_USER(post))
-        })
-      }
-      */
       // we have to pull the corresponding copy of each comment from each user
       // and we need to have this info before deleting it
       postCommentCollectionRef = getRef.ALL_COMMENTS_IN_POST(post.id)
@@ -143,21 +136,58 @@ const backend = {
       return postContentRef.put(postContentFile, postContentMetadata).then(() => {
         return Promise.all([
           getRef.ALL_POSTS_BY_USER(authorID).doc(postRef.id).set({ id: postRef.id }),
-          /*
-          postRef.set({
-            title: post.title,
-            author: post.author,
-            summary: post.summary,
-            id: postRef.id,
-            images: post.images,
-            published: post.published,
-            uploaded: database.timestamp(),
-            contentLocation: postContentRef.fullPath // refactor this out?
-          })
-          */
           postRef.set(postData, { merge: true })
         ]).catch((error) => console.error('Error adding post', error))
       })
+    },
+    postMetadata: ({ post, meta }) => {
+      // tags on post have NOT CHANGED so that we can
+      // delete unused tags but we don't do that yet...
+      let postRef = getRef.POST(post.id)
+      let tagRefs = []
+      let postInTag = {
+        title: post.title,
+        summary: post.summary,
+        author: post.author,
+        publishedOn: post.publishedOn,
+        published: post.published
+      }
+      // let tagsToDelete = (post.meta && typeof post.meta.tags === 'Object') ? post.meta.tags : {}
+      let tagsToDelete = {}
+      if (post.tags) tagsToDelete = post.tags
+      console.log(tagsToDelete)
+      let tagRefsToDelete = []
+
+      Object.keys(meta.tags).forEach((key) => {
+        tagRefs.push(getRef.POST_IN_TAG({ tagName: key, postID: post.id }))
+        if (tagsToDelete.hasOwnProperty(key)) delete tagsToDelete[key]
+      })
+
+      // debug
+      Object.keys(tagsToDelete).forEach((key) => {
+        console.log(key + ' needs to be deleted')
+      })
+      //
+
+      Object.keys(tagsToDelete).forEach((key) => {
+        tagRefsToDelete.push(getRef.POST_IN_TAG({ tagName: key, postID: post.id }))
+      })
+
+      return Promise.all([
+        // TODO make a counter
+        Object.keys(meta.tags).map(
+          tagName => { getRef.ALL_TAGS().doc(tagName).set(
+            {
+              [post.id]: true,
+              name: tagName
+            },
+            { merge: true }) }
+        ),
+        Object.keys(tagsToDelete).map(tagName => { getRef.ALL_TAGS().doc(tagName).set({ [post.id]: database.deleteField() },{ merge: true }) }),
+        tagRefsToDelete.map(tagRef => tagRef.delete()),
+        tagRefs.map(tagRef => tagRef.set(postInTag)),
+        postRef.update({ ...meta })
+      ])
     }
   },
   on: {

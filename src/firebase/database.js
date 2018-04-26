@@ -22,9 +22,12 @@ const destroy = (collection, uid) => {
   } else console.error(collection, 'is not a valid collection')
 }
 
+const deleteField = firebase.firestore.FieldValue.delete
+
 export default {
   get,
   delete: destroy,
+  deleteField,
   timestamp: () => {
     return firebase.firestore.FieldValue.serverTimestamp()
   },

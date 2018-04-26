@@ -1,10 +1,9 @@
 <template>
-  <div>
+  <div :key="this.type + ' ' + this.value + ' by ' + this.order ">
 
     <!-- PostWriter load menu -->
     <b-table
     striped
-    narrowed
     focusable
     :data="Object.values(postsFormatted)"
     v-if="previewStyle === 'postwriter'">
@@ -30,8 +29,24 @@
 
         <b-table-column
         sortable
-        field="status"
+        field="published"
         label="Published">
+            <div class="field">
+              <p class="control has-text-centered">
+                <span v-if="props.row.published" >
+                  <b-icon icon="checkbox-marked-circle" type="is-success" />
+                </span>
+                <span v-else>
+                  <b-icon icon="checkbox-blank-circle-outline" type="is-grey" />
+                </span>
+              </p>
+            </div>
+        </b-table-column>
+
+        <b-table-column
+        sortable
+        field="publishedOn"
+        label="Publish Date">
           <!--
           <router-link :to="'/post-writer/' + props.row.id">
             {{ props.row.title || 'Untitled' }}
@@ -39,17 +54,20 @@
           -->
             <div class="field">
               <p class="control has-text-centered">
-                <b-icon v-if="props.row.published" icon="checkbox-marked-circle" type="is-success" />
-                <b-icon v-else icon="checkbox-blank-circle-outline" type="is-grey" />
+                <span v-if="props.row.published" >
+                  {{ props.row.published ? props.row.publishedOn.toLocaleDateString() : '' }}
+                </span>
+                <span v-else>
+                  <br/>Draft
+                </span>
               </p>
             </div>
         </b-table-column>
 
         <b-table-column
         sortable
-        :width="80"
         field="uploaded"
-        label="Uploaded">
+        label="Last Edited">
         <div class="field">
           <p class="control">
             {{ props.row.editedOn ? props.row.editedOn.toLocaleDateString() : '...' }}
@@ -74,7 +92,7 @@
               </router-link>
             </p>
             <p class="control">
-              <button class="button is-small" :disabled="props.row.id === $route.params.postID">
+              <button class="button is-small">
                 <delete-post :post="props.row"/>
               </button>
             </p>
@@ -95,7 +113,19 @@
             <a class="title is-4">Read More <b-icon icon="arrow-right" /></a>
           </router-link>
           <br/><br/>
-            <p class="has-text is-italic">This post has 0 comments</p>
+            <!-- <p class="has-text is-italic">This post has 0 comments</p> -->
+            <b-taglist v-if="post.tags">
+
+              <b-tag
+              v-for="tag in Object.keys(post.tags)"
+              :key="tag"
+              type="is-light">
+                <router-link
+                :to="'/posts-tagged/' + tag">
+                  {{ tag }}
+                </router-link>
+              </b-tag>
+            </b-taglist>
           <div class="space"></div>
           <div class="line"></div>
           <div class="space is-large"></div>
@@ -129,38 +159,61 @@ export default {
   watch: {
     posts () {
       this.listFormatting()
+    },
+    type () {
+      this.load()
+    },
+    order () {
+      this.load()
+    },
+    value () {
+      this.load()
     }
   },
   mounted () {
-    let ref
-    switch (this.type) {
-      case 'all':
-        ref = backend.get.ref.ALL_POSTS()
-        break
-      case 'by-user':
-        ref = backend.get.ref.ALL_POSTS().where('author.id', '==', this.value)
-        break
-    }
-    switch (this.order) {
-      case 'edited-on':
-        ref = ref.orderBy('editedOn')
-        break
-      case 'published-on':
-      default:
-        ref = ref.orderBy('publishedOn')
-        this.reverse = true
-        break
-    }
-    this.$store.dispatch('setRef', { stateProperty: 'posts', ref: ref })
-      .then(() => {
-        this.listFormatting()
-      })
+    this.load()
   },
   methods: {
     listFormatting () {
       if (this.reverse) {
         this.postsFormatted = this.posts.slice(0).reverse()
       }
+    },
+    load () {
+      let ref
+      switch (this.type) {
+        case 'with-tag':
+          // tags actually each have their own subcollection
+          // wasteful, i know
+          ref = backend.get.ref.ALL_POSTS_WITH_TAG(this.value)
+          // ref = backend.get.ref.ALL_TAGS()
+          console.log(ref)
+          break
+        case 'by-user':
+          ref = backend.get.ref.ALL_POSTS().where('author.id', '==', this.value)
+          break
+        case 'all':
+        default:
+          ref = backend.get.ref.ALL_POSTS()
+          console.log(ref)
+          break
+      }
+      switch (this.order) {
+        case 'edited-on':
+          ref = ref.orderBy('editedOn')
+          break
+        case 'published-on':
+          ref = ref.orderBy('publishedOn')
+          this.reverse = true
+          break
+        default:
+          break
+      }
+      this.$store.dispatch('setRef', { stateProperty: 'posts', ref: ref })
+        .then(() => {
+          // console.log(this.posts)
+          this.listFormatting()
+        })
     }
   },
   components: {
