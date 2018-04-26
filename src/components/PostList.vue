@@ -55,7 +55,7 @@
             <div class="field">
               <p class="control has-text-centered">
                 <span v-if="props.row.published" >
-                  {{ props.row.published ? props.row.publishedOn.toLocaleDateString() : '' }}
+                  {{ props.row.publishedOn ? props.row.publishedOn.toLocaleDateString() : '' }}
                 </span>
                 <span v-else>
                   <br/>Draft
@@ -114,18 +114,6 @@
           </router-link>
           <br/><br/>
             <!-- <p class="has-text is-italic">This post has 0 comments</p> -->
-            <b-taglist v-if="post.tags">
-
-              <b-tag
-              v-for="tag in Object.keys(post.tags)"
-              :key="tag"
-              type="is-light">
-                <router-link
-                :to="'/posts-tagged/' + tag">
-                  {{ tag }}
-                </router-link>
-              </b-tag>
-            </b-taglist>
           <div class="space"></div>
           <div class="line"></div>
           <div class="space is-large"></div>

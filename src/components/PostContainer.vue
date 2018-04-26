@@ -18,6 +18,19 @@
 
     </b-dropdown>
     <div class="post-title-container">
+
+      <b-taglist v-if="post.tags">
+        <b-tag
+        v-for="tag in Object.keys(post.tags)"
+        :key="tag"
+        type="is-light">
+          <router-link
+          :to="'/posts-tagged/' + tag">
+            {{ tag }}
+          </router-link>
+        </b-tag>
+      </b-taglist>
+
       <h1 class="title is-1" v-html="post.title"></h1>
       <h4 class="subtitle is-6 has-text-grey-dark">
         <!-- By {{ post.author.name }} &nbsp; -->

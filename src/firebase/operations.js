@@ -176,14 +176,16 @@ const backend = {
       return Promise.all([
         // TODO make a counter
         Object.keys(meta.tags).map(
-          tagName => { getRef.ALL_TAGS().doc(tagName).set(
-            {
-              [post.id]: true,
-              name: tagName
-            },
-            { merge: true }) }
+          tagName => getRef.ALL_TAGS().doc(tagName).set({
+            [post.id]: true,
+            name: tagName
+          }, {
+            merge: true
+          })
         ),
-        Object.keys(tagsToDelete).map(tagName => { getRef.ALL_TAGS().doc(tagName).set({ [post.id]: database.deleteField() },{ merge: true }) }),
+        Object.keys(tagsToDelete).map(tagName => {
+          getRef.ALL_TAGS().doc(tagName).set({ [post.id]: database.deleteField() }, { merge: true })
+        }),
         tagRefsToDelete.map(tagRef => tagRef.delete()),
         tagRefs.map(tagRef => tagRef.set(postInTag)),
         postRef.update({ ...meta })

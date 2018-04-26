@@ -13,7 +13,7 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'DeletePost',
-  props: ['post'],
+  props: ['post', 'callback'],
   methods: {
     ...mapActions(['deletePost']),
     confirmDelete () {

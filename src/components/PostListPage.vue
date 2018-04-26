@@ -53,7 +53,7 @@ export default {
   methods: {
     populateSearch () {
       let tags = []
-      let titles = []
+      // let titles = []
       Object.values(this.tags).map((tag) => {
         tags.push(tag.name)
       })

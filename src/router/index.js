@@ -40,13 +40,13 @@ export default new Router({
       component: PostListPage,
       props: {
         type: 'with-tag',
-        order: '',
+        order: ''
       }
     },
     {
       path: '/post-writer/:postID',
       name: 'Edit Post',
-      component: PostWriter,
+      component: PostWriter
       // props: 'postID'
     },
     {
@@ -57,7 +57,7 @@ export default new Router({
     {
       path: '/post/:postID',
       name: 'Post Page',
-      component: PostPage,
+      component: PostPage
       // props: 'postID'
     }
   ]

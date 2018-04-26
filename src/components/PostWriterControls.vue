@@ -100,10 +100,12 @@
       <p class="control">
         <button
         class="button is-small"
-        @click="emit('deletePost')"
         value="Delete">
+        <!--
           <b-icon icon="close" custom-size="mdi-18px" />
           <span>Delete</span>
+          -->
+          <delete-post :post="post"/>
         </button>
       </p>
     </div>
@@ -115,6 +117,7 @@
 import FileUploader from './FileUploader.vue'
 import PostMetaModal from './PostMetaModal'
 import PostList from './PostList.vue'
+import DeletePost from './DeletePost'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -122,6 +125,7 @@ export default {
   components: {
     FileUploader,
     PostMetaModal,
+    DeletePost,
     PostList
   },
   props: [ 'imageUploadLocation', 'imageUploadCallback', 'post' ],
