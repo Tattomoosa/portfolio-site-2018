@@ -169,10 +169,12 @@ const backend = {
       })
       //
 
+        /*
       Object.keys(meta.tags).forEach((key) => {
         tagRefs.push(getRef.POST_IN_TAG({ tagName: key, postID: post.id }))
         if (tagsToDelete.hasOwnProperty(key)) delete tagsToDelete[key]
       })
+      */
 
       // debug
       Object.keys(tagsToDelete).forEach((key) => {
@@ -180,9 +182,11 @@ const backend = {
       })
       //
 
+        /*
       Object.keys(tagsToDelete).forEach((key) => {
         tagRefsToDelete.push(getRef.POST_IN_TAG({ tagName: key, postID: post.id }))
       })
+      */
 
       return Promise.all([
         // TODO make a counter

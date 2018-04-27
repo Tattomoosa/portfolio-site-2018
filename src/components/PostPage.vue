@@ -2,7 +2,6 @@
   <div class="section">
     <div class="container">
       <div class="columns">
-      <side-bar></side-bar>
         <transition name="fade" mode="out-in">
         <div class="column full-width">
           <br/><br/><br/>
@@ -17,6 +16,7 @@
           <comment-list v-if="!isLoading" :post="post(postID)" />
         </div>
         </transition>
+        <side-bar :postPage="true"></side-bar>
       </div>
     </div>
   </div>

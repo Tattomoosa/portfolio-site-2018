@@ -25,10 +25,15 @@
         v-for="tag in Object.keys(post.tags)"
         :key="tag"
         type="is-light">
-          <router-link
-          :to="'/posts-tagged/' + tag">
-            {{ tag }}
-          </router-link>
+          <b-tooltip
+          type="is-dark"
+          animated
+          :label="'See more with tag ' + tag">
+            <router-link
+            :to="'/posts-tagged/' + tag">
+              {{ tag }}
+            </router-link>
+          </b-tooltip>
         </b-tag>
       </b-taglist>
 
@@ -51,6 +56,7 @@
       v-else
       @loaded="loaded"
       :toc="true"
+      :post="post"
       :contentLocation="post.contentLocation"></post-content>
     </div>
     <!-- <post-content v-else :toc="true" :postID="postID"></post-content> -->

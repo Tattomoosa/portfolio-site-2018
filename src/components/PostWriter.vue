@@ -84,7 +84,12 @@ export default {
     ...mapActions(['uploadPost', 'createPost']),
     generatePostData () {
       let firstLine = this.post.content.split('\n')[0]
-      let summary = '##' + this.post.content.split('##')[1]
+      //let summary = this.post.content.split('\n')[2].split('##')[0]
+      // let regex = /\#*?\n([\s\S]*)\#\#/g
+      // let regex = /\#.*?\n([\s\S]*)\#\#/
+      // let summary = regex.exec(this.post.content)
+      let regex = /\#.*?\n/
+      let summary = this.post.content.split(/\#.*?\n/)[1].split('## ')[0]
       if (firstLine.slice(0, 2) === '# ' && firstLine.length > 2) this.post.title = firstLine.slice(2)
       else this.post.title = ''
       this.post.summary = summary || ''

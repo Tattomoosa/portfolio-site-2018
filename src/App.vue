@@ -108,15 +108,20 @@ p code {
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .2s;
+  transition: opacity 8s transform 8s;
+  transition-timing-function: ease-in-out;
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;
+  transform: translate(100px, 0)
 }
 .height-enter-active, .height-leave-active {
-  transition: height 8s;
+  transition: scaleY 8s;
 }
 .height-enter, .height-leave-to {
-  height: 0 !important;
+  /*
+  transform: scaleY(0)
+  */
+  max-height: 0;
 }
 </style>

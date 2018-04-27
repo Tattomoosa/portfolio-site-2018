@@ -107,7 +107,12 @@
               <post-container :onlySummary="true" :post="post"></post-container>
               <router-link :to="'/post/' + post.id">
                 <br/>
-                <a class="title is-4">Read More <b-icon icon="arrow-right" /></a>
+                <a class="title is-4">
+                  Read More
+                  <!-- <span class="read-more-arrow"> -->
+                    <b-icon class="read-more-arrow" icon="arrow-right" />
+                  <!-- </span> -->
+                </a>
               </router-link>
               <br/><br/>
                 <!-- <p class="has-text is-italic">This post has 0 comments</p> -->
@@ -145,29 +150,41 @@ export default {
       let condition = (c) => { c === undefined || Object.keys(c).length === 0 }
       if (this.type === 'with-tag' && this.value) {
         posts = this.$store.getters['tags/postsAtIndex'](this.value)
-        console.log(posts, this.value)
+        // console.log(posts, this.value)
         if (posts === undefined || Object.keys(posts).length === 0) {
           //  let getIDs = this.$store.getters['tags/indexIDs'](this.value)
           if (this.$store.getters['tags/ready']) {
+            console.log('made it')
             this.$store.dispatch(
               'posts/registerPostIDArray',
               this.$store.getters['tags/indexIDs'](this.value)
             )
           }
-        } else return posts
-      }
-      if (this.type === 'all') {
+        }
+      } else if (this.type === 'all') {
         posts = this.$store.getters['posts/all']
-        console.log(posts)
-        if (Object.keys(posts).length === 0) {
+        // console.log(posts)
+        // if (Object.keys(posts).length === 0) {
           this.$store.dispatch('posts/registerPostCollection')
-        } else return posts
+        // }
       }
+      if (typeof posts === 'Object') {
+        posts = Object.values(posts)
+        if (this.order == 'published-on') {
+          posts.sort((a,b) => {
+            if (a.publishedOn < b.publishedOn) return 1
+            if (a.publishedOn > b.publishedOn) return -1
+            return 0
+          })
+        }
+      }
+
+      return posts
     }
   },
   watch: {
     posts () {
-      this.listFormatting()
+      // this.listFormatting()
     },
     type () {
       this.load()
@@ -189,8 +206,8 @@ export default {
         this.postsFormatted = this.posts.slice(0).reverse()
       }
       */
-      console.log(this.posts)
-      this.postsFormatted = this.posts
+      console.log('formatting lists :)')
+      // this.postsFormatted = this.posts
     },
     load () {
       // let ref
@@ -240,3 +257,13 @@ export default {
   }
 }
 </script>
+<style>
+a .read-more-arrow {
+  position: relative;
+  transition: all 1s;
+  transition-timing-function: ease-out
+}
+a:hover .read-more-arrow {
+  transform: translate(10px, 0);
+}
+</style>

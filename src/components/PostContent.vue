@@ -1,14 +1,23 @@
 <template>
   <div class="content-min-height">
-    <b-loading
-      :active.sync="isLoading"
-      :is-full-page="false" />
     <transition name="fade" mode="out-in">
+      <!--
     <markdown-content
-      v-if="!isLoading"
-      :toc="toc"
-      :content="postContent" />
+      v-if="isLoading"
+      :content="post.summary" />
+    -->
+    <div>
+      <b-loading
+        :active.sync="isLoading"
+        :is-full-page="false" />
+      <markdown-content
+        v-if="!isLoading"
+        :toc="toc"
+        :content="postContent" />
+    </div>
     </transition>
+
+
   </div>
 </template>
 
@@ -26,7 +35,7 @@ export default {
     }
   },
   // props: ['contentLocation', 'toc'],
-  props: ['contentLocation', 'toc'],
+  props: ['contentLocation', 'toc', 'post'],
   components: {
     MarkdownContent
   },

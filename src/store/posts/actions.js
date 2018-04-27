@@ -10,7 +10,7 @@ const registerPost = ({ commit, state, dispatch }, id) => {
 
 const registerPostCollection = ({ dispatch, state }) => {
   // temp to just grab our ids...
-  let ref = backend.get.ref.ALL_POSTS()
+  let ref = backend.get.ref.ALL_POSTS().orderBy('publishedOn')
   ref.get()
     .then((querySnapshot) => {
       let postIDs = []

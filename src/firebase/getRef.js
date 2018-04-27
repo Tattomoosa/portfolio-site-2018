@@ -17,12 +17,14 @@ export default {
   COMMENT_IN_POST: (comment) => db.doc('posts/' + comment.post.id + '/comments/' + comment.id),
 
   // unused?
-  POST_IN_TAG: ({ tagName, postID }) => db.doc('tags/' + tagName + '/posts/' + postID),
+  // POST_IN_TAG: ({ tagName, postID }) => db.doc('tags/' + tagName + '/posts/' + postID),
 
   ALL_USERS: () => db.collection('users'),
   ALL_POSTS: () => db.collection('posts'),
+  // nothing is actually store here...
   ALL_COMMENTS: () => db.collection('comments'),
   ALL_TAGS: () => db.collection('tags'),
+  ALL_INDICES: () => db.collection('indices'),
 
   ALL_POSTS_BY_USER: (userID) => db.collection('users/' + userID + '/posts/'),
   ALL_POSTS_WITH_TAG: (tagName) => db.collection('tags/' + tagName + '/posts/'),

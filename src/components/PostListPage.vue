@@ -2,7 +2,6 @@
   <div class="section">
     <div class="container">
       <div class="columns">
-      <side-bar></side-bar>
         <div class="column full-width">
           <b-field>
             <b-autocomplete
@@ -25,6 +24,7 @@
             previewStyle="summary"
           ></post-list>
         </div>
+        <side-bar></side-bar>
       </div>
     </div>
   </div>

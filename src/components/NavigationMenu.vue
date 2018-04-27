@@ -5,7 +5,8 @@
         <div class="navbar-item">
           <b-icon icon="lead-pencil"/>
           <span>
-            <span class="subtitle is-size-7">Vue + Firebase Blog</span>
+            &nbsp;Blog
+            <span class="subtitle is-size-7">Blog</span>
           </span>
         </div>
         <div
