@@ -16,6 +16,7 @@ const backend = {
     // TODO refactor out 'storage'
     post: id => getRef.POST(id).get(),
     postContent: location => storage.download(location),
+    // postContent: id => getRef.POST_Content
     newID: {
       post: () => getRef.ALL_POSTS().doc().id,
       comment: () => getRef.ALL_COMMENTS().doc().id
@@ -143,8 +144,11 @@ const backend = {
     postMetadata: ({ post, meta }) => {
       // tags on post have NOT CHANGED so that we can
       // delete unused tags but we don't do that yet...
+      console.log('post.tags', post.tags)
       let postRef = getRef.POST(post.id)
       let tagRefs = []
+      /*
+      // LATER ON DATA DUPLICATION
       let postInTag = {
         title: post.title,
         summary: post.summary,
@@ -152,11 +156,18 @@ const backend = {
         publishedOn: post.publishedOn,
         published: post.published
       }
+      */
       // let tagsToDelete = (post.meta && typeof post.meta.tags === 'Object') ? post.meta.tags : {}
       let tagsToDelete = {}
       if (post.tags) tagsToDelete = post.tags
       console.log(tagsToDelete)
       let tagRefsToDelete = []
+
+      // debug
+      Object.keys(tagsToDelete).forEach((key) => {
+        console.log(key + ' is in post.tags')
+      })
+      //
 
       Object.keys(meta.tags).forEach((key) => {
         tagRefs.push(getRef.POST_IN_TAG({ tagName: key, postID: post.id }))
@@ -177,8 +188,7 @@ const backend = {
         // TODO make a counter
         Object.keys(meta.tags).map(
           tagName => getRef.ALL_TAGS().doc(tagName).set({
-            [post.id]: true,
-            name: tagName
+            [post.id]: true
           }, {
             merge: true
           })
@@ -186,8 +196,8 @@ const backend = {
         Object.keys(tagsToDelete).map(tagName => {
           getRef.ALL_TAGS().doc(tagName).set({ [post.id]: database.deleteField() }, { merge: true })
         }),
-        tagRefsToDelete.map(tagRef => tagRef.delete()),
-        tagRefs.map(tagRef => tagRef.set(postInTag)),
+        // tagRefsToDelete.map(tagRef => tagRef.delete()),
+        // tagRefs.map(tagRef => tagRef.set(postInTag)),
         postRef.update({ ...meta })
       ])
     }

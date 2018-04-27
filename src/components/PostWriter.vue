@@ -67,7 +67,7 @@ export default {
     this.localUploadPost(null, 'Saved ' + this.post.title)
   },
   computed: {
-    ...mapGetters(['activeUser'])
+    ...mapGetters(['activeUser']),
   },
   watch: {
     activeUser () {
@@ -81,7 +81,7 @@ export default {
   methods: {
     // Dispatches the Vuex action which uploads our post
     // using the normal Firestore API
-    ...mapActions(['uploadPost', 'createPost', 'deletePost']),
+    ...mapActions(['uploadPost', 'createPost']),
     generatePostData () {
       let firstLine = this.post.content.split('\n')[0]
       let summary = '##' + this.post.content.split('##')[1]

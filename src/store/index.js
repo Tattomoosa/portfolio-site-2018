@@ -9,6 +9,9 @@ import { backend } from '@/firebase'
 // To upload and download files
 import storage from '@/firebase/storage.js'
 
+import posts from './posts'
+import tags from './tags'
+
 // This tells Vue to use Vuex
 Vue.use(Vuex)
 
@@ -17,14 +20,18 @@ export default new Vuex.Store({
   strict: true,
   state: {
     // This tells VuexFire we want our data to be an array
-    posts: [],
+    // posts: [],
     users: null,
     activeUser: null,
     uploads: {},
     notifications: [],
     commentsOnPage: [],
-    postTOC: [],
-    allTags: {}
+    postTOC: []
+    // allTags: {}
+  },
+  modules: {
+    posts,
+    tags
   },
   mutations: {
     addNotification (state, { message, color }) {
@@ -72,12 +79,15 @@ export default new Vuex.Store({
     ...VuexFire.firebaseMutations
   },
   getters: {
-    posts: state => state.posts,
+    // posts: state => state.posts,
     users: state => state.users,
-    tags: state => state.tags,
+    // tags: state => state.tags,
+    /*
     post: state => {
       return (id) => state.posts.find((post) => post.id === id || null)
     },
+    */
+    /*
     user: state => {
       return (id) => {
         console.log('searching for user with id:', id)
@@ -86,6 +96,7 @@ export default new Vuex.Store({
         return user || {}
       }
     },
+    */
     commentsOnPage: state => state.commentsOnPage,
     uploads: state => state.uploads,
     activeUser: state => state.activeUser,

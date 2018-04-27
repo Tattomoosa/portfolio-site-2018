@@ -25,6 +25,8 @@ new Vue({
     // This gets us our collections reference
     // this.$store.dispatch('setRef', {stateProperty: 'posts', ref: db.collection('posts').orderBy('uploaded')})
     // this.$store.dispatch('setRef', {stateProperty: 'users', ref: db.collection('users')})
+    // this.$store.dispatch('postIndexes', { stateProperty: ''})
+    this.$store.dispatch('tags/registerIndexCollection', 'tags')
   },
   router,
   components: { App },

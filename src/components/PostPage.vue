@@ -3,13 +3,20 @@
     <div class="container">
       <div class="columns">
       <side-bar></side-bar>
+        <transition name="fade" mode="out-in">
         <div class="column full-width">
           <br/><br/><br/>
-            <post-container v-if="thisPost" :post="thisPost"></post-container>
-            <br/>
-          <comment-writer v-if="thisPost" :post="thisPost" />
-          <comment-list v-if="thisPost" :post="thisPost"></comment-list>
+          <post-container
+          v-if="post(postID)"
+          @loaded="isLoading = false"
+          :post="post(postID)" />
+          <br/>
+          <!-- <comment-writer v-if="post(postID)" :post="post(postID)" /> -->
+          <!-- <comment-list v-if="post(postID)" :post="post(postID)"></comment-list> -->
+          <comment-writer v-if="!isLoading" :post="post(postID)" />
+          <comment-list v-if="!isLoading" :post="post(postID)" />
         </div>
+        </transition>
       </div>
     </div>
   </div>
@@ -21,39 +28,26 @@ import DeletePost from './DeletePost.vue'
 import SideBar from './SideBar.vue'
 import CommentWriter from './CommentWriter.vue'
 import CommentList from './CommentList.vue'
-import { backend } from '@/firebase'
 
 export default {
   name: 'PostPage',
   data () {
     return {
-      postID: this.$route.params.postID
+      postID: this.$route.params.postID,
+      isLoading: true
     }
   },
   computed: {
-    ...mapGetters(['post']),
-    thisPost () {
-      return this.post(this.postID)
-    }
+    ...mapGetters({
+      post: 'posts/single'
+    })
   },
   created () {
     // if state doesn't know this post
     if (this.post(this.postID) === undefined) {
-      // this.$store.dispatch('setRef', { stateProperty: 'posts', ref: [backend.get.ref.POST(this.postID)] })
-      this.$store.dispatch('setRef', { stateProperty: 'posts', ref: backend.get.ref.ALL_POSTS().where('id', '==', this.postID) })
+      // then we go get it
+      this.$store.dispatch('posts/registerPost', this.postID)
     }
-  },
-  watch: {
-    post () {
-      this.thisPost = this.post(this.postID)
-    }
-    /*
-    thisPost () {
-      if (!this.thisPost) {
-        this.$router.push('/')
-      }
-    }
-    */
   },
   components: {
     PostContainer,

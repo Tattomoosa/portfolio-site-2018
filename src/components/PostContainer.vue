@@ -17,6 +17,7 @@
       </b-dropdown-item>
 
     </b-dropdown>
+    <transition name="fade" mode="out-in">
     <div class="post-title-container">
 
       <b-taglist v-if="post.tags">
@@ -35,16 +36,24 @@
       <h4 class="subtitle is-6 has-text-grey-dark">
         <!-- By {{ post.author.name }} &nbsp; -->
         <span class="p is-size-7 is-italic has-text-grey-light">
-          &nbsp; posted {{ date.uploaded }}
+          &nbsp; posted {{ date.publishedOn }}
         </span>
       </h4>
     </div>
+    </transition>
     <br />
     <br/>
-    <div v-if="onlySummary" class="content">
-      <markdown-content :toc="false">{{ post.summary }}</markdown-content>
+    <div v-if="post">
+      <div v-if="onlySummary" class="content">
+        <markdown-content :toc="false">{{ post.summary }}</markdown-content>
+      </div>
+      <post-content
+      v-else
+      @loaded="loaded"
+      :toc="true"
+      :contentLocation="post.contentLocation"></post-content>
     </div>
-    <post-content v-else :toc="true" :contentLocation="post.contentLocation"></post-content>
+    <!-- <post-content v-else :toc="true" :postID="postID"></post-content> -->
   </div>
 </template>
 
@@ -58,6 +67,11 @@ import MarkdownContent from './MarkdownContent.vue'
 
 export default {
   props: ['post', 'onlySummary'],
+  data () {
+    return {
+      isLoading: true
+    }
+  },
   components: {
     PostContent,
     DeletePost,
@@ -67,12 +81,20 @@ export default {
   computed: {
     date () {
       return {
-        uploaded: moment(this.post.uploaded).fromNow()
+        publishedOn: moment(this.post.publishedOn).fromNow()
       }
     },
-    ...mapGetters(['activeUser']),
+    ...mapGetters({
+      activeUser: 'activeUser'
+    }),
     isActiveUser () {
       return this.activeUser && this.activeUser.id === this.post.author.id
+    }
+  },
+  methods: {
+    loaded () {
+      this.isLoading = false
+      this.$emit('loaded')
     }
   }
 }

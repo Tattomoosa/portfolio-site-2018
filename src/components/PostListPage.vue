@@ -9,7 +9,7 @@
             v-model="query"
             placeholder="Search by Tag"
             expanded
-            :data="searchTerms" >
+            :data="tags" >
             <template slot="empty">No results found</template>
             </b-autocomplete>
             <router-link :to="'/posts-tagged/' + query">
@@ -33,7 +33,7 @@
 <script>
 import PostList from './PostList'
 import SideBar from './SideBar.vue'
-import { backend } from '@/firebase'
+// import { backend } from '@/firebase'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -42,7 +42,6 @@ export default {
     return {
       query: '',
       searchTerms: [],
-      routerValue: this.$route.params.value
     }
   },
   props: ['type', 'order', 'value', 'search'],
@@ -54,22 +53,34 @@ export default {
     populateSearch () {
       let tags = []
       // let titles = []
-      Object.values(this.tags).map((tag) => {
-        tags.push(tag.name)
-      })
+      if (this.tags) {
+        Object.values(this.tags).map((tag) => {
+          tags.push(tag.name)
+        })
+      }
       this.searchTerms = tags
     }
   },
   computed: {
-    ...mapGetters(['tags'])
+    ...mapGetters({tags: 'tags/listIndexes'}),
+    routerValue () {
+      return this.$route.params.value
+    }
+    /*
+    tags () {
+      populateSearch()
+    }
+    */
   },
   mounted () {
+    /*
     this.$store.dispatch('setRef', {
       stateProperty: 'tags',
       ref: backend.get.ref.ALL_TAGS()
     }).then((a) => {
       this.populateSearch()
     })
+    */
   }
 }
 </script>

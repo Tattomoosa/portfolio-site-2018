@@ -3,7 +3,10 @@
     <navigation-menu />
     <div class="menu-pad"></div>
         <!-- <keep-alive include="PostWriter"> -->
-          <router-view :key="$route.path" />
+          <!-- <transition name="fade" mode="out-in"> -->
+            <!-- <router-view :key="$route.path" /> -->
+            <router-view />
+          <!-- </transition> -->
         <!-- </keep-alive> -->
     <notification-center />
 </div>
@@ -23,12 +26,7 @@ export default {
 </script>
 
 <style>
-/* @import url('https://fonts.googleapis.com/css?family=Bitter:400,400i,700'); */
-/* @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700'); */
 @import url('https://fonts.googleapis.com/css?family=Lato:400,600,700');
-/* @import url('https://fonts.googleapis.com/css?family=Anonymous+Pro:400'); */
-/* @import url('https://fonts.googleapis.com/css?family=Vollkorn:400,400i,700'); */
-/* @import url('https://fonts.googleapis.com/css?family=Poppins:700'); */
 @import url('https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600');
 @import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
 
@@ -107,5 +105,18 @@ code[class*="language-"] {
 }
 p code {
   color: black;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .2s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+.height-enter-active, .height-leave-active {
+  transition: height 8s;
+}
+.height-enter, .height-leave-to {
+  height: 0 !important;
 }
 </style>

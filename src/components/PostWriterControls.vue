@@ -74,8 +74,16 @@
           <span>Open</span>
           </button>
           <b-dropdown-item custom class="file-upload-modal">
+            <!--
             <post-list
               type="by-user"
+              order="edited-on"
+              :value="activeUser.id"
+              previewStyle="postwriter"
+            />
+          -->
+            <post-list
+              type="all"
               order="edited-on"
               :value="activeUser.id"
               previewStyle="postwriter"

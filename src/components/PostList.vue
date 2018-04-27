@@ -5,7 +5,8 @@
     <b-table
     striped
     focusable
-    :data="Object.values(postsFormatted)"
+    narrowed
+    :data="Object.values(posts)"
     v-if="previewStyle === 'postwriter'">
 
       <template slot-scope="props">
@@ -14,11 +15,6 @@
         sortable
         field="title"
         label="Title">
-          <!--
-          <router-link :to="'/post-writer/' + props.row.id">
-            {{ props.row.title || 'Untitled' }}
-          </router-link>
-          -->
             <div class="field">
               <p class="control">
                 <span v-if="props.row.title" v-html="props.row.title"></span>
@@ -58,7 +54,7 @@
                   {{ props.row.publishedOn ? props.row.publishedOn.toLocaleDateString() : '' }}
                 </span>
                 <span v-else>
-                  <br/>Draft
+                  Draft
                 </span>
               </p>
             </div>
@@ -103,23 +99,25 @@
     </b-table>
 
     <div v-else>
-      <div v-for="post in postsFormatted" v-if="!onlyPublished || post.published" :key="post.id">
+      <transition-group name="fade" mode="out-in">
+        <div v-for="post in posts" v-if="!onlyPublished || post.published" :key="post.id">
 
-        <!-- Summaries (like homepage) -->
-        <div v-if="previewStyle === 'summary'" class="summary">
-          <post-container :onlySummary="true" :post="post"></post-container>
-          <router-link :to="'/post/' + post.id">
-            <br/>
-            <a class="title is-4">Read More <b-icon icon="arrow-right" /></a>
-          </router-link>
-          <br/><br/>
-            <!-- <p class="has-text is-italic">This post has 0 comments</p> -->
-          <div class="space"></div>
-          <div class="line"></div>
-          <div class="space is-large"></div>
+          <!-- Summaries (like homepage) -->
+            <div v-if="previewStyle === 'summary'" class="summary">
+              <post-container :onlySummary="true" :post="post"></post-container>
+              <router-link :to="'/post/' + post.id">
+                <br/>
+                <a class="title is-4">Read More <b-icon icon="arrow-right" /></a>
+              </router-link>
+              <br/><br/>
+                <!-- <p class="has-text is-italic">This post has 0 comments</p> -->
+              <div class="space"></div>
+              <div class="line"></div>
+              <div class="space is-large"></div>
+            </div>
+
         </div>
-
-      </div>
+      </transition-group>
     </div>
 
   </div>
@@ -130,7 +128,6 @@ import { mapGetters } from 'vuex'
 import PostContainer from './PostContainer.vue'
 import DeletePost from './DeletePost.vue'
 import CommentWriter from './CommentWriter.vue'
-import { backend } from '@/firebase'
 
 export default {
   name: 'Post-List',
@@ -142,7 +139,31 @@ export default {
   },
   props: [ 'type', 'order', 'value', 'onlyPublished', 'previewStyle' ],
   computed: {
-    ...mapGetters(['posts'])
+    // ...mapGetters({posts: 'posts'}),
+    posts () {
+      let posts
+      let condition = (c) => { c === undefined || Object.keys(c).length === 0 }
+      if (this.type === 'with-tag' && this.value) {
+        posts = this.$store.getters['tags/postsAtIndex'](this.value)
+        console.log(posts, this.value)
+        if (posts === undefined || Object.keys(posts).length === 0) {
+          //  let getIDs = this.$store.getters['tags/indexIDs'](this.value)
+          if (this.$store.getters['tags/ready']) {
+            this.$store.dispatch(
+              'posts/registerPostIDArray',
+              this.$store.getters['tags/indexIDs'](this.value)
+            )
+          }
+        } else return posts
+      }
+      if (this.type === 'all') {
+        posts = this.$store.getters['posts/all']
+        console.log(posts)
+        if (Object.keys(posts).length === 0) {
+          this.$store.dispatch('posts/registerPostCollection')
+        } else return posts
+      }
+    }
   },
   watch: {
     posts () {
@@ -163,12 +184,17 @@ export default {
   },
   methods: {
     listFormatting () {
+      /*
       if (this.reverse) {
         this.postsFormatted = this.posts.slice(0).reverse()
       }
+      */
+      console.log(this.posts)
+      this.postsFormatted = this.posts
     },
     load () {
-      let ref
+      // let ref
+      /*
       switch (this.type) {
         case 'with-tag':
           // tags actually each have their own subcollection
@@ -197,11 +223,14 @@ export default {
         default:
           break
       }
-      this.$store.dispatch('setRef', { stateProperty: 'posts', ref: ref })
+      */
+      // this.$store.dispatch('setRef', { stateProperty: 'posts', ref: ref })
+      /*
+      this.$store.dispatch('posts/registerPostCollection')
         .then(() => {
-          // console.log(this.posts)
           this.listFormatting()
         })
+        */
     }
   },
   components: {

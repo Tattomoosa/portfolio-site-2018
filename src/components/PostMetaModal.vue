@@ -6,11 +6,13 @@
     </b-field>
     <b-field>
       <b-taglist>
-        <b-tag
-        closable
-        v-for="(tag, index) in allTags"
-        @close="removeTag(index)"
-        :key="index">{{ tag }}</b-tag>
+        <transition-group name="fade" mode="out-in">
+          <b-tag
+          closable
+          v-for="(tag, index) in allTags"
+          @close="removeTag(index)"
+          :key="index">{{ tag }}</b-tag>
+        </transition-group>
       </b-taglist>
     </b-field>
     <b-field>
@@ -30,6 +32,7 @@ export default {
   name: 'Post-Meta-Modal',
   data () {
     return {
+      thisPost: {},
       newTags: [],
       existingTags: [],
       allTags: [],
@@ -60,10 +63,7 @@ export default {
       let meta = {
         tags: tagsIterable
       }
-      this.$store.dispatch('uploadPostMetadata', { post: this.post, meta: meta }).then(() => {
-        // Object.keys(this.post.meta.tags).forEach((k) => {console.log(k)})
-        console.log(this.post.tags)
-        console.log('uploaded')
+      this.$store.dispatch('uploadPostMetadata', { post: this.thisPost, meta: meta }).then(() => {
         // we have to call this since Vuex can't see that post.meta.tags has changed.
         // (i think) definitely have to tho
         this.tagsInput = ''
@@ -75,8 +75,8 @@ export default {
       // Vuex is not watching our post deep enough, so we
       // gotta get it straight from the source...
       // maybe there is a better way.
-      let postTags = this.$store.getters.post(this.post.id)
-      postTags = postTags ? postTags.tags : null
+      this.thisPost = this.$store.getters['posts/single'](this.post.id)
+      let postTags = this.thisPost ? this.thisPost.tags : null
       // pull out existing tags
       if (postTags) {
         Object.keys(postTags).forEach((key) => {

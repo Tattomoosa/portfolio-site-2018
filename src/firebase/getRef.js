@@ -15,6 +15,8 @@ export default {
   POST_IN_USER: ({ userID, postID }) => db.doc('users/' + userID + '/posts/' + postID),
   COMMENT_IN_USER: (comment) => db.doc('users/' + comment.author.id + '/comments/' + comment.id),
   COMMENT_IN_POST: (comment) => db.doc('posts/' + comment.post.id + '/comments/' + comment.id),
+
+  // unused?
   POST_IN_TAG: ({ tagName, postID }) => db.doc('tags/' + tagName + '/posts/' + postID),
 
   ALL_USERS: () => db.collection('users'),
