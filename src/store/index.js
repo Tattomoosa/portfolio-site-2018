@@ -200,9 +200,10 @@ export default new Vuex.Store({
         dispatch('notify', 'Metadata Updated')
       })
     },
-    createPost ({ state }) {
+    createPost ({ state, dispatch }) {
       let id = backend.get.newID.post()
       let author = state.activeUser
+      dispatch('posts/registerPost', id)
       return {
         id,
         author: {

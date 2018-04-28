@@ -84,6 +84,7 @@ export default {
     ...mapActions(['uploadPost', 'createPost']),
     generatePostData () {
       let firstLine = this.post.content.split('\n')[0]
+      if (!firstLine) return
       //let summary = this.post.content.split('\n')[2].split('##')[0]
       // let regex = /\#*?\n([\s\S]*)\#\#/g
       // let regex = /\#.*?\n([\s\S]*)\#\#/

@@ -5,22 +5,27 @@
         <!-- <keep-alive include="PostWriter"> -->
           <!-- <transition name="fade" mode="out-in"> -->
             <!-- <router-view :key="$route.path" /> -->
-            <router-view />
+            <div class="site-content">
+              <router-view />
+            </div>
           <!-- </transition> -->
         <!-- </keep-alive> -->
     <notification-center />
+    <blog-footer />
 </div>
 </template>
 
 <script>
 import NavigationMenu from './components/NavigationMenu.vue'
 import NotificationCenter from './components/NotificationCenter.vue'
+import BlogFooter from './components/BlogFooter.vue'
 
 export default {
   name: 'App',
   components: {
     NavigationMenu,
-    NotificationCenter
+    NotificationCenter,
+    BlogFooter
   }
 }
 </script>
@@ -39,16 +44,20 @@ export default {
 }
 
 html, body {
-  font-family: Montserrat;
-  font-family: Poppins;
-  font-family: Vollkorn;
   font-family: Lato;
 }
 
+#app {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.site-content {
+  flex: 1;
+}
+
 .content p, .content li {
-  font-family: Vollkorn;
-  font-family: Bitter;
-  font-family: Montserrat;
   font-family: 'Source Serif Pro';
 }
 
@@ -113,7 +122,10 @@ p code {
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;
+  /*
   transform: translate(100px, 0)
+  */
+  transform: scaleY(0)
 }
 .height-enter-active, .height-leave-active {
   transition: scaleY 8s;

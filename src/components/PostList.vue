@@ -151,14 +151,17 @@ export default {
       if (this.type === 'with-tag' && this.value) {
         posts = this.$store.getters['tags/postsAtIndex'](this.value)
         // console.log(posts, this.value)
-        if (posts === undefined || Object.keys(posts).length === 0) {
-          //  let getIDs = this.$store.getters['tags/indexIDs'](this.value)
+        // if (posts === null || Object.keys(posts).length === 0) {
+        if (Object.keys(posts).length === 0) {
+        // if (posts === null) {
+          // let getIDs = this.$store.getters['tags/indexIDs'](this.value)
           if (this.$store.getters['tags/ready']) {
             console.log('made it')
             this.$store.dispatch(
               'posts/registerPostIDArray',
               this.$store.getters['tags/indexIDs'](this.value)
-            )
+            ).then(() => { posts = this.$store.getters['tags/postsAtIndex'](this.value)
+})
           }
         }
       } else if (this.type === 'all') {
@@ -168,7 +171,7 @@ export default {
           this.$store.dispatch('posts/registerPostCollection')
         // }
       }
-      if (typeof posts === 'Object') {
+      if (typeof posts === 'object') {
         posts = Object.values(posts)
         if (this.order == 'published-on') {
           posts.sort((a,b) => {

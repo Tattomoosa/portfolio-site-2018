@@ -4,19 +4,25 @@
     <div class="columns is-centered">
 
       <div class="column">
+          <br/>
 
         <div class="spacer"></div>
         <div class="full-width side-bar">
 
-          <!--
           <div class="level has-text-centered">
             <div class="level-item">
               <div class="is-profile box">
-                 <div class="is-profile" style="background: #1a8464; width: 128px; height: 128px;"></div>
+              <div class="is-profile">
+                <img
+                class="is-profile"
+                style="width: 128px; height: 128px;"
+                src="https://firebasestorage.googleapis.com/v0/b/vue-blog-2e5c5.appspot.com/o/users%2FEBYo1E5FLzg33XjV66fUGH91EVH3%2Fassets%2Fprofile-picture.jpg?alt=media&token=887bbf80-57cb-4995-bf31-19a3103241fb" />
+                <div class="img-shadow"></div>
+                </div>
               </div>
             </div>
           </div>
-          -->
+
 
           <div class="level">
             <div class="level-item">
@@ -26,13 +32,25 @@
               </div>
             </div>
           </div>
-          <!--
+
           <div class="level">
             <div class="level-item">
-              Meat robot
+            </div>
+            <div class="level-item">
+              <b-icon icon="github-circle" />
+            </div>
+            <div class="level-item">
+              <b-icon icon="twitter" />
+            </div>
+            <div class="level-item">
+              <b-icon icon="stack-overflow" />
+            </div>
+            <div class="level-item">
+              <b-icon icon="linkedin" />
+            </div>
+            <div class="level-item">
             </div>
           </div>
-          -->
 
           <div v-if="postPage" class="box full-width sidebar-links">
 
@@ -73,9 +91,13 @@
               <h4 class="title is-6">About This Blog</h4>
               <p class="p is-size-7">
                 Powered by Firebase, Vue, and Bulma.
-                Most content is rendered from Markdown.
+                Most content is rendered from Markdown
+                using vue-markdown and markdown-it.
                 Everything is dynamic, driven by
                 a Firebase Firestore.
+                The code is open source under the MIT license.
+                <br/>
+                <br/>
                 Fork it for yourself on <a href="">GitHub</a>
               </p>
             </section>
@@ -113,7 +135,19 @@ export default {
 }
 .is-profile {
   border-radius: 50%;
-  padding: .8rem;
+  position: relative;
+}
+.box.is-profile {
+  padding: 16px;
+}
+.img-shadow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 2px 3px 3px 0 rgba(0, 0,0,.2);
+  border-radius: 50%;
+  top: 0;
+  left: 0;
 }
 .full-width {
   width: 100%;
@@ -128,8 +162,9 @@ export default {
 @media screen and (min-width: 1400px) {
   .side-bar {
     position: fixed;
-    max-width: 380px;
+    max-width: 360px;
     margin-left: 30px;
+    padding-left: 30px;
   }
 }
 

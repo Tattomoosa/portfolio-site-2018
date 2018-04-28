@@ -73,6 +73,11 @@ const backend = {
         getRef.COMMENT_IN_USER(comment).delete(),
         getRef.COMMENT_IN_POST(comment).delete()
       ]).catch((error) => console.error('Error deleting comment', error))
+    },
+    // NEVER use this to delete a tag from a post,
+    // this deletes the ENTIRE tag
+    tag: tagName => {
+      getRef.TAG(tagName).delete()
     }
   },
   add: {
@@ -144,7 +149,6 @@ const backend = {
     postMetadata: ({ post, meta }) => {
       // tags on post have NOT CHANGED so that we can
       // delete unused tags but we don't do that yet...
-      console.log('post.tags', post.tags)
       let postRef = getRef.POST(post.id)
       let tagRefs = []
       /*
@@ -169,12 +173,10 @@ const backend = {
       })
       //
 
-        /*
       Object.keys(meta.tags).forEach((key) => {
-        tagRefs.push(getRef.POST_IN_TAG({ tagName: key, postID: post.id }))
+        // tagRefs.push(getRef.POST_IN_TAG({ tagName: key, postID: post.id }))
         if (tagsToDelete.hasOwnProperty(key)) delete tagsToDelete[key]
       })
-      */
 
       // debug
       Object.keys(tagsToDelete).forEach((key) => {

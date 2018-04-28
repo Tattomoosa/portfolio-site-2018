@@ -1,10 +1,14 @@
 import { setRef } from '../sharedMethods.js'
 import { backend } from '@/firebase'
+import Vue from 'vue'
 
 const registerIndex = ({ commit, state, dispatch }, { ref, id }) => {
   if (state[id] === undefined) {
     commit('registerIndex', id)
-    dispatch('setRef', { stateProperty: id, ref: ref })
+    dispatch('setRef', { stateProperty: id, ref: ref }).then((tag) => {
+      // console.log(Object.keys(tag).length === 0, tag)
+      if (Object.keys(tag).length === 0) backend.delete.tag(tag.id)
+    })
   }
 }
 
@@ -27,7 +31,7 @@ const registerIndexCollection = ({ dispatch, state, commit }, type) => {
       indexIDs.forEach((id) => {
         dispatch('registerIndex', { ref: ref.doc(id), id })
       })
-      commit('setReady')
+      commit('setIndexReady')
     })
 }
 

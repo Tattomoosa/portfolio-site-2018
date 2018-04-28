@@ -3,14 +3,14 @@ import Vue from 'vue'
 
 const state = () => {
   return {
-    ready: false
+    indexReady: false
   }
 }
 
 const namespaced = true
 
 const getters = {
-  ready: state => state.ready,
+  ready: state => state.indexReady,
   listIndexes (state) {
     let list = []
     Object.values(state).map((i) => {
@@ -39,6 +39,7 @@ const getters = {
         console.log('in postsAtIndex', posts)
         return posts
       }
+      else return {}
     }
   }
 }
@@ -47,7 +48,7 @@ const mutations = {
   registerIndex: (state, id) => {
     Vue.set(state, id, {})
   },
-  setReady: (state) => {
+  setIndexReady: (state) => {
     state.ready = true
   }
 }
