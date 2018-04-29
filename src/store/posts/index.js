@@ -23,7 +23,7 @@ const getters = {
     return Object.keys(state[id]).length > 0
       ? state[id]
       : null
-  },
+  }
   /*
   list: state => ({ type, order, value }) => {
     let posts

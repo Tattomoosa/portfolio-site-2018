@@ -1,16 +1,18 @@
 <template>
-  <vue-markdown
-    class="content"
-    :breaks="false"
-    :toc="toc"
-    :toc-first-level="1"
-    :toc-last-level="1"
-    :toc-anchor-link="false"
-    @rendered="highlight"
-    @toc-rendered="tableOfContents"
-    :source="content">
-    <slot v-if="!content"></slot>
-  </vue-markdown>
+  <!-- <transition appear tag="div" name="slide-up" mode="in-out"> -->
+    <vue-markdown
+      class="content"
+      :breaks="false"
+      :toc="toc"
+      :toc-first-level="1"
+      :toc-last-level="1"
+      :toc-anchor-link="false"
+      @rendered="highlight"
+      @toc-rendered="tableOfContents"
+      :source="content">
+      <slot v-if="!content"></slot>
+    </vue-markdown>
+  <!-- </transition> -->
 </template>
 
 <script>

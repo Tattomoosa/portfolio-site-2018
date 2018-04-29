@@ -1,5 +1,5 @@
 <template>
-  <div @click="$router.push('/post-writer/' + post.id)">
+  <div @click="$router.push('/blog/post-writer/' + post.id)">
     <!-- <router-link :to="'/post-writer/' + post.id"> -->
       <b-icon
         icon="lead-pencil"

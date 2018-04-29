@@ -160,17 +160,19 @@ export default new Vuex.Store({
       })
     },
     uploadComment ({ commit, dispatch, state }, comment) {
-      if (!state.activeUser) {
-        // TODO make this an alert
-        dispatch('notify', {
-          message: 'GOTTA LOG IN BRAH',
-          color: 'is-danger'
+      return new Promise((resolve, reject) => {
+        if (!state.activeUser) {
+          // TODO make this an alert
+          dispatch('notify', {
+            message: 'GOTTA LOG IN BRAH',
+            color: 'is-danger'
+          })
+          return reject(new Error('Not Logged In'))
+        }
+        backend.add.comment(comment).then(() => {
+          dispatch('notify', 'Comment Added')
+          return resolve()
         })
-        return Promise.reject(new Error('Not Logged In'))
-      }
-      backend.add.comment(comment).then(() => {
-        dispatch('notify', 'Comment Added')
-        return Promise.resolve()
       })
     },
     uploadPost ({ commit, dispatch, state }, { post, message }) {

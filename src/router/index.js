@@ -4,6 +4,7 @@ import PostListPage from '@/components/PostListPage'
 import PostWriter from '@/components/PostWriter'
 import FileUploader from '@/components/FileUploader'
 import PostPage from '@/components/PostPage.vue'
+import HomePage from '@/components/HomePage.vue'
 
 Vue.use(Router)
 
@@ -11,21 +12,16 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Post List',
-      component: PostListPage,
-      props: {
-        type: 'with-tag',
-        order: '',
-        value: 'tag1'
-      }
+      name: 'Home',
+      component: HomePage,
     },
     {
-      path: '/post-writer',
+      path: '/blog/post-writer',
       name: 'New Post',
       component: PostWriter
     },
     {
-      path: '/most-recent-posts',
+      path: '/blog',
       name: 'Most Recent Posts',
       component: PostListPage,
       props: {
@@ -35,27 +31,22 @@ export default new Router({
       }
     },
     {
-      path: '/posts-tagged/:value',
+      path: '/blog/posts-tagged/:value',
       name: 'Most Recent Posts',
       component: PostListPage,
       props: {
         type: 'with-tag',
-        order: ''
+        order: 'published-on',
       }
     },
     {
-      path: '/post-writer/:postID',
+      path: '/blog/post-writer/:postID',
       name: 'Edit Post',
       component: PostWriter
       // props: 'postID'
     },
     {
-      path: '/file-uploader',
-      name: 'File Uploader',
-      component: FileUploader
-    },
-    {
-      path: '/post/:postID',
+      path: '/blog/post/:postID',
       name: 'Post Page',
       component: PostPage
       // props: 'postID'

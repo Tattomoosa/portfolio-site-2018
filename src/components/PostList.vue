@@ -6,6 +6,7 @@
     striped
     focusable
     narrowed
+    class="post-writer-load-menu"
     :data="Object.values(posts)"
     v-if="previewStyle === 'postwriter'">
 
@@ -78,7 +79,7 @@
         label="Actions">
           <div class="field has-addons is-paddingless">
             <p class="control">
-              <router-link :to="'/post-writer/' + props.row.id" @click="$emit('close')">
+              <router-link :to="'/blog/post-writer/' + props.row.id" @click="$emit('close')">
                 <button class="button is-small" :disabled="props.row.id === $route.params.postID">
                     <b-icon icon="file" size="is-small" />
                   <span>
@@ -99,27 +100,28 @@
     </b-table>
 
     <div v-else>
-      <transition-group name="fade" mode="out-in">
-        <div v-for="post in posts" v-if="!onlyPublished || post.published" :key="post.id">
+      <transition-group appear tag="div" name="slide-up" mode="in">
+        <div v-for="(post, index) in posts" v-if="!onlyPublished || post.published" :key="post.id">
 
-          <!-- Summaries (like homepage) -->
-            <div v-if="previewStyle === 'summary'" class="summary">
-              <post-container :onlySummary="true" :post="post"></post-container>
-              <router-link :to="'/post/' + post.id">
-                <br/>
-                <a class="title is-4">
-                  Read More
-                  <!-- <span class="read-more-arrow"> -->
-                    <b-icon class="read-more-arrow" icon="arrow-right" />
-                  <!-- </span> -->
-                </a>
-              </router-link>
-              <br/><br/>
-                <!-- <p class="has-text is-italic">This post has 0 comments</p> -->
-              <div class="space"></div>
+        <!-- Summaries (like homepage) -->
+          <div v-if="previewStyle === 'summary'" class="summary">
+            <post-container :onlySummary="true" :post="post" :style="{transitionDelay: 4 * index + 's'}"></post-container>
+            <transition appear name="slide-left" mode="in-out">
+            <router-link :to="'/blog/post/' + post.id">
+              <br/>
+              <a class="title is-4">
+                Read More
+                  <b-icon class="read-more-arrow" icon="arrow-right" />
+              </a>
+            </router-link>
+            </transition>
+            <br/><br/>
+            <div class="space"></div>
+            <transition appear name="width">
               <div class="line"></div>
-              <div class="space is-large"></div>
-            </div>
+            </transition>
+            <div class="space"></div>
+          </div>
 
         </div>
       </transition-group>
@@ -128,7 +130,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 // import Post from './PostContent.vue'
 import PostContainer from './PostContainer.vue'
 import DeletePost from './DeletePost.vue'
@@ -147,7 +149,7 @@ export default {
     // ...mapGetters({posts: 'posts'}),
     posts () {
       let posts
-      let condition = (c) => { c === undefined || Object.keys(c).length === 0 }
+      // let condition = (c) => { return c === undefined || Object.keys(c).length === 0 }
       if (this.type === 'with-tag' && this.value) {
         posts = this.$store.getters['tags/postsAtIndex'](this.value)
         // console.log(posts, this.value)
@@ -160,21 +162,22 @@ export default {
             this.$store.dispatch(
               'posts/registerPostIDArray',
               this.$store.getters['tags/indexIDs'](this.value)
-            ).then(() => { posts = this.$store.getters['tags/postsAtIndex'](this.value)
-})
+            ).then(() => {
+              posts = this.$store.getters['tags/postsAtIndex'](this.value)
+            })
           }
         }
       } else if (this.type === 'all') {
         posts = this.$store.getters['posts/all']
         // console.log(posts)
         // if (Object.keys(posts).length === 0) {
-          this.$store.dispatch('posts/registerPostCollection')
+        this.$store.dispatch('posts/registerPostCollection')
         // }
       }
       if (typeof posts === 'object') {
         posts = Object.values(posts)
-        if (this.order == 'published-on') {
-          posts.sort((a,b) => {
+        if (this.order === 'published-on') {
+          posts.sort((a, b) => {
             if (a.publishedOn < b.publishedOn) return 1
             if (a.publishedOn > b.publishedOn) return -1
             return 0
@@ -268,5 +271,9 @@ a .read-more-arrow {
 }
 a:hover .read-more-arrow {
   transform: translate(10px, 0);
+}
+
+.post-writer-load-menu tbody tr td p {
+  font-size: 12px;
 }
 </style>

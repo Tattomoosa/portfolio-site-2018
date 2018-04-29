@@ -90,9 +90,13 @@ export default {
   methods: {
     localUploadComment () {
       this.comment.content = this.content
-      this.uploadComment(this.comment).then(() => {
-        this.content = ''
-      })
+      this.uploadComment(this.comment)
+        .then(() => {
+          this.content = ''
+        })
+        .catch((error) => {
+          console.log('made it', error)
+        })
     },
     ...mapActions(['uploadComment'])
   },

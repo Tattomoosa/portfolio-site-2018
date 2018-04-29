@@ -1,5 +1,5 @@
 <template>
-  <div class="post-container">
+  <div class="post-container" :key="post.id">
     <b-dropdown v-if="isActiveUser" class="post-controls is-bottom-left">
 
       <button
@@ -17,9 +17,9 @@
       </b-dropdown-item>
 
     </b-dropdown>
-    <transition name="fade" mode="out-in">
     <div class="post-title-container">
 
+      <transition appear tag="div" name="slide-down" mode="in">
       <b-taglist v-if="post.tags">
         <b-tag
         v-for="tag in Object.keys(post.tags)"
@@ -30,12 +30,13 @@
           animated
           :label="'See more with tag ' + tag">
             <router-link
-            :to="'/posts-tagged/' + tag">
+            :to="'/blog/posts-tagged/' + tag">
               {{ tag }}
             </router-link>
           </b-tooltip>
         </b-tag>
       </b-taglist>
+      </transition>
 
       <h1 class="title is-1" v-html="post.title"></h1>
       <h4 class="subtitle is-6 has-text-grey-dark">
@@ -45,7 +46,6 @@
         </span>
       </h4>
     </div>
-    </transition>
     <br />
     <br/>
     <div v-if="post">

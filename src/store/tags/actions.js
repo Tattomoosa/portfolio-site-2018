@@ -1,6 +1,6 @@
 import { setRef } from '../sharedMethods.js'
 import { backend } from '@/firebase'
-import Vue from 'vue'
+// import Vue from 'vue'
 
 const registerIndex = ({ commit, state, dispatch }, { ref, id }) => {
   if (state[id] === undefined) {

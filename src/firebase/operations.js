@@ -150,7 +150,7 @@ const backend = {
       // tags on post have NOT CHANGED so that we can
       // delete unused tags but we don't do that yet...
       let postRef = getRef.POST(post.id)
-      let tagRefs = []
+      // let tagRefs = []
       /*
       // LATER ON DATA DUPLICATION
       let postInTag = {
@@ -165,7 +165,7 @@ const backend = {
       let tagsToDelete = {}
       if (post.tags) tagsToDelete = post.tags
       console.log(tagsToDelete)
-      let tagRefsToDelete = []
+      // let tagRefsToDelete = []
 
       // debug
       Object.keys(tagsToDelete).forEach((key) => {
@@ -184,14 +184,14 @@ const backend = {
       })
       //
 
-        /*
+      /*
       Object.keys(tagsToDelete).forEach((key) => {
         tagRefsToDelete.push(getRef.POST_IN_TAG({ tagName: key, postID: post.id }))
       })
       */
 
       return Promise.all([
-        // TODO make a counter
+        // add post id to each tag document
         Object.keys(meta.tags).map(
           tagName => getRef.ALL_TAGS().doc(tagName).set({
             [post.id]: true
@@ -199,11 +199,13 @@ const backend = {
             merge: true
           })
         ),
+        // delete any post ids from tags the post no longer has
         Object.keys(tagsToDelete).map(tagName => {
           getRef.ALL_TAGS().doc(tagName).set({ [post.id]: database.deleteField() }, { merge: true })
         }),
         // tagRefsToDelete.map(tagRef => tagRef.delete()),
         // tagRefs.map(tagRef => tagRef.set(postInTag)),
+        // add the tags to the post itself
         postRef.update({ ...meta })
       ])
     }

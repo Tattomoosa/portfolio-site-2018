@@ -38,8 +38,7 @@ const getters = {
         })
         console.log('in postsAtIndex', posts)
         return posts
-      }
-      else return {}
+      } else return {}
     }
   }
 }

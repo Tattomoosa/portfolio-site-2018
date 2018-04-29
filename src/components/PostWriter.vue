@@ -67,7 +67,7 @@ export default {
     this.localUploadPost(null, 'Saved ' + this.post.title)
   },
   computed: {
-    ...mapGetters(['activeUser']),
+    ...mapGetters(['activeUser'])
   },
   watch: {
     activeUser () {
@@ -85,15 +85,15 @@ export default {
     generatePostData () {
       let firstLine = this.post.content.split('\n')[0]
       if (!firstLine) return
-      //let summary = this.post.content.split('\n')[2].split('##')[0]
+      // let summary = this.post.content.split('\n')[2].split('##')[0]
       // let regex = /\#*?\n([\s\S]*)\#\#/g
       // let regex = /\#.*?\n([\s\S]*)\#\#/
       // let summary = regex.exec(this.post.content)
-      let regex = /\#.*?\n/
-      let summary = this.post.content.split(/\#.*?\n/)[1].split('## ')[0]
+      let summary = this.post.content.split(/#.*?\n/)[1]
+      summary = summary ? summary.split('## ')[0] : ''
       if (firstLine.slice(0, 2) === '# ' && firstLine.length > 2) this.post.title = firstLine.slice(2)
       else this.post.title = ''
-      this.post.summary = summary || ''
+      this.post.summary = summary
     },
     addImageToPostData (file) {
       this.generatePostData()
@@ -106,7 +106,7 @@ export default {
           .then((post) => {
             this.post = post
             this.localUploadPost(false, 'Created New Post')
-              .then(() => this.$router.push('/post-writer/' + post.id))
+              .then(() => this.$router.push('/blog/post-writer/' + post.id))
             // TODO after post is uploaded go to proper postwriter URL
             // this.$router.push('/post-writer/' + post.id)
           })
@@ -185,6 +185,7 @@ textarea.post-writer-text-area {
   padding: 60px;
   padding-top: 100px;
   box-sizing: border-box;
+  z-index: 1;
 }
 .md-preview {
   padding: 10px 20px;

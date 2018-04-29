@@ -7,6 +7,7 @@
           <br/>
 
         <div class="spacer"></div>
+        <transition name="fade" appear mode="out-in">
         <div class="full-width side-bar">
 
           <div class="level has-text-centered">
@@ -22,7 +23,6 @@
               </div>
             </div>
           </div>
-
 
           <div class="level">
             <div class="level-item">
@@ -57,7 +57,7 @@
             <!-- <div id="#sidebar-toc"></div> -->
             <section v-if="postTOC && postTOC.length > 0">
               <h4 class="title is-6">This Post</h4>
-              <transition-group name="height" mode="out, in">
+              <transition-group name="fade" mode="out, in">
               <a v-for="(tocElement, index) in postTOC" :key="index"
                 :href="tocElement.link">
                 <p class="p is-size-7">- {{ tocElement.text }}</p>
@@ -104,6 +104,7 @@
           </div>
 
         </div>
+      </transition>
       </div>
 
     </div>
@@ -152,7 +153,7 @@ export default {
 .full-width {
   width: 100%;
 }
-@media screen and (min-width: 1215px) {
+@media screen and (min-width: 1000px) {
   .side-bar {
     position: fixed;
     max-width: 300px;

@@ -2,21 +2,20 @@
   <div class="section">
     <div class="container">
       <div class="columns">
-        <transition name="fade" mode="out-in">
         <div class="column full-width">
           <br/><br/><br/>
           <post-container
-          v-if="post(postID)"
+          :key="post.id"
+          v-if="post"
           @loaded="isLoading = false"
-          :post="post(postID)" />
+          :post="post" />
           <br/>
           <!-- <comment-writer v-if="post(postID)" :post="post(postID)" /> -->
           <!-- <comment-list v-if="post(postID)" :post="post(postID)"></comment-list> -->
-          <comment-writer v-if="!isLoading" :post="post(postID)" />
-          <comment-list v-if="!isLoading" :post="post(postID)" />
+          <comment-writer v-if="!isLoading" :post="post" />
+          <comment-list v-if="!isLoading" :post="post" />
         </div>
-        </transition>
-        <side-bar :postPage="true"></side-bar>
+        <side-bar :postPage="true" key="sidebar"></side-bar>
       </div>
     </div>
   </div>
@@ -33,21 +32,34 @@ export default {
   name: 'PostPage',
   data () {
     return {
-      postID: this.$route.params.postID,
       isLoading: true
     }
   },
   computed: {
     ...mapGetters({
-      post: 'posts/single'
-    })
+      postGetter: 'posts/single'
+    }),
+    postID () {
+      return this.$route.params.postID
+    },
+    post () {
+      let post = this.postGetter(this.postID)
+      // if state doesn't know this post
+      if (post === undefined) {
+        // then we go get it
+        this.$store.dispatch('posts/registerPost', this.postID)
+      }
+      return post
+    }
   },
   created () {
+    /*
     // if state doesn't know this post
     if (this.post(this.postID) === undefined) {
       // then we go get it
       this.$store.dispatch('posts/registerPost', this.postID)
     }
+    */
   },
   components: {
     PostContainer,

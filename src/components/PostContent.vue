@@ -1,6 +1,5 @@
 <template>
   <div class="content-min-height">
-    <transition name="fade" mode="out-in">
       <!--
     <markdown-content
       v-if="isLoading"
@@ -10,13 +9,13 @@
       <b-loading
         :active.sync="isLoading"
         :is-full-page="false" />
+    <transition appear name="slide-up" mode="out-in">
       <markdown-content
         v-if="!isLoading"
         :toc="toc"
         :content="postContent" />
-    </div>
     </transition>
-
+    </div>
 
   </div>
 </template>
@@ -84,6 +83,6 @@ export default {
 
 <style>
 .content-min-height {
-  min-height: 100px;
+  min-height: 400px;
 }
 </style>

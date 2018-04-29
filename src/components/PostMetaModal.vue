@@ -7,11 +7,26 @@
     <b-field>
       <b-taglist>
         <transition-group name="fade" mode="out-in">
+          <!--
           <b-tag
           closable
           v-for="(tag, index) in allTags"
           @close="removeTag(index)"
           :key="index">{{ tag }}</b-tag>
+          -->
+          <b-tag
+          type="is-primary"
+          closable
+          v-for="(tag, index) in existingTags"
+          @close="removeTag(index, existingTags)"
+          :key="index">{{ tag }}</b-tag>
+          <b-tag
+          closable
+          type="is-light"
+          v-for="(tag, index) in newTags"
+          @close="removeTag(index, newTags)"
+          :key="index">{{ tag }}</b-tag>
+
         </transition-group>
       </b-taglist>
     </b-field>
@@ -86,7 +101,8 @@ export default {
         this.allTags = this.existingTags.concat(this.newTags)
       }
     },
-    removeTag (index) {
+    removeTag (index, array) {
+      /*
       if (index < this.existingTags.length) {
         console.log('existing')
         this.existingTags.splice(index, 1)
@@ -98,6 +114,10 @@ export default {
           this.tagsInput += i + ', '
         })
       }
+      this.allTags = this.existingTags.concat(this.newTags)
+      */
+      array.splice(index, 1)
+      // do i still need allTags here?
       this.allTags = this.existingTags.concat(this.newTags)
     }
   }

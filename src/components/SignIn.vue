@@ -14,7 +14,7 @@
         </a>
 
         <b-dropdown-item has-link>
-          <router-link to="/post-writer/">
+          <router-link to="/blog/post-writer/">
             Add Post
           </router-link>
         </b-dropdown-item>

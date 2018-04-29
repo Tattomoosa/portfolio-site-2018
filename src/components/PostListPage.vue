@@ -3,6 +3,7 @@
     <div class="container">
       <div class="columns">
         <div class="column full-width">
+            <!--
           <b-field>
             <b-autocomplete
             v-model="query"
@@ -15,7 +16,17 @@
               <button class="button">Search</button>
             </router-link>
           </b-field>
+          -->
           <br/><br/>
+          <transition appear name="slide-right" mode="out-in">
+          <h2 class="title is-4" :key="category">
+            {{ category }}
+          </h2>
+          </transition>
+          <transition appear name="width" mode="out-in">
+          <div class="line"></div>
+          </transition>
+          <div class="space"></div>
           <post-list
             :type="type"
             :order="order"
@@ -24,7 +35,7 @@
             previewStyle="summary"
           ></post-list>
         </div>
-        <side-bar></side-bar>
+        <side-bar key="sidebar"></side-bar>
       </div>
     </div>
   </div>
@@ -41,7 +52,7 @@ export default {
   data () {
     return {
       query: '',
-      searchTerms: [],
+      searchTerms: []
     }
   },
   props: ['type', 'order', 'value', 'search'],
@@ -65,6 +76,11 @@ export default {
     ...mapGetters({tags: 'tags/listIndexes'}),
     routerValue () {
       return this.$route.params.value
+    },
+    category () {
+      let { type, routerValue } = this
+      if (type === 'all') return 'Most Recent Posts'
+      if (type === 'with-tag') return 'Posts tagged"' + routerValue + '"'
     }
     /*
     tags () {

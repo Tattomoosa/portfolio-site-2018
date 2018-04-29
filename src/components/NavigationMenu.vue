@@ -45,8 +45,13 @@
         <div class="navbar-end">
           <router-link
           class="navbar-item"
-          to="/most-recent-posts/">
-            Most Recent
+          to="/">
+            Home
+          </router-link>
+          <router-link
+          class="navbar-item"
+          to="/blog/">
+            Blog
           </router-link>
         </div>
           <div class="navbar-item">

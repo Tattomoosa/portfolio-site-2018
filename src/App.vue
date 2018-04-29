@@ -3,12 +3,12 @@
     <navigation-menu />
     <div class="menu-pad"></div>
         <!-- <keep-alive include="PostWriter"> -->
-          <!-- <transition name="fade" mode="out-in"> -->
             <!-- <router-view :key="$route.path" /> -->
             <div class="site-content">
-              <router-view />
+              <!-- <transition name="fade" mode="out-in"> -->
+                <router-view />
+              <!-- </transition> -->
             </div>
-          <!-- </transition> -->
         <!-- </keep-alive> -->
     <notification-center />
     <blog-footer />
@@ -75,7 +75,7 @@ code[class*="language-"] {
 }
 .line {
   width: 100%;
-  background: #888;
+  background: #eee;
   height: 2px;
 }
 .space {
@@ -117,23 +117,71 @@ p code {
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: opacity 8s transform 8s;
-  transition-timing-function: ease-in-out;
+  transition: opacity .5s;
+  transition-timing-function: ease-out;
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;
-  /*
-  transform: translate(100px, 0)
-  */
-  transform: scaleY(0)
 }
-.height-enter-active, .height-leave-active {
-  transition: scaleY 8s;
+
+.slide-up-enter-active, .slide-up-leave-active {
+  transition: transform 1s, opacity 1s;
+  transition-timing-function: ease-out;
+  position: relative;
 }
-.height-enter, .height-leave-to {
-  /*
-  transform: scaleY(0)
-  */
-  max-height: 0;
+.slide-up-enter, .slide-up-leave-to {
+  opacity: 0;
+  transform: translate(0, 40px)
 }
+.slide-up-move {
+}
+
+.slide-down-enter-active, .slide-down-leave-active {
+  transition: transform 1s, opacity 1s;
+  transition-timing-function: ease-out;
+}
+.slide-down-enter, .slide-down-leave-to {
+  opacity: 0;
+  transform: translate(0, -40px)
+}
+.slide-down-move {
+  transition: transform 2s;
+}
+
+.slide-left-enter-active, .slide-left-leave-active {
+  transition: transform .5s, opacity .5s;
+  transition-timing-function: ease-out;
+}
+.slide-left-enter, .slide-left-leave-to {
+  opacity: 0;
+  transform: translate(40px, 0%)
+}
+.slide-left-move {
+  transition: transform 2s;
+}
+
+.slide-right-enter-active, .slide-right-leave-active {
+  transition: transform .5s, opacity .5s;
+  transition-timing-function: ease-out;
+}
+.slide-right-enter, .slide-right-leave-to {
+  opacity: 0;
+  transform: translate(-40px, 0%)
+}
+.slide-right-move {
+  transition: transform 2s;
+}
+
+.width-enter-active, .width-leave-active {
+  transition: width 1.8s, opacity 2s;
+  transition-timing-function: ease-out;
+}
+.width-enter, .width-leave-to {
+  opacity: 0;
+  width: 0;
+}
+.width-move {
+  transition: transform 2s;
+}
+
 </style>
