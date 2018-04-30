@@ -35,7 +35,9 @@
             previewStyle="summary"
           ></post-list>
         </div>
-        <side-bar key="sidebar"></side-bar>
+        <transition appear name="fade" mode="out-in">
+          <side-bar :key="'sidebar'"></side-bar>
+        </transition>
       </div>
     </div>
   </div>

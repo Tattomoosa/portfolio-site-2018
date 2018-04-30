@@ -15,7 +15,9 @@
           <comment-writer v-if="!isLoading" :post="post" />
           <comment-list v-if="!isLoading" :post="post" />
         </div>
-        <side-bar :postPage="true" key="sidebar"></side-bar>
+        <transition name="fade">
+          <side-bar :postPage="true" :key="'sidebar'"></side-bar>
+        </transition>
       </div>
     </div>
   </div>

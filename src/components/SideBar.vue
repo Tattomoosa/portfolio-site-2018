@@ -1,14 +1,14 @@
 <template>
 
-  <div class="column is-one-third is-hidden-touch":key="'sidebar-container'">
+  <div class="column is-one-third is-hidden-touch">
     <div class="columns is-centered">
 
       <div class="column">
           <br/>
 
         <div class="spacer"></div>
-        <transition name="fade" appear mode="out-in">
-        <div class="full-width side-bar" :key="'sidebar'">
+        <!-- <transition name="fade" appear mode="out-in"> -->
+        <div class="full-width side-bar">
 
           <div class="level has-text-centered">
             <div class="level-item">
@@ -112,7 +112,7 @@
           </div>
 
         </div>
-      </transition>
+      <!-- </transition> -->
       </div>
 
     </div>
