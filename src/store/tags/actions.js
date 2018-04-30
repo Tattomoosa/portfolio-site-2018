@@ -23,6 +23,7 @@ const registerIndexCollection = ({ dispatch, state, commit }, type) => {
   }
   // console.log(type, ref)
   ref.get()
+    .catch((error) => console.log(error))
     .then((querySnapshot) => {
       let indexIDs = []
       querySnapshot.forEach((doc) => {

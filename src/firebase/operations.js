@@ -207,18 +207,24 @@ const backend = {
         // tagRefs.map(tagRef => tagRef.set(postInTag)),
         // add the tags to the post itself
         postRef.update({ ...meta })
-      ])
+      ]).catch((error) => console.error('Error adding post metadata', error))
     }
   },
   on: {
     login: (user) => {
-      getRef.USER(user.id).get().then((doc) => {
-        if (doc.exists) {
-          doc.ref.update({ lastLogin: database.timestamp() })
-        } else {
-          // create user
-          backend.add.user(user, doc.ref)
-        }
+      return getRef.USER(user.id).get().then((doc) => {
+        return new Promise((resolve, reject) => {
+          if (doc.exists) {
+            doc.ref.update({ lastLogin: database.timestamp() })
+              .then(() => resolve())
+              .catch((error) => reject(error))
+          } else {
+            // create user
+            backend.add.user(user, doc.ref)
+              .then(() => resolve())
+              .catch((error) => reject(error))
+          }
+        })
       })
     }
   }

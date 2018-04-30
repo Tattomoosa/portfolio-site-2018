@@ -1,7 +1,52 @@
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write;
+  
+  	// users can update their own collections
+    match /users/{userID} {
+      allow write: if userID == request.auth.uid;
+      match /{document=**} {
+      	allow write: if userID == request.auth.uid;
+      }
     }
+    
+    // only i can make tags
+    match /tags/{tag} {
+      allow write: if isAdmin();
+    }
+    
+    // only i can make posts
+    match /posts/{post} {
+      allow write: if isAdmin();
+    }
+
+    // comments
+    match /posts/{post}/comments/{comment} {
+      allow create: if isAuthenticated();
+      allow update, delete: if isOwner(resource.data.author.id);
+    }
+    match /users/{userID}/comments/{comment} {
+      allow create: if isAuthenticated();
+      allow update, delete: if isOwner(resource.data.author.id);  	
+    }
+    
+    // everyone can read it all
+    match /{document=**} {
+      allow read: if true;
+      // allow write: if isAdmin();
+    }
+    
+  }
+  
+  function isAdmin() {
+    return request.auth.token.email == 'mlotousa@gmail.com';
+  }
+
+  function isAuthenticated() {
+    return request.auth != null;
+  }
+  
+  function isOwner(id) {
+  	return request.auth.uid == id
   }
 }
+

@@ -1,7 +1,6 @@
 import { auth } from 'firebase'
 
 export default {
-  signInSuccessUrl: '/',
   signInOptions: [
     auth.GoogleAuthProvider.PROVIDER_ID,
     auth.FacebookAuthProvider.PROVIDER_ID,

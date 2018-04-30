@@ -96,7 +96,7 @@
 
     <div class="field has-addons white-border float-right">
       <p class="control">
-        <router-link to="/post-writer/">
+        <router-link to="/blog/post-writer/">
           <button
           class="button is-small"
           value="Open">

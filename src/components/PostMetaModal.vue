@@ -6,7 +6,7 @@
     </b-field>
     <b-field>
       <b-taglist>
-        <transition-group name="fade" mode="out-in">
+        <transition-group appear name="slide-up" mode="out-in">
           <!--
           <b-tag
           closable
@@ -19,13 +19,13 @@
           closable
           v-for="(tag, index) in existingTags"
           @close="removeTag(index, existingTags)"
-          :key="index">{{ tag }}</b-tag>
+          :key="tag">{{ tag }}</b-tag>
           <b-tag
           closable
           type="is-light"
           v-for="(tag, index) in newTags"
           @close="removeTag(index, newTags)"
-          :key="index">{{ tag }}</b-tag>
+          :key="tag">{{ tag }}</b-tag>
 
         </transition-group>
       </b-taglist>

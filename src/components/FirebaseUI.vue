@@ -11,7 +11,7 @@ export default {
     }
   },
   mounted () {
-    login.start()
+    login.start(window.location.href)
   }
 }
 </script>

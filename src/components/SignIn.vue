@@ -1,13 +1,12 @@
 <template>
   <div>
 
-    <a
-    href="#"
+    <span
     class="navbar-item"
     v-if="activeUser === null"
     @click="showLoginModal = true">
       Log In
-    </a>
+    </span>
 
       <b-dropdown v-else class="is-bottom-left navbar-item has-dropdown">
         <a class="navbar-link" slot="trigger">{{ activeUser.name }}
@@ -58,6 +57,11 @@ export default {
   },
   computed: {
     ...mapGetters(['activeUser'])
+  },
+  watch: {
+    activeUser () {
+      if (this.activeUser) this.showLoginModal = false
+    }
   },
   components: {
     FirebaseUI

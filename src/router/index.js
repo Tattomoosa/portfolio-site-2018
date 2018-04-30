@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import PostListPage from '@/components/PostListPage'
 import PostWriter from '@/components/PostWriter'
-import FileUploader from '@/components/FileUploader'
 import PostPage from '@/components/PostPage.vue'
 import HomePage from '@/components/HomePage.vue'
 
@@ -13,7 +12,7 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: HomePage,
+      component: HomePage
     },
     {
       path: '/blog/post-writer',
@@ -36,7 +35,7 @@ export default new Router({
       component: PostListPage,
       props: {
         type: 'with-tag',
-        order: 'published-on',
+        order: 'published-on'
       }
     },
     {

@@ -19,7 +19,7 @@
     </b-dropdown>
     <div class="post-title-container">
 
-      <transition appear tag="div" name="slide-down" mode="in">
+      <transition appear tag="div" name="slide-down" mode="out-in">
       <b-taglist v-if="post.tags">
         <b-tag
         v-for="tag in Object.keys(post.tags)"

@@ -134,6 +134,7 @@ p code {
   transform: translate(0, 40px)
 }
 .slide-up-move {
+  transform: 2s;
 }
 
 .slide-down-enter-active, .slide-down-leave-active {

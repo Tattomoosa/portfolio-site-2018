@@ -9,7 +9,10 @@ const ui = new firebaseui.auth.AuthUI(auth())
 
 const login = {
   elementId: 'firebaseui-auth',
-  start () { ui.start('#' + this.elementId, uiConfig) },
+  start (signInSuccessUrl) {
+    let config = {...uiConfig, signInSuccessUrl}
+    ui.start('#' + this.elementId, config)
+  },
   inProgress: () => ui.isPendingRedirect()
 }
 
@@ -24,8 +27,7 @@ const setAuthStateChangeHook = (store) => {
       // A reference to where the user belongs in our users collection
       // let docRef = db.collection('users').doc(user.uid)
       user.id = user.uid
-      backend.on.login(user)
-      store.dispatch('logIn', user) // asynchronous
+      backend.on.login(user).then(() => store.dispatch('logIn', user))
     } else {
       store.commit('logOut') // synchronous
     }
