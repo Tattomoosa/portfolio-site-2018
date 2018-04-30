@@ -1,37 +1,19 @@
 <template>
   <div>
     <transition name="fade" mode="out-in">
-      <!-- <video-bg :sources="[video]"> -->
-        <!-- <div class="full-screen-element dim"></div> -->
         <div class="full-screen-element">
           <div class="level">
             <div class="level-item full-screen-element">
 
               <mo-effect />
 
-              <!--
-              <div class="level has-text-centered">
-                <div class="level-item">
-
-                  <div class="is-item box has-text-centered">
-                    <h1 class="title is-1">Matt O'Tousa</h1>
-                    <span class="subtitle is-3">Front End Developer</span>
-                  </div>
-
-                </div>
-              </div>
-              -->
-
             </div>
           </div>
         </div>
-      <!-- </video-bg> -->
     </transition>
   </div>
 </template>
 <script>
-import VideoBg from 'vue-videobg'
-// import video from '@/assets/343011110.mp4'
 import MoEffect from './MoEffect'
 
 export default {
@@ -41,7 +23,6 @@ export default {
     }
   },
   components: {
-    VideoBg,
     MoEffect
   },
   mounted () {
@@ -80,7 +61,7 @@ export default {
     left: -20%;
     top: -30%;
     animation-name: fade-in;
-    animation-duration: 1.5s;
+    animation-duration: 1.2s;
     animation-timing-function: ease-in;
 }
 </style>

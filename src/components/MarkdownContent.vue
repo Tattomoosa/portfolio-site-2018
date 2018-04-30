@@ -151,4 +151,19 @@ export default {
 }
 */
 
+@media screen and (max-width: 800px) {
+  .post-title-container h1.title.is-1 {
+    font-size: 2rem;
+  }
+  .content h2 {
+    font-size: 1.6rem;
+  }
+  .content p {
+    font-size: 1rem;
+  }
+  .content code {
+    font-size: .7rem;
+  }
+}
+
 </style>

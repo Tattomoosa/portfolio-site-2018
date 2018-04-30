@@ -12,7 +12,8 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: HomePage
+      component: HomePage,
+      meta: { alwaysScrollToTop: true }
     },
     {
       path: '/blog/post-writer',
@@ -47,8 +48,20 @@ export default new Router({
     {
       path: '/blog/post/:postID',
       name: 'Post Page',
-      component: PostPage
+      component: PostPage,
+      meta: { alwaysScrollToTop: true }
       // props: 'postID'
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    let scrollPosition = { x: 0, y: 0 }
+    if (!to.matched.some(record => record.meta.alwaysScrollToTop)) {
+      if (savedPosition) scrollPosition = savedPosition
+    }
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(scrollPosition)
+      }, 500)
+    })
+  }
 })

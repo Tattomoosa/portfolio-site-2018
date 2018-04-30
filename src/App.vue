@@ -5,9 +5,9 @@
         <!-- <keep-alive include="PostWriter"> -->
             <!-- <router-view :key="$route.path" /> -->
             <div class="site-content">
-              <!-- <transition name="fade" mode="out-in"> -->
+              <transition name="fade" mode="out-in">
                 <router-view />
-              <!-- </transition> -->
+              </transition>
             </div>
         <!-- </keep-alive> -->
     <notification-center />
