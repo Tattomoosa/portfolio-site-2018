@@ -31,6 +31,8 @@ export default {
 </script>
 
 <style>
+@import url('buefy/lib/buefy.css');
+@import url('prismjs/themes/prism-tomorrow.css');
 @import url('https://fonts.googleapis.com/css?family=Lato:400,600,700');
 @import url('https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600');
 @import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
