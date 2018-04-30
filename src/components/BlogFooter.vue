@@ -13,9 +13,9 @@
             <h4 class="title is-4">
               <span class="mobile-row">
                 Made with
-                &nbsp;
-                &nbsp;
               </span>
+                &nbsp;
+                &nbsp;
               <span class="mobile-row">
                 <a href="https://vuejs.org/">
                   <img class="footer-text-img" src="@/assets/logo.png" />
@@ -32,9 +32,10 @@
                 <!-- , and &nbsp; -->
                 <i class="mdi mdi-heart mdi-36px heart-beat"></i>
               </span>
-              <span class="mobile-row">
                 &nbsp;
-                &nbsp; by Matt O'Tousa
+                &nbsp;
+              <span class="mobile-row">
+                by Matt O'Tousa
               </span>
             </h4>
           </div>

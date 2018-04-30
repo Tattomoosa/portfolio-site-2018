@@ -45,11 +45,13 @@
         <div class="navbar-end">
           <router-link
           class="navbar-item"
+          @click="toggleMenu"
           to="/">
             Home
           </router-link>
           <router-link
           class="navbar-item"
+          @click="toggleMenu"
           to="/blog/">
             Blog
           </router-link>
