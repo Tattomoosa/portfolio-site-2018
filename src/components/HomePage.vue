@@ -31,14 +31,13 @@
 </template>
 <script>
 import VideoBg from 'vue-videobg'
-import video from '@/assets/343011110.mp4'
+// import video from '@/assets/343011110.mp4'
 import MoEffect from './MoEffect'
 
 export default {
   name: 'HomePage',
   data () {
     return {
-      video
     }
   },
   components: {
@@ -46,7 +45,7 @@ export default {
     MoEffect
   },
   mounted () {
-    document.querySelector('video').playbackRate = 0.4
+    // document.querySelector('video').playbackRate = 0.4
   }
 }
 </script>
@@ -58,13 +57,6 @@ export default {
   height: 100%;
   background: rgba(255,255,255, .8);
 }
-.VideoBg video {
-  max-width: inherit;
-  filter: blur(10px);
-  filter: contrast(200%) blur(10px) hue-rotate(180deg);
-  z-index: -1;
-  min-width: 110vw;
-}
 .full-screen-element {
   top: 0;
   left: 0;
@@ -75,11 +67,20 @@ export default {
 }
 .marquee-video {
     position: absolute;
+    /*
     left: -100%;
     top: -120%;
     min-height: 300%;
     min-width: 300%;
-    filter: blur(10px);
-    filter: contrast(200%) blur(10px) hue-rotate(180deg);
+    */
+    /* filter: contrast(200%) blur(10px) hue-rotate(180deg); */
+    filter: blur(3px);
+    min-width: 170%;
+    min-height: 160%;
+    left: -20%;
+    top: -30%;
+    animation-name: fade-in;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in;
 }
 </style>

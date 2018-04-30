@@ -27,6 +27,7 @@ new Vue({
     // this.$store.dispatch('setRef', {stateProperty: 'users', ref: db.collection('users')})
     // this.$store.dispatch('postIndexes', { stateProperty: ''})
     this.$store.dispatch('tags/registerIndexCollection', 'tags')
+    this.$store.dispatch('posts/registerPostCollection')
   },
   router,
   components: { App },

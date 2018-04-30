@@ -24,7 +24,7 @@
 
 <script>
 import VideoBg from 'vue-videobg'
-import video from '@/assets/343011110.mp4'
+import video from '@/assets/site-marquee-bg.mp4'
 
 export default {
   name: 'HomePage',
@@ -34,7 +34,7 @@ export default {
     }
   },
   mounted () {
-    document.querySelector('video').playbackRate = 0.34
+    document.querySelector('video').playbackRate = 0.8
   },
   components: {VideoBg}
 }
@@ -58,6 +58,10 @@ export default {
   opacity: 1;
   background: rgba(0,0,0,.1);
   background: rgba(0,0,0,1);
+  transition: transform 2s;
+}
+
+.marquee:hover {
 }
 
   .homepage {
@@ -125,6 +129,15 @@ export default {
     font-weight: bold;
     box-shadow: 0 0 4px white, inset 0 0 4px white;
     text-shadow: 0 0 4px white;
+  }
+
+  @media screen and (max-width: 500px) {
+    .marquee-text h1 {
+      font-size: 100px;
+    }
+    .marquee {
+      height: 220px;
+    }
   }
 
   .homepage-copy h1 {

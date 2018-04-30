@@ -82,7 +82,7 @@ export default {
     category () {
       let { type, routerValue } = this
       if (type === 'all') return 'Most Recent Posts'
-      if (type === 'with-tag') return 'Posts tagged"' + routerValue + '"'
+      if (type === 'with-tag') return 'Posts tagged: "' + routerValue + '"'
     }
     /*
     tags () {

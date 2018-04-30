@@ -215,46 +215,6 @@ export default {
       console.log('formatting lists :)')
       // this.postsFormatted = this.posts
     },
-    load () {
-      // let ref
-      /*
-      switch (this.type) {
-        case 'with-tag':
-          // tags actually each have their own subcollection
-          // wasteful, i know
-          ref = backend.get.ref.ALL_POSTS_WITH_TAG(this.value)
-          // ref = backend.get.ref.ALL_TAGS()
-          console.log(ref)
-          break
-        case 'by-user':
-          ref = backend.get.ref.ALL_POSTS().where('author.id', '==', this.value)
-          break
-        case 'all':
-        default:
-          ref = backend.get.ref.ALL_POSTS()
-          console.log(ref)
-          break
-      }
-      switch (this.order) {
-        case 'edited-on':
-          ref = ref.orderBy('editedOn')
-          break
-        case 'published-on':
-          ref = ref.orderBy('publishedOn')
-          this.reverse = true
-          break
-        default:
-          break
-      }
-      */
-      // this.$store.dispatch('setRef', { stateProperty: 'posts', ref: ref })
-      /*
-      this.$store.dispatch('posts/registerPostCollection')
-        .then(() => {
-          this.listFormatting()
-        })
-        */
-    }
   },
   components: {
     PostContainer,

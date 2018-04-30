@@ -45,13 +45,14 @@
         <div class="navbar-end">
           <router-link
           class="navbar-item"
-          @click="toggleMenu"
+          @click.native="toggleMenu"
           to="/">
             Home
           </router-link>
           <router-link
           class="navbar-item"
-          @click="toggleMenu"
+          @click.native="toggleMenu"
+          @touchstart="toggleMenu"
           to="/blog/">
             Blog
           </router-link>
@@ -91,6 +92,7 @@ export default {
   },
   methods: {
     toggleMenu () {
+      console.log(this.navIsActive)
       this.navIsActive = !this.navIsActive
     }
   },
