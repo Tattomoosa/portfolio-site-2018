@@ -1,6 +1,6 @@
 <template>
 
-  <div class="column is-one-third is-hidden-touch">
+  <div class="column is-one-third is-hidden-touch":key="'sidebar-container'">
     <div class="columns is-centered">
 
       <div class="column">
@@ -8,7 +8,7 @@
 
         <div class="spacer"></div>
         <transition name="fade" appear mode="out-in">
-        <div class="full-width side-bar">
+        <div class="full-width side-bar" :key="'sidebar'">
 
           <div class="level has-text-centered">
             <div class="level-item">
@@ -35,21 +35,29 @@
 
           <div class="level">
             <div class="level-item">
-            </div>
-            <div class="level-item">
-              <b-icon icon="github-circle" />
-            </div>
-            <div class="level-item">
-              <b-icon icon="twitter" />
-            </div>
-            <div class="level-item">
-              <b-icon icon="stack-overflow" />
-            </div>
-            <div class="level-item">
-              <b-icon icon="linkedin" />
-            </div>
-            <div class="level-item">
-            </div>
+          </div>
+          <div class="level-item social-link">
+            <a href="https://github.com/Tattomoosa">
+                <b-icon icon="github-circle" />
+            </a>
+          </div>
+          <div class="level-item social-link">
+            <a href="https://twitter.com/mlotousa">
+                <b-icon icon="twitter" />
+            </a>
+          </div>
+          <div class="level-item social-link">
+            <a href="https://stackoverflow.com/users/6344525/matt-otousa">
+                <b-icon icon="stack-overflow" />
+            </a>
+          </div>
+          <div class="level-item social-link">
+            <a href="https://www.linkedin.com/in/matt-otousa/">
+                <b-icon icon="linkedin" />
+            </a>
+          </div>
+          <div class="level-item">
+          </div>
           </div>
 
           <div v-if="postPage" class="box full-width sidebar-links">
@@ -194,5 +202,16 @@ export default {
 }
 .sidebar-links {
   transition: height 1s;
+}
+
+.social-link span i {
+  color: #363636 !important;
+  transition: 2s ease-out;
+}
+
+.social-link:hover span i {
+  transform: scale(1.6,1.6);
+  transition: .6s ease-out;
+  color: #2aa484 !important;
 }
 </style>

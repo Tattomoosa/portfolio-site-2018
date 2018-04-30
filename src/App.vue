@@ -41,6 +41,10 @@ export default {
   height: 20px;
 }
 
+.column {
+  padding: 2rem;
+}
+
 .relative {
   position: relative;
 }

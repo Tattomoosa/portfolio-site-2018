@@ -52,7 +52,7 @@
             <div class="field">
               <p class="control has-text-centered">
                 <span v-if="props.row.published" >
-                  {{ props.row.publishedOn ? props.row.publishedOn.toLocaleDateString() : '' }}
+                  {{ props.row.publishedOn ? props.row.publishedOn.toDate().toLocaleDateString() : '' }}
                 </span>
                 <span v-else>
                   Draft
@@ -67,7 +67,7 @@
         label="Last Edited">
         <div class="field">
           <p class="control">
-            {{ props.row.editedOn ? props.row.editedOn.toLocaleDateString() : '...' }}
+            {{ props.row.editedOn ? props.row.editedOn.toDate().toLocaleDateString() : '...' }}
           </p>
         </div>
         </b-table-column>

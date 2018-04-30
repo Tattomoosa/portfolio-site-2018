@@ -87,7 +87,7 @@ export default {
   computed: {
     date () {
       return {
-        publishedOn: moment(this.post.publishedOn).fromNow()
+        publishedOn: moment(this.post.publishedOn.toDate()).fromNow()
       }
     },
     ...mapGetters({
@@ -116,7 +116,7 @@ export default {
   .post-controls {
     position: absolute;
     right: 0;
-    top: -2rem;
+    top: -.3rem;
   }
   .post-controls button {
     border: none;

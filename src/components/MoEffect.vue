@@ -49,42 +49,22 @@ export default {
   width: 100%;
   height: 100vh;
    */
-width: 100%;
-/*width: 340px;*/
-height: 290px;
-margin: auto;
-position: relative;
-background: #425c87;
-background: #c7d4e8;
-background: #496ba3;
-background: #065be2;
-background: #4370ba;
-background: white;
-background: #053684;
-background: #0a8464;
-background: rgba(0,0,0,.2);
-background: transparent;
-background: rgba(0,0,0,.4);
-background: rgba(0,0,0,.1);
-/*
-box-shadow: 0 0 100px 2000px rgba(0,0,0,1);
-box-shadow: 0 0 100px 2000px white;
-box-shadow: 0 0 100px 2000px rgba(0,0,0,.4);
-box-shadow: 0 0 100px 2000px rgba(255,255,255,.3);
-box-shadow: 0 0 100px 2000px white;
-box-shadow: 0 0 100px 2000px rgba(0,0,0,.4);
-box-shadow: 0 0 100px 2000px white;
-box-shadow: 0 0 100px 2000px rgba(255,255,255,.6);
-box-shadow: 0 0 100px 2000px rgba(0,0,0,.8);
-box-shadow: 0 0 100px 2000px white;
- */
-opacity: 1;
-  }
+  width: 100%;
+  /*width: 340px;*/
+  height: 290px;
+  height: 261px;
+  margin: auto;
+  position: relative;
+  opacity: 1;
+  background: rgba(0,0,0,.1);
+}
+
   .homepage {
     margin: auto;
     width: 340px;
     width: 680px;
     width: 380px;
+    max-width: 80%;
     /* width: 340px; */
     /* width: 345px; */
     position: relative;
@@ -133,14 +113,17 @@ opacity: 1;
     color: #4370ba;
     color: rgba(black, 0.2);
     color: white;
-    padding: 15px 30px;
-    padding-left: 50px;
+    /* padding: 15px 30px; */
+    /* padding-left: 50px; */
     border: 14px solid white;
+    text-align: center;
     margin: 20px;
     animation-name: fade-in;
     animation-duration: 1.7s;
     animation-fill-mode: forwards;
     font-weight: bold;
+    box-shadow: 0 0 4px white, inset 0 0 4px white;
+    text-shadow: 0 0 4px white;
   }
 
   .homepage-copy h1 {
@@ -165,6 +148,12 @@ opacity: 1;
     animation-delay: 1.2s;
     animation-duration: 1.5s;
     animation-fill-mode: forwards;
+  }
+
+  @media screen and (max-width: 700px) {
+    .second {
+      font-size: 30px !important;
+    }
   }
 
   .homepage-copy h1.homepage-link{

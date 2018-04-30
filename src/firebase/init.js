@@ -5,7 +5,7 @@ import 'firebase/firestore'
 firebase.initializeApp(config.firebase)
 
 const db = firebase.firestore()
-// db.settings(config.firestore)
+db.settings(config.firestore)
 
 const fs = firebase.storage()
 

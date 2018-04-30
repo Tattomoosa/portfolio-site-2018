@@ -11,22 +11,31 @@
         <div class="level">
           <div class="level-item has-text-centered">
             <h4 class="title is-4">
-              Made with
-              &nbsp;
-              &nbsp;
-              <img class="footer-text-img" src="@/assets/logo.png">
-              &nbsp;
-              &nbsp;
-              &nbsp;
-              <!-- ,&nbsp; -->
-              <img class="footer-text-img" src="@/assets/firebase-logo.png">
-              &nbsp;
-              &nbsp;
-              &nbsp;
-              <!-- , and &nbsp; -->
-              <i class="mdi mdi-heart mdi-36px heart-beat"></i>
-              &nbsp;
-              &nbsp; by Matt O'Tousa
+              <span class="mobile-row">
+                Made with
+                &nbsp;
+                &nbsp;
+              </span>
+              <span class="mobile-row">
+                <a href="https://vuejs.org/">
+                  <img class="footer-text-img" src="@/assets/logo.png" />
+                </a>
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <a href="https://firebase.google.com/">
+                  <img class="footer-text-img" src="@/assets/firebase-logo.png">
+                </a>
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <!-- , and &nbsp; -->
+                <i class="mdi mdi-heart mdi-36px heart-beat"></i>
+              </span>
+              <span class="mobile-row">
+                &nbsp;
+                &nbsp; by Matt O'Tousa
+              </span>
             </h4>
           </div>
         </div>
@@ -63,6 +72,12 @@
 .firebase-logo {
   max-width: 38px;
   max-height: 40px;
+}
+
+@media screen and (max-width: 800px) {
+  .mobile-row {
+    display: block;
+  }
 }
 
 </style>
