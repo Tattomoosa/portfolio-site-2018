@@ -45,6 +45,12 @@ export default {
   padding: 2rem;
 }
 
+@media screen and (max-width: 1023px) {
+  .navbar.is-fixed-top .navbar-menu {
+    height: 100vh;
+  }
+}
+
 .relative {
   position: relative;
 }

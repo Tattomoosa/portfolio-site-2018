@@ -152,28 +152,11 @@ export default {
       // let condition = (c) => { return c === undefined || Object.keys(c).length === 0 }
       if (this.type === 'with-tag' && this.value) {
         posts = this.$store.getters['tags/postsAtIndex'](this.value)
-        // console.log(posts, this.value)
-        // if (posts === null || Object.keys(posts).length === 0) {
-        if (Object.keys(posts).length === 0) {
-        // if (posts === null) {
-          // let getIDs = this.$store.getters['tags/indexIDs'](this.value)
-          if (this.$store.getters['tags/ready']) {
-            console.log('made it')
-            this.$store.dispatch(
-              'posts/registerPostIDArray',
-              this.$store.getters['tags/indexIDs'](this.value)
-            ).then(() => {
-              posts = this.$store.getters['tags/postsAtIndex'](this.value)
-            })
-          }
-        }
       } else if (this.type === 'all') {
         posts = this.$store.getters['posts/all']
-        // console.log(posts)
-        // if (Object.keys(posts).length === 0) {
-        this.$store.dispatch('posts/registerPostCollection')
-        // }
+        // this.$store.dispatch('posts/registerPostCollection')
       }
+
       if (typeof posts === 'object') {
         posts = Object.values(posts)
         if (this.order === 'published-on') {
@@ -190,31 +173,15 @@ export default {
   },
   watch: {
     posts () {
-      // this.listFormatting()
     },
     type () {
-      this.load()
     },
     order () {
-      this.load()
     },
     value () {
-      this.load()
     }
   },
   mounted () {
-    this.load()
-  },
-  methods: {
-    listFormatting () {
-      /*
-      if (this.reverse) {
-        this.postsFormatted = this.posts.slice(0).reverse()
-      }
-      */
-      console.log('formatting lists :)')
-      // this.postsFormatted = this.posts
-    },
   },
   components: {
     PostContainer,

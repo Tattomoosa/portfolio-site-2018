@@ -57,9 +57,9 @@
             Blog
           </router-link>
         </div>
-          <div class="navbar-item">
-            <sign-in></sign-in>
-          </div>
+        <div class="navbar-item">
+          <sign-in></sign-in>
+        </div>
         </div>
       </div>
   </nav>
