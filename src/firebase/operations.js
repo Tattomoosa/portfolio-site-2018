@@ -82,7 +82,7 @@ const backend = {
   },
   add: {
     user: (user, docRef) => {
-      getRef.USER(user.id).set({
+      return getRef.USER(user.id).set({
         name: user.displayName,
         email: user.email,
         joined: database.timestamp(),
