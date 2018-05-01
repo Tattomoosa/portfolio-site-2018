@@ -2,7 +2,8 @@
   <div class="homepage">
     <!-- <div> -->
       <div class="marquee" style="overflow: hidden;">
-        <video :src="[video]" autoplay loop class="marquee-video"></video>
+        <video :src="[video]" autoplay loop :poster="image" class="marquee-video is-hidden-mobile"></video>
+        <img :src="image" class="marquee-video is-block is-hidden-tablet" />
         <!-- <effect /> -->
         <div class="marquee-text">
           <h1>MO</h1>
@@ -25,12 +26,14 @@
 <script>
 import VideoBg from 'vue-videobg'
 import video from '@/assets/site-marquee-bg.mp4'
+import image from '@/assets/marquee-img-placeholder.jpg'
 
 export default {
   name: 'HomePage',
   data () {
     return {
-      video
+      video,
+      image
     }
   },
   mounted () {

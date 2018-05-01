@@ -158,7 +158,8 @@ export default {
   .content h2 {
     font-size: 1.6rem;
   }
-  .content p {
+  .content p,
+  .content li {
     font-size: 1rem;
   }
   .content code {

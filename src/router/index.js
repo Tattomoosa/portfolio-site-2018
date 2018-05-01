@@ -32,7 +32,7 @@ export default new Router({
     },
     {
       path: '/blog/posts-tagged/:value',
-      name: 'Most Recent Posts',
+      name: 'Posts With Tag',
       component: PostListPage,
       props: {
         type: 'with-tag',
@@ -61,7 +61,7 @@ export default new Router({
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve(scrollPosition)
-      }, 500)
+      }, 199)
     })
   }
 })

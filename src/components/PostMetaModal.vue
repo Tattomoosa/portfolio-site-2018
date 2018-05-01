@@ -25,7 +25,7 @@
           type="is-light"
           v-for="(tag, index) in newTags"
           @close="removeTag(index, newTags)"
-          :key="tag">{{ tag }}</b-tag>
+          :key="index">{{ tag }}</b-tag>
 
         </transition-group>
       </b-taglist>

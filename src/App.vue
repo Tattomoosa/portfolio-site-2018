@@ -42,7 +42,7 @@ export default {
 }
 
 .column {
-  padding: 2rem;
+  /* padding: 2rem; */
 }
 
 @media screen and (max-width: 1023px) {

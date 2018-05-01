@@ -2,7 +2,6 @@
   <div>
 
     <span
-    class="navbar-item"
     v-if="activeUser === null"
     @click="showLoginModal = true">
       Log In
@@ -12,7 +11,9 @@
         <a class="navbar-link" slot="trigger">{{ activeUser.name }}
         </a>
 
-        <b-dropdown-item has-link>
+        <b-dropdown-item
+          v-if="activeUser.permissions === 'admin'"
+          has-link>
           <router-link to="/blog/post-writer/">
             Add Post
           </router-link>

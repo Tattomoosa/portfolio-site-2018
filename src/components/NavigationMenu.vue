@@ -2,18 +2,20 @@
   <nav class="navbar is-fixed-top">
     <div class="container">
       <div class="navbar-brand">
-        <div class="navbar-item">
-          <b-icon icon="lead-pencil"/>
+        <div class="navbar-item is-paddingless" style="margin: 4px 8px 0 ;">
           <span>
-            &nbsp;Blog
-            <span class="subtitle is-size-7">Blog</span>
+            <router-link to="/">
+              <transition name="fade" appear type="out, in" >
+                <img :src="navImage" v-if="$route.path !== '/'" class="nav-image" />
+              </transition>
+            </router-link>
           </span>
         </div>
         <div
           role="button"
           class="navbar-burger"
           @click="toggleMenu"
-          :class="{'is-active': navIsActive}"
+          :class="{ 'is-active': navIsActive }"
           aria-label="menu"
           aria-expanded="false">
           <span aria-hidden="true"></span>
@@ -39,26 +41,31 @@
       </div>
       -->
       <div
-      class="navbar-menu"
+      class="navbar-menu mo-nav"
       :class="{'is-active': navIsActive}">
         <div class="navbar-start"></div>
         <div class="navbar-end">
           <router-link
           class="navbar-item"
           @click.native="toggleMenu"
-          to="/">
-            Home
+          to="/blog/posts-tagged/project">
+            Projects
           </router-link>
           <router-link
           class="navbar-item"
           @click.native="toggleMenu"
-          @touchstart="toggleMenu"
+          to="/blog/posts-tagged/tutorial">
+            Tutorials
+          </router-link>
+          <router-link
+          class="navbar-item"
+          @click.native="toggleMenu"
           to="/blog/">
             Blog
           </router-link>
-        </div>
-        <div class="navbar-item">
-          <sign-in></sign-in>
+          <a class="navbar-item">
+            <sign-in></sign-in>
+          </a>
         </div>
         </div>
       </div>
@@ -68,13 +75,15 @@
 <script>
 import { mapGetters } from 'vuex'
 import SignIn from './SignIn.vue'
+import navImage from '@/assets/mo-logo.png'
 
 export default {
   name: 'Navigation-Menu',
   data () {
     return {
       navIsActive: false,
-      routes: []
+      routes: [],
+      navImage
     }
   },
   created () {
@@ -92,7 +101,7 @@ export default {
   },
   methods: {
     toggleMenu () {
-      console.log(this.navIsActive)
+      // console.log(this.navIsActive)
       this.navIsActive = !this.navIsActive
     }
   },
@@ -106,4 +115,10 @@ export default {
 .router-link-exact-active {
   text-decoration: underline !important;
 }
+
+img.nav-image {
+  min-width: 30px;
+  min-height: 35px;
+}
+
 </style>
