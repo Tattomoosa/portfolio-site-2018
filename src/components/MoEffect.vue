@@ -64,6 +64,18 @@ export default {
   transition: transform 2s;
 }
 
+@media screen and (max-width: 340px) {
+  .homepage-copy h1.title.is-1 {
+    font-size: 2em;
+  }
+  .homepage-copy h1.title.is-2.second {
+    font-size: 1.4em !important;
+  }
+  .homepage-copy h1.homepage-link {
+    margin: 4px auto !important;
+  }
+}
+
 .marquee:hover {
 }
 
