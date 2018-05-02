@@ -4,6 +4,7 @@ import PostListPage from '@/components/PostListPage'
 import PostWriter from '@/components/PostWriter'
 import PostPage from '@/components/PostPage.vue'
 import HomePage from '@/components/HomePage.vue'
+import Contact from '@/components/Contact.vue'
 
 Vue.use(Router)
 
@@ -51,6 +52,12 @@ export default new Router({
       component: PostPage,
       meta: { alwaysScrollToTop: true }
       // props: 'postID'
+    },
+    {
+      path: '/contact/',
+      name: 'Contact',
+      component: Contact,
+      meta: { alwaysScrollToTop: true }
     }
   ],
   scrollBehavior (to, from, savedPosition) {

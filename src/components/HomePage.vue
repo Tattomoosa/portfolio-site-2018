@@ -11,10 +11,15 @@
           </div>
         </div>
     </transition>
+    <post-list-page
+    type="all"
+    order="published-on"
+    ></post-list-page>
   </div>
 </template>
 <script>
 import MoEffect from './MoEffect'
+import PostListPage from './PostListPage'
 
 export default {
   name: 'HomePage',
@@ -23,7 +28,8 @@ export default {
     }
   },
   components: {
-    MoEffect
+    MoEffect,
+    PostListPage
   },
   mounted () {
     // document.querySelector('video').playbackRate = 0.4

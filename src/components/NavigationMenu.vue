@@ -4,7 +4,8 @@
       <div class="navbar-brand">
         <div class="navbar-item is-paddingless" style="margin: 4px 8px 0 ;">
           <span>
-            <router-link to="/">
+            <router-link to="/"
+              @click.native="navIsActive = false">
               <transition name="fade" appear type="out, in" >
                 <img :src="navImage" v-if="$route.path !== '/'" class="nav-image" />
               </transition>
@@ -62,6 +63,12 @@
           @click.native="toggleMenu"
           to="/blog/">
             Blog
+          </router-link>
+          <router-link
+          class="navbar-item"
+          @click.native="toggleMenu"
+          to="/contact/">
+            Contact
           </router-link>
           <a class="navbar-item">
             <sign-in></sign-in>

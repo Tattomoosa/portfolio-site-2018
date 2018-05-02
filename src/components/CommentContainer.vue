@@ -41,7 +41,7 @@ export default {
       return this.activeUser ? this.comment.author.id === this.activeUser.id : false
     },
     time () {
-      return this.comment.uploaded ? moment(this.comment.uploaded).fromNow() : ''
+      return this.comment.uploaded ? moment(this.comment.uploaded.toDate()).fromNow() : ''
     }
   },
   components: {

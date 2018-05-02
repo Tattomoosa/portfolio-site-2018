@@ -36,7 +36,6 @@ const getters = {
             Vue.set(posts, i, rootState.posts[i])
           }
         })
-        console.log('in postsAtIndex', posts)
         return posts
       } else return {}
     }
