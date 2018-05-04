@@ -81,7 +81,22 @@
               <h4 class="title is-6">Most Popular</h4>
               <router-link to="/blog/posts-tagged/building-this-blog">
                 <p class="p is-size-7">
-                  Building this blog with Vue and Firebase
+                  Building this Blog with Vue and Firebase
+                </p>
+              </router-link>
+              <router-link to="/blog/post/0YRpeWCgiXRoRxcDcUkZ">
+                <p class="p is-size-7">
+                  Dynamic Vue-Router Navigation
+                </p>
+              </router-link>
+              <router-link to="/post/YJlftlkIa1lWs5prNgR3">
+                <p class="p is-size-7">
+                  Alyssa Garcia's Portfolio
+                </p>
+              </router-link>
+              <router-link to="/blog/posts-tagged/wasp">
+                <p class="p is-size-7">
+                  WASP
                 </p>
               </router-link>
               <router-link to="/blog/posts-tagged/string-theory/">

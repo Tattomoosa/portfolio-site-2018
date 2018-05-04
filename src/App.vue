@@ -37,6 +37,10 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600');
 @import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
 
+a.navbar-item:hover {
+  color: #0a8464 !important;
+}
+
 .menu-pad {
   height: 20px;
 }
